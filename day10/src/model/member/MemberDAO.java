@@ -34,6 +34,8 @@ public class MemberDAO {
 		}
 		return data;
 	}
+	
+	
 
 	public Boolean signup(MemberVO vo) {
 		Connection conn = JDBC.connect();
@@ -84,9 +86,9 @@ public class MemberDAO {
 		Boolean res = false;
 		System.out.println(vo);
 		try {
-			String sql = "delete from member where userID=?";
+			String sql = "delete from member where unum=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, vo.getUserID());
+			pstmt.setInt(1, vo.getUnum());
 			pstmt.executeUpdate();
 			res = true;
 		} catch (Exception e) {

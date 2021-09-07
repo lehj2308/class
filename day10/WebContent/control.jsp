@@ -8,23 +8,22 @@
 <jsp:useBean id="messageVO" class="model.message.MessageVO" />
 <jsp:setProperty property="*" name="messageVO" />
 <jsp:useBean id="memberDAO" class="model.member.MemberDAO" />
-<jsp:useBean id="memberVO" class="model.member.MemberVO" scope="session" />
+<jsp:useBean id="memberVO" class="model.member.MemberVO" scope="session"/>
 <jsp:setProperty property="*" name="memberVO" />
+<jsp:useBean id="mem" class="model.member.MemberVO" scope="session"/>
 
 
 <%
-	System.out.println("이거"+memberVO);
 	String action = request.getParameter("action");
 
 	if (action.equals("main")) {
-		System.out.println(memberVO);
 		ArrayList<MessageVO> datas = messageDAO.getList();
 		request.setAttribute("datas", datas);
 		pageContext.forward("main.jsp");
 	}
 
 	else if (action.equals("myList")) {
-		String userID = memberVO.getUserID();
+		String userID = mem.getUserID();
 		ArrayList<MessageVO> datas = messageDAO.searchList(userID);
 		request.setAttribute("datas", datas);
 		pageContext.forward("main.jsp");
@@ -36,15 +35,15 @@
 		request.setAttribute("datas", datas);
 		pageContext.forward("main.jsp");
 	}
-	
-	else if(action.equals("content")){
+
+	else if (action.equals("content")) {
 		System.out.println(messageVO);
-		MessageVO data=messageDAO.content(messageVO);
+		MessageVO data = messageDAO.content(messageVO);
 		request.setAttribute("data", data);
 		pageContext.forward("content.jsp");
 	}
-	
-	else if(action.equals("updateDB")){
+
+	else if (action.equals("updateDB")) {
 		System.out.println(messageVO);
 		if (messageDAO.updateDB(messageVO)) {
 			response.sendRedirect("control.jsp?action=main");
@@ -52,8 +51,8 @@
 			throw new Exception("DB 수정 오류 발생!");
 		}
 	}
-	
-	else if(action.equals("insertDB")){
+
+	else if (action.equals("insertDB")) {
 		System.out.println(messageVO);
 		if (messageDAO.insertDB(messageVO)) {
 			response.sendRedirect("control.jsp?action=main");
@@ -61,8 +60,8 @@
 			throw new Exception("DB 추가 오류 발생!");
 		}
 	}
-	
-	else if(action.equals("deleteDB")){
+
+	else if (action.equals("deleteDB")) {
 		System.out.println(messageVO);
 		if (messageDAO.deleteDB(messageVO)) {
 			response.sendRedirect("control.jsp?action=main");
@@ -70,22 +69,16 @@
 			throw new Exception("DB 삭제 오류 발생!");
 		}
 	}
-	
-	
-	
-	
-	
 
 	else if (action.equals("login")) {
-		if (memberDAO.login(memberVO)!=null) {
-			memberVO=memberDAO.login(memberVO);
-			session.setAttribute("memberVO", memberVO);
-			System.out.println(memberVO);
+		if (memberDAO.login(memberVO) != null) {
+			mem = memberDAO.login(memberVO);
+			session.setAttribute("mem", mem);
+			System.out.println(mem);
 			pageContext.forward("control.jsp?action=main");
 		} else {
 			out.println("<script>alert('로그인 정보를 확인하세요!');history.go(-1)</script>");
 		}
-		System.out.println("로그인"+memberVO);
 	}
 
 	else if (action.equals("logout")) {
@@ -101,30 +94,28 @@
 			session.invalidate();
 		}
 	}
-	
-	
-	else if (action.equals("check")){
-		String checkPW=request.getParameter("checkPW");
-		if (memberVO.getUserPW().equals(checkPW)) {
+
+	else if (action.equals("check")) {
+		String checkPW = request.getParameter("checkPW");
+		if (mem.getUserPW().equals(checkPW)) {
 			pageContext.forward("mypage.jsp");
-		}
-		else{
+		} else {
 			out.println("<script>alert('비밀번호가 틀렸습니다.');history.go(-1)</script>");
 		}
 	}
 
 	else if (action.equals("userUpdate")) {
-		String newPW=request.getParameter("newPW");
-		if (memberDAO.userUpdate(memberVO,newPW)) {
+		String newPW = request.getParameter("newPW");
+		if (memberDAO.userUpdate(mem, newPW)) {
+			mem.setUserPW(newPW);
 			response.sendRedirect("control.jsp?action=main");
-			session.invalidate();
 		} else {
 			throw new Exception("user 수정 오류 발생!");
 		}
 	}
 
 	else if (action.equals("userDelete")) {
-		if (memberDAO.userDelete(memberVO)) {
+		if (memberDAO.userDelete(mem)) {
 			session.invalidate();
 			response.sendRedirect("control.jsp?action=main");
 		} else {

@@ -2,8 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
-<% request.setCharacterEncoding("UTF-8"); %>
-<jsp:useBean id="memberVO" class="model.member.MemberVO" scope="session"/>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,19 +21,18 @@
 </head>
 <body>
 
-	<%
-	if(memberVO.getUserID()!=null) {
-	%>
-	<h1>${memberVO.getUserID()}님환영합니다.</h1>
-	<form mrthod="post" action="control.jsp" name="form2">
-		<input type="hidden" name="action" value="logout">
-		<input type="hidden" name="checkPW">
-		<input type="button" value="마이페이지" onclick="check()">
-		<input type="submit" value="로그아웃">
-	</form>
-	<%}else{ %>
-	<mytag:login />
-	<%} %>
+	<c:if test="${mem.userID!=null}">
+		<h1>${mem.userID}님환영합니다.</h1>
+		<form method="post" action="control.jsp" name="form2">
+			<input type="hidden" name="action" value="logout"> <input
+				type="hidden" name="checkPW"> <input type="button"
+				value="마이페이지" onclick="check()"> <input type="submit"
+				value="로그아웃">
+		</form>
+	</c:if>
+	<c:if test="${mem.userID==null}">
+		<mytag:login />
+	</c:if>
 	<hr>
 	<form method="post" action="control.jsp" name="form1">
 		<input type="hidden" name="action" value="searchList">
@@ -55,18 +55,16 @@
 				<td colspan="2"><input type="text" name="search" required>
 					<input type="submit" value="작성자 검색"></td>
 
-				<%
-			if(memberVO.getUserID()!=null){
-		%>
-				<td colspan="2" style="text-align: right"><a href="form.jsp">글
-						쓰기</a><br><a href="control.jsp?action=myList">내글 보기</a></td>
-				<%
-			}
-		%>
+				<c:if test="${mem.userID!=null}">
+					<td colspan="2" style="text-align: right"><a href="form.jsp">글
+							쓰기</a><br>
+					<a href="control.jsp?action=myList">내글 보기</a></td>
+				</c:if>
+
 			</tr>
 		</table>
 	</form>
-<hr>
-<a href="control.jsp?action=main">전체 글보기</a>
+	<hr>
+	<a href="control.jsp?action=main">전체 글보기</a>
 </body>
 </html>

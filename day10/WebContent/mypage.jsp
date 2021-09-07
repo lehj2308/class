@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
-<jsp:useBean id="memberVO" class="model.member.MemberVO" scope="session" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +10,7 @@
 <body>
 
 
-	<h1>${memberVO.getUserID()}님마이페이지입니다.</h1>
+	<h1>${mem.userID}님마이페이지입니다.</h1>
 	<a href="control.jsp?action=main">메인으로 돌아가기</a>
 	<hr>
 	<form action="control.jsp" method="post" name="form1">

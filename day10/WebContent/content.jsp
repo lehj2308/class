@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%request.setCharacterEncoding("UTF-8"); %>
-<jsp:useBean id="data" class="model.message.MessageVO" scope="request" />
-<jsp:useBean id="memberVO" class="model.member.MemberVO" scope="session" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,38 +23,38 @@
 
 	<form action="control.jsp" method="post" name="form1">
 		<input type="hidden" name="action" value="updateDB"> <input
-			type="hidden" name="mnum" value="${data.getMnum()}">
+			type="hidden" name="mnum" value="${data.mnum}">
 		<table border="1">
 			<tr>
 				<th>작성자</th>
 				<td><input type="text" name="writer"
-					value="${data.getWriter()}" readonly></td>
+					value="${data.writer}" readonly></td>
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td><input type="text" name="title" value="${data.getTitle()}"></td>
+				<td><input type="text" name="title" value="${data.title}"></td>
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><textarea name="content" rows="6">${data.getContent()}</textarea></td>
+				<td><textarea name="content" rows="6">${data.content}</textarea></td>
 			</tr>
 			<tr>
 				<th>작성일</th>
-				<td><input type="date" value="${data.getWdate()}" readonly></td>
+				<td><input type="date" value="${data.wdate}" readonly></td>
 			</tr>
 			<tr>
 				<th colspan='2'>
-					<%
-					if(data.getWriter().equals(memberVO.getUserID())) {
-					%> <input type="submit" value="글 수정하기"> <input
+				
+				<c:if test="${data.writer == mem.userID }">
+					<input type="submit" value="글 수정하기"> <input
 					type="button" value="글 삭제하기" onClick="del()">
-				</th>
-				<%
-					}
-				%>
+				</c:if>
+					
 			</tr>
 		</table>
 	</form>
+	
+	<a href="control.jsp?action=main">메인으로 돌아가기</a>
 
 </body>
 </html>
