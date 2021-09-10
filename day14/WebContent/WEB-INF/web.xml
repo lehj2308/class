@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<context-param>
+		<param-name>coffee1</param-name>
+		<param-value>아메리카노</param-value>
+	</context-param>
+	<context-param>
+		<param-name>coffee2</param-name>
+		<param-value>카페모카</param-value>
+	</context-param>
+	<context-param>
+		<param-name>coffee3</param-name>
+		<param-value>카페라떼</param-value>
+	</context-param>
+	<context-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</context-param>
+</web-app>
