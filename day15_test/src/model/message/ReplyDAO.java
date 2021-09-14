@@ -26,6 +26,12 @@ public class ReplyDAO {
 			pstmt.setString(2, vo.getUnum());
 			pstmt.setString(3, vo.getRmsg());
 			pstmt.executeUpdate();
+			
+			sql = "update message set replycount = replycount+1 where mnum=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, vo.getMnum());
+			pstmt.executeUpdate();
+			
 			res = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
