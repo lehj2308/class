@@ -46,6 +46,13 @@
 			throw new Exception("message 추가 오류 발생!");
 		}
 	}
+	else if (action.equals("messageDelete")) {
+		if (messageDAO.messageDelete(messageVO)) {
+			response.sendRedirect(url);
+		} else {
+			throw new Exception("message 삭제 오류 발생!");
+		}
+	}
 	
 	
 
@@ -54,6 +61,13 @@
 			response.sendRedirect(url);
 		} else {
 			throw new Exception("reply 추가 오류 발생!");
+		}
+	}
+	else if (action.equals("replyDelete")) {
+		if (replyDAO.replyDelete(replyVO)) {
+			response.sendRedirect(url);
+		} else {
+			throw new Exception("reply 삭제 오류 발생!");
 		}
 	}
 
@@ -69,14 +83,16 @@
 
 	else if (action.equals("logout")) {
 		session.invalidate();
-		response.sendRedirect(url);
+		response.sendRedirect("control.jsp?action=main");
 	}
 
 	else if (action.equals("join")) {
 		if (usersDAO.join(usersVO)) {
-			response.sendRedirect(url);
+			out.println("<script>alert('회원가입 완료!');window.close();</script>");
 		} else {
 			throw new Exception("join 오류 발생!");
 		}
 	}
+	
+	
 %>

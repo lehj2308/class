@@ -108,5 +108,38 @@ public class MessageDAO {
 
 		return res;
 	}
+	
+	public Boolean messageDelete(MessageVO vo) {
+		Boolean res=false;
+		conn = JNDI.getConnection();
+		String sql;
+		
+		try {
+			sql="delete from reply where mnum=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, vo.getMnum());
+			pstmt.executeUpdate();
+			sql="delete from message where mnum=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, vo.getMnum());
+			pstmt.executeUpdate();
+			
+			res=true;
+		}catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return res;
+		
+	}
 
 }

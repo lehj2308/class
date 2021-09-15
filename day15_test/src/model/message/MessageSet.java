@@ -23,5 +23,4 @@ public class MessageSet {
 		return "MessageSet [m=" + m + ", rlist=" + rlist + "]";
 	}
 	
-	
 }

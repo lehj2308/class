@@ -40,3 +40,4 @@ insert into reply values(5,2,'timo',sysdate,'¥Ò±€3');
 insert into message values(3,'timo','»Æ¿Œ',2,0,sysdate);
 
 select * from reply;
+select * from users;
