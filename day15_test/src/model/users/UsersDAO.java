@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import model.common.JNDI;
 
@@ -13,6 +14,41 @@ public class UsersDAO {
 	PreparedStatement pstmt;
 	ResultSet rs;
 
+	public ArrayList<UsersVO> selectAll(){
+		ArrayList<UsersVO> datas=new ArrayList<UsersVO>();
+		conn = JNDI.getConnection();
+		String sql;
+		try {
+			sql = "select * from (select * from users order by udate desc) where rownum <= 3";
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				UsersVO data=new UsersVO();
+				data.setUnum(rs.getString("unum"));
+				data.setName(rs.getString("name"));
+				data.setPasswd(rs.getString("passwd"));
+				data.setUdate(rs.getDate("udate"));
+				System.out.println(data);
+				datas.add(data);
+			}
+			
+			rs.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return datas;
+		
+	}
+	
 	public UsersVO login(UsersVO vo) {
 		UsersVO data = new UsersVO();
 		conn = JNDI.getConnection();

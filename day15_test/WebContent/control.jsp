@@ -31,9 +31,11 @@
 
 	if (action.equals("main")) {
 		ArrayList<MessageSet> datas = messageDAO.selectAll(selUser, mcnt);
+		ArrayList<UsersVO> newUsers = usersDAO.selectAll();
 
 		request.setAttribute("datas", datas);
 		request.setAttribute("selUser", selUser);
+		request.setAttribute("newUsers", newUsers);
 		request.setAttribute("mcnt", mcnt);
 
 		pageContext.forward("main.jsp");
@@ -51,6 +53,13 @@
 			response.sendRedirect(url);
 		} else {
 			throw new Exception("message 삭제 오류 발생!");
+		}
+	}
+	else if (action.equals("messageUpdate")) {
+		if (messageDAO.messageUpdate(messageVO)) {
+			response.sendRedirect(url);
+		} else {
+			throw new Exception("message 좋아요 버튼 오류 발생!");
 		}
 	}
 	
