@@ -8,8 +8,7 @@
 </head>
 <body>
 
-<form action="control.jsp" method="post" name="join">
-<input type="hidden" name="action" value="join">
+<form action="join.do" method="post" name="join">
 <table border="1">
 	<tr>
 		<td>이름</td>

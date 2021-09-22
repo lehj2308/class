@@ -6,5 +6,5 @@
 <%@ attribute name="unum" %>
 
 <c:if test="${unum == user.unum}">
-	<button type="button" onclick="location.href='control.jsp?action=replyDelete&mnum=${mnum}&rnum=${rnum}&mcnt=${mcnt}'">삭제</button>
+	<button type="button" onclick="location.href='replyDelete.do?mnum=${mnum}&rnum=${rnum}&mcnt=${mcnt}'">삭제</button>
 </c:if>

@@ -20,7 +20,7 @@
 
 	<div class="content">
 		<ol>
-			<li><a href="control.jsp?action=main">전체목록보기</a></li>
+			<li><a href="main.do">전체목록보기</a></li>
 		</ol>
 		<hr>
 		<mytag:login />
@@ -47,7 +47,7 @@
 			<hr>
 		</c:forEach>
 		<a
-			href="control.jsp?action=main&mcnt=${mcnt+1}&selUser=${param.selUser}">더보기</a>
+			href="main.do?mcnt=${mcnt+1}&selUser=${param.selUser}">더보기</a>
 			
 		<hr>
 		
@@ -59,7 +59,7 @@
 		<ol>
 			<c:forEach var="u" items="${newUsers}">
 				<li><a
-					href="control.jsp?action=main&mcnt=${mcnt}&selUser=${u.unum}">${u.name}</a>님
+					href="main.do?mcnt=${mcnt}&selUser=${u.unum}">${u.name}</a>님
 					가입</li>
 			</c:forEach>
 		</ol>

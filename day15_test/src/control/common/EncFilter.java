@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 /**
  * Servlet Filter implementation class Filter
  */
-@WebFilter("*.jsp")
+@WebFilter({"*.jsp","*.do"})
 public class EncFilter implements javax.servlet.Filter {
 
 	private String encoding;

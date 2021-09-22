@@ -2,9 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:if test="${user.unum == null}">
-	<form action="control.jsp" method="post" name="login">
-		<input type="hidden" name="action" value="login"> <input
-			type="hidden" name="mcnt" value="${mcnt}">
+	<form action="login.do" method="post" name="login">
+<input type="hidden" name="mcnt" value="${mcnt}">
 		<table border="1">
 			<tr>
 				<td>아이디</td>
@@ -26,6 +25,6 @@
 
 <c:if test="${user.unum != null}">
 ${user.unum}님 환영합니다.
-<a href="control.jsp?action=main&selUser=${user.unum}">내글목록보기</a>
-	<a href="control.jsp?action=logout">로그아웃</a>
+<a href="main.do?selUser=${user.unum}">내글목록보기</a>
+	<a href="logout.do">로그아웃</a>
 </c:if>

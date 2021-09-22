@@ -4,7 +4,7 @@
 <%@ attribute name="mnum" %>
 <%@ attribute name="unum" %>
 
-<button type="button" onclick="location.href='control.jsp?action=messageUpdate&mnum=${mnum}&mcnt=${mcnt}'">좋아요</button>
+<button type="button" onclick="location.href='messageUpdate.do?mnum=${mnum}&mcnt=${mcnt}'">좋아요</button>
 <c:if test="${unum == user.unum}">
-	<button type="button" onclick="location.href='control.jsp?action=messageDelete&mnum=${mnum}&mcnt=${mcnt}'">삭제</button>
+	<button type="button" onclick="location.href='messageDelete.do?mnum=${mnum}&mcnt=${mcnt}'">삭제</button>
 </c:if>
