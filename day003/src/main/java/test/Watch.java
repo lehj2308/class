@@ -1,7 +1,6 @@
 package test;
 
-public interface Phone {
-	void power();
+public interface Watch {
 	void soundUp();
 	void soundDown();
 }

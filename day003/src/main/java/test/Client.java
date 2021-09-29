@@ -13,8 +13,9 @@ public class Client {
 		// == Look up
 		/*Test t=(Test)factory.getBean("test");
 		t.print();*/
-		Phone phone=(Phone)factory.getBean("Ga");
-		phone.powerOn();
+		Phone phone=(Phone)factory.getBean("phone");
+		phone.power();
+		phone.soundUp();
 		
 		
 		// 3. 스프링 컨테이너 종료
