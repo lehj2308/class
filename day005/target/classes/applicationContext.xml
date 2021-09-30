@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean class="tv.SaTV" id="tv">
+		<property name="rm" ref="sr" />
+		<property name="num" value="1234" />
+		<property name="map">
+			<map>
+				<entry>
+					<key><value>11</value></key>
+					<value>MBC</value>
+				</entry>
+				<entry>
+					<key><value>07</value></key>
+					<value>KBS</value>
+				</entry>
+				<entry>
+					<key><value>05</value></key>
+					<value>SBS</value>
+				</entry>
+			</map>
+		</property>
+		
+	</bean>
+	
+	<bean class="tv.LGRemote" id="lr" />
+	<bean class="tv.SaRemote" id="sr" />
+	
+</beans>
