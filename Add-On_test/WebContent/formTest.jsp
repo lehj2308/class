@@ -26,11 +26,7 @@
 					readonly></td>
 			</tr>
 			<tr>
-				<th>제목</th>
-				<td><input type="text" name="tTitle" required></td>
-			</tr>
-			<tr>
-				<th>분야</th>
+				<th>태그</th>
 				<td><input type="text" name="tLang" required></td>
 			</tr>
 			<tr>
@@ -70,11 +66,7 @@
 					readonly></td>
 			</tr>
 			<tr>
-				<th>제목</th>
-				<td><input type="text" name="tTitle" value="${param.tTitle}" required></td>
-			</tr>
-			<tr>
-				<th>분야</th>
+				<th>태그</th>
 				<td><input type="text" name="tLang" value="${param.tLang}" required></td>
 			</tr>
 			<tr>

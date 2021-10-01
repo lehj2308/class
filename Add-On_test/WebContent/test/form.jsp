@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,9 +13,8 @@
 
 	<!-- 작성 페이지 -->
 	<%-- <c:if test="작성 페이지라면"> --%>
-	<form method="post" action="control.jsp" name="insert">
-		<input type="hidden" name="action" value="글insert"> <input
-			type="hidden" name="userNum" value="${세션값.userNum}">
+	<form method="post" action="form.do" name="insert">
+		 <input type="hidden" name="userNum" value="${user.userNum}">
 		<table border="1">
 			<tr>
 				<th>제목</th>
@@ -22,16 +22,16 @@
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td><input type="text" name="bWriter" value="${세션값.userId}"
+				<td><input type="text" name="bWriter" value="${user.name}"
 					readonly></td>
 			</tr>
 			<tr>
 				<th>게시판 종류</th>
-				<td><input type="radio" name="bCtgr" value="?" required>QnA
-					<input type="radio" name="bCtgr" value="?">자유게시판 <c:if
-						test="관리자 라면">
-						<input type="radio" name="bCtgr" value="?">공지
-				</c:if></td>
+				<td><input type="radio" name="bCtgr" value="question" required>QnA
+					<input type="radio" name="bCtgr" value="board">자유게시판
+						<!-- 만약 관리자라면  -->
+						<input type="radio" name="bCtgr" value="announce">공지
+				</td>
 			</tr>
 			<tr>
 				<th>태그</th>
@@ -51,9 +51,12 @@
 
 	<!-- 수정 페이지 -->
 	<%-- <c:if test="수정 페이지라면"> --%>
-
-	<form method="post" action="control.jsp" name="edit">
-		<input type="hidden" name="action" value="글update">
+	
+	
+	
+	
+	<form method="post" action="update.do" name="edit">
+		<input type="text" value="${param.bId}" name="bId">
 		<!-- userNum없는상태 ?? -->
 		<table border="1">
 			<tr>

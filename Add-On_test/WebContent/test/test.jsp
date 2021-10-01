@@ -24,8 +24,8 @@
 
 	<hr>
 	<!-- 검색창 및 글쓰기 버튼-->
-	<form method="post" action="control.jsp" name="tSearch">
-		<input type="hidden" name="action" value="t검색">
+	<form method="post" action="test.do" name="tSearch">
+		
 		<table border="1">
 			<tr>
 				<td><input class="" type="text" name="tTitle" required>
@@ -50,17 +50,30 @@
 			<th>작성날짜</th>
 			<th>조회수</th>
 		</tr>
-		<c:forEach var="v" items="${코딩 테스트 글 리스트}">
+		<c:forEach var="v" items="${tests}">
 			<tr>
 				<td>${v.tId}</td>
 				<td>${v.tLang}</td>
-				<td><a href="control.jsp?action='코딩테스트 글보기'&tId=${v.tId}">${v.tTitle}</a></td>
+				<td><a href="detailTest.do?tId=${v.tId}">${v.tTitle}</a></td>
 				<td>${v.tWriter}</td>
 				<td>${v.tDate}</td>
 				<td>${v.tHit}</td>
 			</tr>
 		</c:forEach>
+		
 	</table>
 	<!-- 게시판 글 END-->
+	<%
+		int pageLen = (Integer) request.getAttribute("pageLen");
+		for (int i=0; i <(pageLen/2)+1; i++){
+			
+			%>
+			<a href="test.do?pageNum=<%=i%>"><%=i+1 %></a>
+			
+			<% 
+			
+		}
+	
+	%>
 </body>
 </html>

@@ -25,11 +25,7 @@
 				<td><input type="text" name="bCtgr" value="${param.bCtgr}" readonly></td>
 			</tr>
 			<tr>
-				<th>제목</th>
-				<td><input type="text" name="bTitle" value="${param.bTitle}" readonly></td>
-			</tr>
-			<tr>
-				<th>분야</th>
+				<th>테마</th>
 				<td><input type="text" name="bLang" value="${param.bLang}" readonly></td>
 			</tr>
 			<tr>

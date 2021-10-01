@@ -18,14 +18,26 @@
 			<th>제목</th>
 			<th>작성날짜</th>
 		</tr>
-		<c:forEach var="v" items="${공지 글 리스트}">
+		<c:forEach var="v" items="${announceList}">
 			<tr>
 				<td>${v.bId}</td>
-				<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.bTitle}</a></td>
+				<td><a href="detail.do?bId=${v.bId}">${v.bTitle}</a></td>
 				<td>${v.bDate}</td>
 			</tr>
 		</c:forEach>
+		
 	</table>
+		<% 
+			int announceLen = (Integer)request.getAttribute("announceLen");
+			for (int i=0; i<(announceLen/2)+1;i++){
+				%>
+				<a href="board.do?announcePageNum=<%=i%>&boardPageNum=${boardPageNum}"><%=i+1 %></a>
+				
+				
+				<% 
+				
+			}
+		%>
 <!-- 공지글  END-->
 <hr>
 <!-- 정렬 버튼 -->
@@ -40,12 +52,11 @@
 
 <hr>
 <!-- 검색창 및 글쓰기 버튼-->
-	<form method="post" action="control.jsp" name="bSearch">
-		<input type="hidden" name="action" value="b검색">
-		<input type="hidden" name="bCtgr" value="자유게시판">
+	<form method="post" action="board.do" name="bSearch">
+		
 		<table border="1">
 			<tr>
-				<td><input class="" type="text" name="title" required>
+				<td><input class="" type="text" name="title"  required>
 					<span class=""><button class="" type="submit">검색</button></span></td>
 					<!-- 로그인시에만 -->
 				<td><button type="button" class=""
@@ -67,17 +78,28 @@
 			<th>작성날짜</th>
 			<th>조회수</th>
 		</tr>
-		<c:forEach var="v" items="${게시판 글 리스트}">
+		<c:forEach var="v" items="${boardList}">
 			<tr>
 				<td>${v.bId}</td>
 				<td>${v.bLang}</td>
-				<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.bTitle}</a></td>
+				<td><a href="detail.do?bId=${v.bId}">${v.bTitle}</a></td>
 				<td>${v.bWriter}</td>
 				<td>${v.bDate}</td>
 				<td>${v.bHit}</td>
 			</tr>
 		</c:forEach>
 	</table>
+	<% 
+			int boardLen = (Integer)request.getAttribute("boardLen");
+			for (int i=0; i<(boardLen/2)+1;i++){
+				%>
+				<a href="board.do?announcePageNum=${announcePageNum}&boardPageNum=<%=i%>"><%=i+1 %></a>
+				
+				
+				<% 
+				
+			}
+		%>
 <!-- 게시판 글 END-->
 </body>
 </html>

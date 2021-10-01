@@ -12,33 +12,33 @@
 
 	<!-- 작성 페이지 -->
 	<%-- <c:if test="작성 페이지라면"> --%>
-	<form method="post" action="control.jsp" name="insert">
-		<input type="hidden" name="action" value="글insert"> <input
-			type="hidden" name="userNum" value="${세션값.userNum}">
+	<form method="post" action="formTest.do" name="insert">
+		<input
+			type="hidden" name="userNum" value="${user.userNum}"> <!-- 세션값 : user -->
 		<table border="1">
 			<tr>
 				<th>제목</th>
-				<td><input type="text" name="bTitle" required></td>
+				<td><input type="text" name="tTitle" required></td>
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td><input type="text" name="bWriter" value="${세션값.userId}"
+				<td><input type="text" name="tWriter" value="${user.name}"
 					readonly></td>
 			</tr>
 			<tr>
-				<th>게시판 종류</th>
-				<td><input type="radio" name="bCtgr" value="?" required>QnA
-					<input type="radio" name="bCtgr" value="?">자유게시판 <c:if
-						test="관리자 라면">
-						<input type="radio" name="bCtgr" value="?">공지
-				</c:if></td>
-			</tr>
-			<tr>
 				<th>태그</th>
-				<td><input type="text" name="bLang" required></td>
+				<td><input type="text" name="tLang" required></td>
 			</tr>
 			<tr>
-				<td colspan="2"><textarea name="bContent" rows="6"
+				<td colspan="2"><textarea name="tContent" rows="6"
+						style="resize: none;" required></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><textarea name="tEx" rows="6"
+						style="resize: none;" required></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><textarea name="tAnswer" rows="6"
 						style="resize: none;" required></textarea></td>
 			</tr>
 			<tr>
@@ -53,29 +53,33 @@
 	<%-- <c:if test="수정 페이지라면"> --%>
 
 	<form method="post" action="control.jsp" name="edit">
-		<input type="hidden" name="action" value="글update">
+		<input type="hidden" name="action" value="코딩글update">
 		<!-- userNum없는상태 ?? -->
 		<table border="1">
 			<tr>
 				<th>제목</th>
-				<td><input type="text" name="bTitle" value="${param.bTitle}" required></td>
+				<td><input type="text" name="tTitle" value="${param.tTitle}" required></td>
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td><input type="text" name="bWriter" value="${param.bWriter}"
+				<td><input type="text" name="tWriter" value="${param.tWriter}"
 					readonly></td>
 			</tr>
 			<tr>
-				<th>게시판 종류</th>
-				<td><input type="text" name="bCtgr" value="${param.bCtgr}" readonly></td>
-			</tr>
-			<tr>
 				<th>태그</th>
-				<td><input type="text" name="bLang" value="${param.bLang}" required></td>
+				<td><input type="text" name="tLang" value="${param.tLang}" required></td>
 			</tr>
 			<tr>
-				<td colspan="2"><textarea name="bContent" rows="6"
-						style="resize: none;" required>${param.bContent}</textarea></td>
+				<td colspan="2"><textarea name="tContent" rows="6"
+						style="resize: none;" required>${param.tContent}</textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><textarea name="tEx" rows="6"
+						style="resize: none;" required>${param.tEx}</textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><textarea name="tAnswer" rows="6"
+						style="resize: none;" required>${param.tAnswer}</textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="글 수정"></td>
