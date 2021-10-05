@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='' />
 		<!-- MAIN -->
@@ -53,7 +53,7 @@
 									<div class="overlay"></div>
 									<div class="profile-main">
 										<h1 class="img-circle lnr lnr-home"></h1>
-										<h3 class="name">${user.name}</h3>
+										<h3 class="name">${selUser.name}</h3>
 									</div>
 								</div>
 								<!-- 이름 END -->
@@ -62,15 +62,97 @@
 									<div class="profile-info">
 										<h4 class="heading">Basic Info</h4>
 										<ul class="list-unstyled list-justify">
-											<li>성별<span>${user.gender}</span></li>
-											<li>생년월일 <span>${user.birth}</span></li>
-											<li>휴대폰 번호 <span>${user.phone}</span></li>
-											<li>이메일 <span>${user.email}</span></li>
+											<li>성별<span>${selUser.gender}</span></li>
+											<li>생년월일 <span>${selUser.birth}</span></li>
+											<li>휴대폰 번호 <span>${selUser.phone}</span></li>
+											<li>이메일 <span>${selUser.email}</span></li>
 										</ul>
 									</div>
 									<div class="text-center">
 										<a href="#" class="btn btn-primary">프로필 수정하기</a>
 									</div>
+									<br>
+									<!-- 댓글 리스트 -->
+									<div class="custom-tabs-line tabs-line-bottom left-aligned">
+									<ul class="nav" role="tablist">
+										<li class="active"><a href="#tab-bottom-left1" role="tab" data-toggle="tab">Q & A, 자유게시판</a></li>
+										<li><a href="#tab-bottom-left2" role="tab" data-toggle="tab">코딩 테스트</a></li>
+										<li><a href="#tab-bottom-left3" role="tab" data-toggle="tab">코딩</a></li>
+									</ul>
+									</div>
+									<div class="tab-content">
+										<!-- Q & A, 자유게시판 댓글 리스트 -->
+										<div class="tab-pane fade in active" id="tab-bottom-left1">
+											<table class="table table-condensed">
+												<thead>
+													<tr>
+														<th>내용</th>
+														<th>작성날짜1</th>
+													</tr>
+												</thead>
+												<%-- 
+												<c:forEach var="v" items="${댓글 리스트}">
+													<tr>
+														<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.rTitle}</a></td>
+														<td>${v.rDate}</td>
+													</tr>
+												</c:forEach>
+												 --%>
+												</tbody>
+											</table>
+											<div class="text-center">
+												<a href="#" class="btn btn-default">더보기</a>
+											</div>
+										</div>
+										<!-- Q & A, 자유게시판 댓글 리스트 END -->
+										<!-- 코딩테스트 댓글 리스트 -->
+										<div class="tab-pane fade" id="tab-bottom-left2">
+											<table class="table table-condensed">
+												<thead>
+													<tr>
+														<th>내용</th>
+														<th>작성날짜2</th>
+													</tr>
+												</thead>
+												<%-- 
+												<c:forEach var="v" items="${댓글 리스트}">
+													<tr>
+														<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.rTitle}</a></td>
+														<td>${v.rDate}</td>
+													</tr>
+												</c:forEach>
+												 --%>
+												</tbody>
+											</table>
+											<div class="text-center">
+												<a href="#" class="btn btn-default">더보기</a>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="tab-bottom-left3">
+											<table class="table table-condensed">
+												<thead>
+													<tr>
+														<th>내용</th>
+														<th>작성날짜3</th>
+													</tr>
+												</thead>
+												<%-- 
+												<c:forEach var="v" items="${댓글 리스트}">
+													<tr>
+														<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.rTitle}</a></td>
+														<td>${v.rDate}</td>
+													</tr>
+												</c:forEach>
+												 --%>
+												</tbody>
+											</table>
+											<div class="text-center">
+												<a href="#" class="btn btn-default">더보기</a>
+											</div>
+										</div>
+										<!-- 코딩테스트 댓글 리스트 END -->
+									</div>
+									<!-- 댓글 리스트 END -->
 								</div>
 								<!-- 내 정보 END -->
 							</div>
@@ -80,9 +162,9 @@
 								<!-- 게시물 종류 버튼 -->
 								<div class="custom-tabs-line tabs-line-bottom left-aligned">
 									<ul class="nav">
-										<li><a href="myPage.do?myList=question">Q & A</a></li>
-										<li><a href="myPage.do?myList=board">게시글</a></li>
-										<li><a href="myPage.do?myList=test">코딩문제</a></li>
+										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=question">Q & A</a></li>
+										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=board">게시글</a></li>
+										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=test">코딩문제</a></li>
 									</ul>
 								</div>
 								<!-- 게시물 종류 버튼 END -->
@@ -97,26 +179,23 @@
 											</tr>
 										</thead>
 										<tbody>
-
-
 											<c:choose>
 												<c:when test="${param.myList eq 'test'}">
 													<c:forEach var="v" items="${myList}">
 														<tr>
 															<td>${v.tId}</td>
 															<td><a
-																href="control.jsp?action='게시판글보기'&bId=${v.tId}">${v.tTitle}</a></td>
+																href="detail.do?bId=${v.tId}">${v.tTitle}</a></td>
 															<td>${v.tDate}</td>
 														</tr>
 													</c:forEach>
 												</c:when>
 												<c:otherwise>
-
 													<c:forEach var="v" items="${myList}">
 														<tr>
 															<td>${v.bId}</td>
 															<td><a
-																href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.bTitle}</a></td>
+																href="detailTest.do?bId=${v.bId}">${v.bTitle}</a></td>
 															<td>${v.bDate}</td>
 														</tr>
 													</c:forEach>
@@ -129,34 +208,6 @@
 									</div>
 								</div>
 								<!-- 게시물 리스트 END -->
-								<!-- 댓글 리스트 -->
-								<h4 class="heading">댓글</h4>
-								<div class="awards">
-
-									<table class="table table-striped">
-										<thead>
-											<tr>
-												<th>번호</th>
-												<th>내용</th>
-												<th>작성날짜</th>
-											</tr>
-										</thead>
-											<%-- 
-									<c:forEach var="v" items="${댓글 리스트}">
-										<tr>
-											<td>${v.rId}</td>
-											<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.rTitle}</a></td>
-											<td>${v.rDate}</td>
-										</tr>
-									</c:forEach>
-									 --%>
-										</tbody>
-									</table>
-									<div class="text-center">
-										<a href="#" class="btn btn-default">더보기</a>
-									</div>
-								</div>
-								<!-- 댓글 리스트 END -->
 							</div>
 							<!-- 내가 쓴 게시물 및  댓글 END -->
 						</div>

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import controller.common.Action;
 import controller.common.ActionForward;
 import model.board.BoardDAO;
+import model.board.BoardSet;
 import model.board.BoardVO;
 import model.users.UsersVO;
 
@@ -20,14 +21,23 @@ public class ActionBoard implements Action{
 		
 		BoardDAO boardDAO = new BoardDAO();
 		
+		int userNum=0;
+		
 		UsersVO userVO = new UsersVO();
-		userVO.setUserNum(0);
+		userVO.setUserNum(userNum);
+		if(request.getParameter("selUserNum")!=null) {
+			userNum = Integer.parseInt(request.getParameter("selUserNum"));
+			//request.setAttribute("selUser", userNum);
+			userVO.setUserNum(userNum);
+			
+		}
 		BoardVO boardVO = new BoardVO();
 		int announcePageNum =0;
 		int boardPageNum=0;
-		int announceLen = 3;
-		int boardLen = 5;
-		String title ="";
+		int announceLen = 0;
+		int boardLen = 0;
+		String pageOrder;
+		String bTitle ="";
 		if (request.getParameter("announcePageNum") !=null) {
 			announcePageNum = Integer.parseInt(request.getParameter("announcePageNum"));
 			
@@ -36,31 +46,48 @@ public class ActionBoard implements Action{
 			boardPageNum = Integer.parseInt(request.getParameter("boardPageNum"));
 			
 		}
-		if (request.getParameter("title") !=null) {
-			title = request.getParameter("title");
+		if (request.getParameter("bTitle") !=null) {
+			bTitle = request.getParameter("bTitle");
 		}
 		System.out.println(announcePageNum);
 		boardVO.setbCtgr("announce");
 		
-		ArrayList<BoardVO> announceList = boardDAO.getDBList(userVO, boardVO, announcePageNum);
-		System.out.println("announceListLength "+announceList.size());
+		pageOrder = "date";
+		
+		BoardSet bset = boardDAO.getDBList(userVO, boardVO,pageOrder, announcePageNum);
+		ArrayList<BoardVO> announceList = bset.getBlist();
+		announceLen = bset.getBoardCnt();
+		
+		if (request.getParameter("pageOrder") !=null) {
+			pageOrder = request.getParameter("pageOrder");
+		}
+	
 		
 		boardVO.setbCtgr("board");
-		boardVO.setbTitle(title);
+		boardVO.setbTitle(bTitle);
 		
-		ArrayList<BoardVO> boardList = boardDAO.getDBList(userVO, boardVO, boardPageNum);
-		
-		
-		
+		bset = boardDAO.getDBList(userVO, boardVO,pageOrder, boardPageNum);
+		ArrayList<BoardVO> boardList = bset.getBlist();
+		boardLen = bset.getBoardCnt();
+	
 		request.setAttribute("announceList", announceList);
 		request.setAttribute("boardList", boardList);
 		request.setAttribute("announcePageNum", announcePageNum);
 		request.setAttribute("boardPageNum", boardPageNum);
 		request.setAttribute("announceLen", announceLen);
 		request.setAttribute("boardLen",boardLen);
+		request.setAttribute("bTitle", bTitle);
+		request.setAttribute("pageOrder", pageOrder);
+		request.setAttribute("selUserNum", userNum);
+	
 		
 		forward = new ActionForward();
 		forward.setPath("board.jsp");
+		if (request.getParameter("myList") !=null) {
+			System.out.println("ActionBoard 클래스 mypage 가는 중 ");
+			forward.setPath("myPage.jsp");
+			request.setAttribute("myList", boardList);
+		}
 		forward.setRedirect(false);
 		
 		

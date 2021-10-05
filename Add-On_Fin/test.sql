@@ -54,7 +54,7 @@ INSERT INTO TEST_REPLY (R_ID, T_ID, USER_NUM, R_CONTENT, R_WRITER, PARENT_ID) VA
 -- -------------------------------------------------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------------------
 select * from TEST_REPLY
-
+select * from users
 -- 삭제 유무 변경 
 UPDATE TEST_REPLY SET DELETE_AT='Y' WHERE R_ID =1 AND PARENT_ID=0 AND USER_NUM=1;
 
@@ -107,8 +107,9 @@ SELECT * FROM TEST_REPLY  ORDER BY r_ID asc;
 update TEST set RE_CNT= RE_CNT+1 where T_ID=1;
 
 SELECT * FROM TEST;
+select * from users;
 
-
+select * from users;
 SELECT * FROM TEST_REPLY WHERE R_ID=1 AND PARENT_ID =0;
 
 SELECT * FROM (SELECT * FROM TEST_REPLY ORDER BY R_DATE) WHERE USER_NUM=1 and PARENT_ID=0 AND ROWNUM>=2 and ROWNUM <=5;
@@ -125,6 +126,8 @@ select T_DATE from TEST
 select * from (select a.*, rownum as rnum from(select * from TEST where T_TITLE LIKE '%%' order by t_date desc) a) where (rnum <=2 and rnum >=1)
 
 
+select * from TEST_reply
+select * from BOARD_REPLY
 select * from board
 select * from (select a.*, rownum as rnum from(select * from TEST where T_TITLE LIKE '%%' order by t_date desc) a) where (rnum <=3 and rnum >=1)
 select * from (select a.*, rownum as rnum from(select * from board where b_ctgr = 'board'  order by b_date desc) a) where (rnum <=3 and rnum >=1)
@@ -135,3 +138,21 @@ SELECT R_ID, T_ID, USER_NUM, CASE WHEN DELETE_AT='Y' THEN 'UNKNOWN' ELSE R_WRITE
                   R_CONTENT , R_DATE, DELETE_AT, 
                   PARENT_ID FROM (SELECT ROWNUM AS RNUM, TEST_REPLY.* FROM TEST_REPLY WHERE T_ID=1 AND PARENT_ID=0 AND ROWNUM<=7 
                   ORDER BY R_DATE DESC) WHERE 1<=RNUM
+                  
+INSERT INTO TEST_REPLY (R_ID, T_ID, USER_NUM, R_CONTENT, R_WRITER, PARENT_ID) 
+				VALUES ((SELECT NVL(MAX(R_ID),0)+1 FROM TEST_REPLY),6,1,'안녕하세요','kim',0)                  
+                  
+SELECT R_ID, T_ID, USER_NUM, CASE WHEN DELETE_AT='Y' THEN 'UNKNOWN'
+	                  ELSE R_WRITER END, CASE WHEN DELETE_AT='Y' THEN '*삭제된 댓글입니다.' 
+	                  ELSE R_CONTENT END, R_DATE, DELETE_AT, PARENT_ID FROM (SELECT ROWNUM AS RNUM,
+	                  TEST_REPLY.* FROM (SELECT * FROM TEST_REPLY WHERE PARENT_ID=0 AND T_ID=1 
+	                  ORDER BY R_DATE DESC) TEST_REPLY WHERE ROWNUM <= 4) WHERE RNUM > 2 ORDER BY R_DATE DESC
+	                  
+	SELECT R_ID, T_ID, USER_NUM, CASE WHEN DELETE_AT='Y' THEN 'unknown' 
+					ELSE R_WRITER END AS R_WRITER, CASE WHEN DELETE_AT='Y' THEN '*삭제된 댓글입니다.' 
+					ELSE R_CONTENT END AS R_CONTENT, R_DATE, DELETE_AT, PARENT_ID FROM (SELECT ROWNUM AS RNUM,
+					TEST_REPLY.* FROM (SELECT * FROM TEST_REPLY WHERE T_ID=8 AND PARENT_ID=0 
+					ORDER BY R_DATE DESC) TEST_REPLY WHERE ROWNUM <= 6) WHERE RNUM > 0 ORDER BY R_DATE DESC                  
+	                  
+select * from test
+select * from test where r_id=14

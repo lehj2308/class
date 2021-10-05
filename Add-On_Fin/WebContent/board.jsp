@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='board' />
 		<!-- MAIN -->
@@ -51,7 +51,7 @@
 						</div>
 						<div class="panel-body">
 							<!-- 공지사항 리스트 -->
-							<table class="table table-striped">
+							<table class="table table-striped aList">
 								<thead>
 									<tr>
 										<th>번호</th>
@@ -75,13 +75,20 @@
 							</table>
 							<!-- 공지사항 리스트 -->
 							<!-- 페이징 버튼 -->
-						<div class="text-center">
-							<c:forEach var="i" begin="0" end="${(pageLen-1)/3}">
+							<div class="text-center">
+								<c:forEach var="i" begin="0" end="${announceLen/2}">
+									<button type="button"
+										onclick="location.href='board.do?announcePageNum=${i}&boardPageNum=${boardPageNum}'"
+										class="label label-primary">${i+1}</button>
+								</c:forEach>
+							</div>
+						<%-- <div class="text-center">
+							<c:forEach var="i" begin="0" end="${announceLen/3}">
 								<button type="button"
 									onclick="location.href='board.do?announcePageNum=${i}&boardPageNum=${boardPageNum}&bTitle=${bTitle}'"
 									class="label label-primary">${i+1}</button>
 							</c:forEach>
-						</div>
+						</div> --%>
 						<!-- 페이징 버튼 END -->
 						</div>
 					</div>
@@ -92,84 +99,82 @@
 						<div class="panel-heading">
 							<h3 class="panel-title">자유게시판</h3>
 						</div>
-						<!-- 정렬 버튼 -->
-						<div class="row">
-							<div class="col-md-4">
-								<button type="button"
-									onclick="location.href='board.do?pageOrder=date&bTitle=${bTitle}'"
-									class="btn btn-primary btn-block">최신순</button>
+						<div class="panel-body">
+							<!-- 정렬 버튼 -->
+							<div class="row">
+								<div class="col-md-4">
+									<button type="button"
+										onclick="location.href='board.do?pageOrder=date&bTitle=${bTitle}'"
+										class="btn btn-primary btn-block">최신순</button>
+								</div>
+								<div class="col-md-4">
+									<button type="button"
+										onclick="location.href='board.do?pageOrder=hit&bTitle=${bTitle}'"
+										class="btn btn-primary btn-block">조회순</button>
+								</div>
+								<div class="col-md-4">
+									<button type="button"
+										onclick="location.href='board.do?pageOrder=reply&bTitle=${bTitle}'"
+										class="btn btn-primary btn-block">댓글순</button>
+								</div>
 							</div>
-							<div class="col-md-4">
-								<button type="button"
-									onclick="location.href='board.do?pageOrder=hit&bTitle=${bTitle}'"
-									class="btn btn-primary btn-block">조회순</button>
-							</div>
-							<div class="col-md-4">
-								<button type="button"
-									onclick="location.href='board.do?pageOrder=reply&bTitle=${bTitle}'"
-									class="btn btn-primary btn-block">댓글순</button>
-							</div>
-						</div>
-						<!-- 정렬 버튼 END -->
-
-						<br> <br>
-						<!-- 검색 및 글쓰기 버튼 -->
-						<div class="row">
-							<div class="col-md-2">
-								<form method="post" action="board.do" name="board">
-									<div class="input-group">
-										<span class="input-group-btn"><button
-												class="btn btn-default" type="submit">검색</button></span> <input
-											class="form-control" type="text" name="bTitle">
-									</div>
-								</form>
-							</div>
-							<div class="col-md-9"></div>
-							<div class="col-md-1">
-								<c:if test="${!empty user}">
-									<button type="button" onclick="location.href='form.jsp'"
-										class="btn btn-default btn-block">글쓰기</button>
-								</c:if>
-							</div>
-						</div>
-						<!-- 검색 및 글쓰기 버튼 END -->
-						<br>
-						<!-- 게시물 리스트 -->
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th>번호</th>
-									<th>테마</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성날짜</th>
-									<th>조회수</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="v" items="${boardList}">
+							<!-- 정렬 버튼 END -->
+							<br> <br>
+							<!-- 검색 및 글쓰기 버튼 -->
+							<form method="post" action="board.do" name="board">
+								<div class="input-group">
+									<span class="input-group-btn">
+									<button	class="btn btn-primary" type="submit">검색</button></span>
+									<input class="form-control searchBox" type="text" name="bTitle">
+									<c:if test="${!empty user}">
+										<span class="input-group-btn">
+											<button type="button" onclick="location.href='form.jsp'"
+												class="btn btn-default box-right">글쓰기</button>
+										</span>
+									</c:if>
+								</div>
+							</form>
+							<!-- 검색 및 글쓰기 버튼 END -->
+							<br>
+							<!-- 게시물 리스트 -->
+							<table class="table table-striped bList">
+								<thead>
 									<tr>
-										<td>${v.bId}</td>
-										<td>${v.bLang}</td>
-										<td><a href="detail.do?bId=${v.bId}">${v.bTitle}</a></td>
-										<td>${v.bWriter}</td>
-										<td>${v.bDate}</td>
-										<td>${v.bHit}</td>
+										<th>번호</th>
+										<th>테마</th>
+										<th>제목</th>
+										<th>작성자</th>
+										<th>작성날짜</th>
+										<th>조회수</th>
+										<th>댓글수</th>
 									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="v" items="${boardList}">
+										<tr>
+											<td>${v.bId}</td>
+											<td>${v.bLang}</td>
+											<td><a href="detail.do?bId=${v.bId}">${v.bTitle}</a></td>
+											<td><a href="myPage.do?selUserNum=${v.userNum}&myList=board">${v.bWriter}</a></td>
+											<td>${v.bDate}</td>
+											<td>${v.bHit}</td>
+											<td>${v.reCnt}</td>
+										</tr>
+									</c:forEach>
+	
+								</tbody>
+							</table>
+							<!-- 게시물 리스트 END -->
+							<!-- 페이징 버튼 -->
+							<div class="text-center">
+								<c:forEach var="i" begin="0" end="${(boardLen-1)/3}">
+									<button type="button"
+										onclick="location.href='board.do?announcePageNum=${announcePageNum}&boardPageNum=${i}&bTitle=${bTitle}&pageOrder=${pageOrder}'"
+										class="label label-primary">${i+1}</button>
 								</c:forEach>
-
-							</tbody>
-						</table>
-						<!-- 게시물 리스트 END -->
-						<!-- 페이징 버튼 -->
-						<div class="text-center">
-							<c:forEach var="i" begin="0" end="${(pageLen-1)/3}">
-								<button type="button"
-									onclick="location.href='board.do?announcePageNum=${announcePageNum}&boardPageNum=${i}&bTitle=${bTitle}'"
-									class="label label-primary">${i+1}</button>
-							</c:forEach>
+							</div>
+							<!-- 페이징 버튼 END -->
 						</div>
-						<!-- 페이징 버튼 END -->
 					</div>
 				</div>
 				<!-- 자유게시판 END -->

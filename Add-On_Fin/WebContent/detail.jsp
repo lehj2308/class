@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='${board.bCtgr}' />
 		<!-- MAIN -->
@@ -59,7 +59,7 @@
 					<div class="panel panel-headline">
 						<div class="panel-heading">
 							<h4 class="text-left">
-								<span class="lnr lnr-home"></span>&nbsp;${board.bWriter}
+								<span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${board.userNum}&myList=${board.bCtgr}">${board.bWriter}</a>
 							</h4>
 							<span class="panel-subtitle text-right">${board.bDate}</span>
 						</div>
@@ -78,7 +78,7 @@
 									type="hidden" name="bLang" value="${board.bLang}"> <input
 									type="hidden" name="bId" value="${board.bId}">
 
-								<c:if test="${board.bWriter==user.id}">
+								<c:if test="${board.userNum==user.userNum}">
 									<button type="submit" class="btn btn-default">글 수정</button>
 								</c:if>
 							</form>
@@ -92,12 +92,12 @@
 						</div>
 						<div class="panel-body">
 							<!-- 댓글작성 -->
-							<c:if test="${!empty user.name}">
+							<c:if test="${!empty user}">
 								<form method="post" action="insertReply.do" name="reply">
 									<input type="hidden" name="userNum" value="${user.userNum}">
-									<input type="hidden" name="bId" value="${board.bId}"> <input
-										type="hidden" name="rWriter" value="${user.id}"> <input
-										type="hidden" name="parentId" value="0">
+									<input type="hidden" name="bId" value="${board.bId}">
+									<input type="hidden" name="rWriter" value="${user.id}">
+									<input type="hidden" name="parentId" value="0">
 									<div class="input-group">
 										<input class="form-control" type="text" name="rContent"
 											required> <span class="input-group-btn"><button
@@ -117,16 +117,19 @@
 											<td class="panel-action">
 												<div class="panel-heading">
 													<form method="post" action="updateReply.do" name="replyUp">
-														<input type="hidden" name="pageNum" value="${pageNum}">
 														<input type="text" class="form-reply" name="rContent"
 															value="${reply.rContent}" required readonly>
 														<div class="right">
-															<c:if test="${reply.rWriter == user.id}">
+															<!-- 댓글 수정 및 삭제 -->
+															<c:if test="${reply.userNum == user.userNum}">
 																<input type="hidden" name="rId" value="${reply.rId}">
+																<input type="hidden" name="bId" value="${board.bId}">
+																<input type="hidden" name="pageNum" value="${pageNum}">
 																<button type="button" class="btn-update">수정하기</button>
 																<input type="submit" class="btn updateBtn" value="수정완료">
 																<button type="button" onclick="replyDel()">삭제하기</button>
 															</c:if>
+															<!-- 댓글 수정 및 삭제 END -->
 															<button type="button" class="btn-toggle-collapse">더보기
 															</button>
 														</div>
@@ -134,13 +137,13 @@
 												</div>
 												<div class="panel-body panel-action-body">
 													<!-- 대댓글 작성 -->
-													<c:if test="${!empty user.name}">
+													<c:if test="${!empty user}">
 														<form method="post" action="insertReply.do" name="rreply">
-															<input type="hidden" name="userNum"
-																value="${user.userNum}"> <input type="hidden"
-																name="bId" value="${board.bId}"> <input
-																type="hidden" name="rWriter" value="${user.id}">
+															<input type="hidden" name="userNum" value="${user.userNum}">
+															<input type="hidden" name="bId" value="${board.bId}">
+															<input type="hidden" name="rWriter" value="${user.id}">
 															<input type="hidden" name="parentId" value="${reply.rId}">
+															<input type="hidden" name="pageNum" value="${pageNum}">
 															<div class="input-group">
 																<input class="form-control" type="text" name="rContent"
 																	required> <span class="input-group-btn"><button
@@ -157,21 +160,19 @@
 																<tr>
 																	<td>${rreply.rWriter}</td>
 																	<td><div class="panel-heading">
-																			<form method="post" action="updateReply.do"
-																				name="rreplyUp">
-																				<input type="hidden" name="pageNum"
-																					value="${pageNum}"> <input type="text"
-																					class="form-reply" name="rContent"
-																					value="${rreply.rContent}" required readonly>
+																			<form method="post" action="updateReply.do" name="rreplyUp">
+																				<input type="text" class="form-reply" name="rContent" value="${rreply.rContent}" required readonly>
 																				<div class="right">
-																					<c:if test="${rreply.rWriter == user.id}">
-																						<input type="hidden" name="rId"
-																							value="${rreply.rId}">
+																					<!-- 대댓글 수정 및 삭제 -->
+																					<c:if test="${rreply.userNum == user.userNum}">
+																						<input type="hidden" name="pageNum" value="${pageNum}">
+																						<input type="hidden" name="rId" value="${rreply.rId}">
+																						<input type="hidden" name="bId" value="${board.bId}">
 																						<button type="button" class="btn-update">수정하기</button>
-																						<input type="submit" class="btn updateBtn"
-																							value="수정완료">
-																						<button type="button" onclick="replyDel()">삭제하기</button>
+																						<input type="submit" class="btn updateBtn" value="수정완료">
+																						<button type="button" onclick="rreplyDel()">삭제하기</button>
 																					</c:if>
+																					<!-- 대댓글 수정 및 삭제 END -->
 																				</div>
 																			</form>
 																		</div></td>
@@ -215,15 +216,24 @@
 	<script src="assets/scripts/klorofil-common.js"></script>
 
 	<script type="text/javascript">
-		/* 댓글 삭제 수정중 function replyDel() {
-				result = confirm("댓글을 삭제하시겠습니까?");
-				if (result == true) {
-					document.edit. = "댓글 삭제";
-					document.edit.submit();
-				} else {
-					return;
-				}
-			} */
+		function replyDel() {
+			result = confirm("댓글을 삭제하시겠습니까?");
+			if (result == true) {
+				document.replyUp.action = "deleteReply.do";
+				document.replyUp.submit();
+			} else {
+				return;
+			}
+		}
+		function rreplyDel() {
+			result = confirm("댓글을 삭제하시겠습니까?");
+			if (result == true) {
+				document.rreplyUp.action = "deleteReply.do";
+				document.rreplyUp.submit();
+			} else {
+				return;
+			}
+		}
 	</script>
 </body>
 

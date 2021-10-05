@@ -11,18 +11,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.action.ActionBoard;
 import controller.action.ActionDelete;
+import controller.action.ActionDeleteReply;
 import controller.action.ActionDeleteTest;
+import controller.action.ActionDeleteTestReply;
+import controller.action.ActionDeleteUser;
 import controller.action.ActionDetail;
 import controller.action.ActionDetailTest;
 import controller.action.ActionForm;
 import controller.action.ActionFormTest;
 import controller.action.ActionInsertReply;
+import controller.action.ActionInsertTestReply;
+import controller.action.ActionJoin;
 import controller.action.ActionLogin;
+import controller.action.ActionMyPage;
 import controller.action.ActionQuestion;
 import controller.action.ActionTest;
 import controller.action.ActionUpdate;
 import controller.action.ActionUpdateReply;
 import controller.action.ActionUpdateTest;
+import controller.action.ActionUpdateTestReply;
+import controller.action.ActionUpdateUser;
 import controller.common.ActionForward;
 
 /**
@@ -114,6 +122,24 @@ public class FrontController extends HttpServlet {
 		} else if (action.equals("/updateReply.do")) {
 			System.out.println("/updateReply.do 실행 중 ");
 			forward = new ActionUpdateReply().execute(request, response);
+		} else if(action.equals("/deleteReply.do")) {
+			forward = new ActionDeleteReply().execute(request, response);
+		} else if (action.equals("/myPage.do"))
+		{
+			forward = new ActionMyPage().execute(request, response);
+			System.out.println("mypage.do if 문 ");
+		} else if (action.equals("/insertTestReply.do")) {
+			forward = new ActionInsertTestReply().execute(request, response);
+		} else if (action.equals("/updateTestReply.do")) {
+			forward = new ActionUpdateTestReply().execute(request, response);
+		} else if (action.equals("/deleteTestReply.do")) {
+			forward = new ActionDeleteTestReply().execute(request, response);
+		} else if (action.equals("/join.do")) {
+			forward = new ActionJoin().execute(request, response);
+		} else if (action.equals("/updateUser.do")) {
+			forward = new ActionUpdateUser().execute(request, response);
+		} else if (action.equals("/deleteUser.do")) {
+			forward = new ActionDeleteUser().execute(request, response);
 		}
 		else {}
 

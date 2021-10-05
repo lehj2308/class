@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='test'/>
 		<!-- MAIN -->
@@ -74,6 +74,7 @@
 									style="resize: none;" required>${param.tAnswer}</textarea>
 								<br>
 								<button type="submit" class="btn btn-default">글 수정</button>
+								<button type="button" class="btn btn-default box-right" onclick="del()">글 삭제</button>
 							</div>
 						</form>
 						</c:if>
@@ -134,6 +135,18 @@
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/scripts/klorofil-common.js"></script>
+
+	<script type="text/javascript">
+		function del() {
+			result = confirm("글을 삭제하시겠습니까?");
+			if (result == true) {
+				document.update.action = "deleteTest.do";
+				document.update.submit();
+			} else {
+				return;
+			}
+		}
+	</script>
 </body>
 
 </html>

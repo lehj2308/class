@@ -43,7 +43,7 @@ public class ActionUpdateTest implements Action{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		System.out.println("ActionUpdateTest");
 		if(testDAO.update(test)) {
 			out.println("<script>alert('글수정이 완료되었습니다!');location.href='detailTest.do?tId="+tId+"'</script>");
 			

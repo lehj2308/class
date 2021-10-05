@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='index' />
 		<!-- MAIN -->
@@ -44,21 +44,22 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<h3 class="page-title">소개 페이지</h3>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-6 introduce">
 							<div class="panel questionBox text-center">
-								<div class="panel-body">
+								<div class="panel-body box">
 									<h1>Question & Answer</h1>
-									<p>회원들 끼리 질문과 답을 주고 받을 수 있는 공간입니다.</p>
-									<p>궁금한것이 있으면 Add-On 회원들에게 물어보세요!</p>
+									<br>
+									<p>회원들과 질문 및 답을 주고 받을 수 있는 공간입니다.</p>
+									<p>궁금한것이 있으면 Add-On회원들에게 물어보세요!</p>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-6 introduce">
 							<div class="panel boardBox text-center">
-								<div class="panel-body">
+								<div class="panel-body box">
 									<h1>자유 게시판</h1>
+									<br>
 									<p>회원들이 자유롭게 이용할 수 있는 공간입니다.</p>
 									<p>원하는 것이 있으면 언제들 올려보아요!</p>
 								</div>
@@ -66,20 +67,24 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6">
-							<div class="panel questionBox">
-								<div class="panel-heading">
-									<h3 class="panel-title">Linearicons</h3>
+						<div class="col-md-6 introduce">
+							<div class="panel testBox text-center">
+								<div class="panel-body box">
+									<h1>코딩 테스트</h1>
+									<br>
+									<p>회원들과 코딩 문제를 내보고 풀어보는 공간입니다.</p>
+									<p>코딩 연습이 필요할 때 이용해보세요!</p>
 								</div>
-								<div class="panel-body"></div>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="panel questionBox">
-								<div class="panel-heading">
-									<h3 class="panel-title">Font Awesome</h3>
+						<div class="col-md-6 introduce">
+							<div class="panel myPageBox text-center">
+								<div class="panel-body box">
+									<h1>마이 페이지</h1>
+									<br>
+									<p>회원 정보, 활동 기록을 볼 수 있는 공간입니다.</p>
+									<p>회원이 무슨 활동을 하였는지 확인할 수 있어요!</p>
 								</div>
-								<div class="panel-body"></div>
 							</div>
 						</div>
 					</div>

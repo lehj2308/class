@@ -1,9 +1,11 @@
 package controller.action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controller.common.Action;
 import controller.common.ActionForward;
@@ -31,19 +33,32 @@ public class ActionDetail implements Action {
 		
 		int bId = Integer.parseInt( request.getParameter("bId"));
 		int pageNum = 0; // ´ñ±Û ÆäÀÌÂ¡
-		int pageLen = 9; // ´ñ±Û °´¼ö
+		int pageLen = 0; // ´ñ±Û °´¼ö
 		if( request.getParameter("pageNum")!=null) {
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 		
 		BoardVO board = new BoardVO();
 		board.setbId(bId);
-		board = boardDAO.getDBData(board); 
+		
+		HttpSession session= request.getSession();
+		
+		if (session.getAttribute("user") !=null) {
+			UsersVO user = (UsersVO) session.getAttribute("user");
+			userVO.setUserNum(user.getUserNum());
+		}
+		
+		board = boardDAO.getDBData(userVO,board); 
 		
 		userVO.setUserNum(0);
 		replyVO.setbId(bId);
 		
-		ArrayList<ReplySet> replySets = replyDAO.getDBList(userVO, replyVO, pageNum);
+		ArrayList<ReplySet> datas = replyDAO.getDBList(replyVO, pageNum);
+		List<ReplySet> replySets = datas.subList(0, datas.size()-1);
+		ReplySet replySet = datas.get(datas.size()-1);
+		pageLen = replySet.getReplyCnt();
+		
+		System.out.println("ActionDetail pageLen"+ pageLen);
 		
 //		for (ReplySet v : replySets) {
 //			ReplyVO rv = v.getRvo();

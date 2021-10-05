@@ -42,8 +42,7 @@
 						<div class="logo text-center">
 							<img src="assets/img/logo.png" alt="Klorofil Logo">
 						</div>
-						<form action="control.jsp" method="post" name="join">
-							<input type="hidden" name="action" value="join">
+						<form action="join.do" method="post" name="join">
 							<div class="form-group">
 								<span>이름</span> <input class="form-control" type="text"
 									name="userName" required>
@@ -65,10 +64,10 @@
 							</div>
 							<div class="form-group">
 								<span>아이콘</span> <br> <input type="radio" name="iconId"
-									value="?" required><span class="lnr lnr-rocket"></span>
-								&nbsp;<input type="radio" name="iconId" value="?"><span
+									value="lnr-rocket" required><span class="lnr lnr-rocket"></span>
+								&nbsp;<input type="radio" name="iconId" value="lnr-magic-wand"><span
 									class="lnr lnr-magic-wand"></span> &nbsp;<input type="radio"
-									name="iconId" value="?"><span class="lnr lnr-heart"></span>
+									name="iconId" value="lnr-heart"><span class="lnr lnr-heart"></span>
 							</div>
 							<div class="form-group">
 								<span>생년월일</span> <input class="form-control" type="date"

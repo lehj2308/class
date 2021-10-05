@@ -2,31 +2,29 @@ package model.test;
 
 import java.util.ArrayList;
 
-public class TestSet { // ´ñ +´ë´ñ
-	private TestReplyVO reply; // ´ñ±Û 1:
-	private ArrayList<TestReplyVO> rrlist = new ArrayList<TestReplyVO>(); // ´ë´ñ±Û N
+public class TestSet {
+	private int testCnt; // test°Ô½Ã±Û  ÀüÃ¼ °¹¼ö
+	private ArrayList<TestVO> tlist = new ArrayList<TestVO>();
 
-	public TestReplyVO getReply() {
-		return reply;
+	public int getTestCnt() {
+		return testCnt;
 	}
 
-	public void setReply(TestReplyVO reply) {
-		this.reply = reply;
+	public void setTestCnt(int testCnt) {
+		this.testCnt = testCnt;
 	}
 
-	public ArrayList<TestReplyVO> getRrlist() {
-		return rrlist;
+	public ArrayList<TestVO> getTlist() {
+		return tlist;
 	}
 
-	public void setRrlist(ArrayList<TestReplyVO> rrlist) {
-		this.rrlist = rrlist;
+	public void setTlist(ArrayList<TestVO> tlist) {
+		this.tlist = tlist;
 	}
 
 	@Override
 	public String toString() {
-		return "TestSet [reply=" + reply + ", rrlist=" + rrlist + "]";
+		return "TestSet [testCnt=" + testCnt + ", tlist=" + tlist + "]";
 	}
 
-	
-	
 }

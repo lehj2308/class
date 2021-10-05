@@ -42,7 +42,7 @@ public class UsersDAO {
 				UsersVO data = new UsersVO();
 				data.setAddr(rs.getString("USER_ADDR"));
 				data.setBirth(rs.getString("USER_BIRTH"));
-				data.setEmail(rs.getString("USER_EMAIL"));
+				data.setEmail(rs.getString("USER_BIRTH"));
 				data.setGender(rs.getString("USER_GENDER"));
 				data.setIconId(rs.getString("ICON_ID"));
 				data.setId(rs.getString("USER_ID"));
@@ -66,44 +66,55 @@ public class UsersDAO {
 	/////////////////////////////////////////////////////////////////////////
 
 	// getDBData
-	public UsersVO getDBData(UsersVO vo) {
-		Connection conn = JNDI.getConnection();
-		UsersVO data = null;
-		PreparedStatement pstmt = null;
+	  public UsersVO getDBData(UsersVO vo) {
+	      Connection conn = JNDI.getConnection();
+	      UsersVO data = null;
+	      PreparedStatement pstmt = null;
+	      String sql_SELECT_ONE;
 
-		//String sql_SELECT_ONE = "SELECT * FROM USERS WHERE USER_NUM=?"; //수정했음
-		String sql_SELECT_ONE = "SELECT * FROM USERS WHERE USER_ID=?";
-		try {
-			pstmt = conn.prepareStatement(sql_SELECT_ONE);
-			//pstmt.setInt(1, vo.getUserNum());
-			pstmt.setString(1, vo.getId());
-			ResultSet rs = pstmt.executeQuery();
+	      try {
 
-			while (rs.next()) {
-				data = new UsersVO();
-				data.setAddr(rs.getString("USER_ADDR"));
-				data.setBirth(rs.getString("USER_BIRTH"));
-				data.setEmail(rs.getString("USER_EMAIL"));
-				data.setGender(rs.getString("USER_GENDER"));
-				data.setIconId(rs.getString("ICON_ID"));
-				data.setId(rs.getString("USER_ID"));
-				data.setUserNum(rs.getInt("USER_NUM"));
-				data.setName(rs.getString("USER_NAME"));
-				data.setPhone(rs.getNString("USER_HP"));
-				data.setPw(rs.getString("USER_PW"));
-				data.setUserNum(rs.getInt("USER_NUM"));
-			}
-			rs.close();
+	         if (vo.getId() == null) { // == UserNum이 넘어올 경우 
+	            sql_SELECT_ONE = "SELECT * FROM USERS WHERE USER_NUM=?";
+	            pstmt = conn.prepareStatement(sql_SELECT_ONE);
+	            pstmt.setInt(1, vo.getUserNum());
+	            //System.out.println("USER_NUM getDBData() 통과");
+	            
 
-		} catch (SQLException e) {
-			System.out.println("UsersDAO-getDBData 오류로깅");
-			e.printStackTrace();
-		} finally {
-			JNDI.disconnect(pstmt, conn);
-		}
-		return data;
+	         } else {  // == ID가 넘어올 경우 
+	            sql_SELECT_ONE = "SELECT * FROM USERS WHERE USER_ID=?";
+	            pstmt = conn.prepareStatement(sql_SELECT_ONE);
+	            pstmt.setString(1, vo.getId());
+	            //System.out.println("USER_ID getDBData() 통과");
+	         }
 
-	}
+	         ResultSet rs = pstmt.executeQuery();
+
+	         while (rs.next()) {
+	            //System.out.println("while문 입장");
+	            data = new UsersVO();
+	            data.setAddr(rs.getString("USER_ADDR"));
+	            data.setBirth(rs.getString("USER_BIRTH"));
+	            data.setEmail(rs.getString("USER_EMAIL"));
+	            data.setGender(rs.getString("USER_GENDER"));
+	            data.setIconId(rs.getString("ICON_ID"));
+	            data.setId(rs.getString("USER_ID"));
+	            data.setName(rs.getString("USER_NAME"));
+	            data.setPhone(rs.getString("USER_HP"));
+	            data.setPw(rs.getString("USER_PW"));
+	            data.setUserNum(rs.getInt("USER_NUM"));
+	         }
+	         rs.close();
+
+	      } catch (SQLException e) {
+	         System.out.println("UsersDAO-getDBData 오류로깅");
+	         e.printStackTrace();
+	      } finally {
+	         JNDI.disconnect(pstmt, conn);
+	      }
+	      return data;
+
+	   }
 
 	/////////////////////////////////////////////////////////////////////////
 
@@ -150,6 +161,7 @@ public class UsersDAO {
 		String sql_UPDATE = "UPDATE USERS SET USER_NAME=?, USER_ID=?, USER_PW=?, USER_HP=?, USER_GENDER=?, "
 				+ "USER_EMAIL=?, USER_ADDR=?, USER_BIRTH=?, ICON_ID=? WHERE USER_NUM=?";
 		try {
+			System.out.println("UserDAO Update 함수 try 문 안");
 			pstmt = conn.prepareStatement(sql_UPDATE);
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getId());

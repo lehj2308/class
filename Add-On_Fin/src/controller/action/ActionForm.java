@@ -42,12 +42,16 @@ public class ActionForm implements Action{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String path= "board.do";
+		if(bCtgr.equals("question")) {
+			path = "question.do";
+		}
 		
 		if(boardDAO.insert(boardVO)) {
-			out.println("<script>alert('글작성이 완료되었습니다!');location.href='board.do'</script>");
+			out.println("<script>alert('글작성이 완료되었습니다!');location.href='"+path+"'</script>");
 			
 		}else {
-			out.println("<script>alert('글작성이 실패했습니다!');location.href='board.do'</script>");
+			out.println("<script>alert('글작성이 실패했습니다!');location.href='"+path+"'</script>");
 
 		}
 		

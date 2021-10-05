@@ -232,3 +232,13 @@ $('.panel .btn-update').click(function(e){
 	$(this).css('display','none');
 	$(this).parents('.panel-heading').find('.updateBtn').css('display','inline-block');
 });
+
+$('.box').mouseover(function(e){
+	e.preventDefault();
+	$(this).animate({opacity:"1"}, 100);
+});
+$('.box').mouseleave(function(e){
+	e.preventDefault();
+	$(this).animate({opacity:"0.5"}, 100);
+});
+

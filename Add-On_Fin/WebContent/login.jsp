@@ -35,7 +35,7 @@
 	<div id="wrapper">
 		<div class="vertical-align-wrap">
 			<div class="vertical-align-middle">
-				<div class="auth-box ">
+				<div class="auth-box login-box">
 					<div class="left">
 						<div class="content">
 							<div class="header">
@@ -54,7 +54,7 @@
 								<div class="form-group">
 									<label for="signin-password" class="control-label sr-only">Password</label>
 									<input type="password" class="form-control"
-										id="signin-password" name="userPw" placeholder="비밀번호">
+										id="signin-password" name="userPw" placeholder="비밀번호" required>
 								</div>
 								<button type="submit" class="btn btn-primary btn-lg btn-block">로그인</button>
 								<div class="bottom">

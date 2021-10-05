@@ -4,34 +4,26 @@ import java.util.ArrayList;
 
 public class BoardSet {
 	
-	// °Ô½Ã±Û °´Ã¼
-	private BoardVO bVO;
-	// ´ñ±Û ¸®½ºÆ®
-	private ArrayList<ReplyVO> rlist = new ArrayList<ReplyVO>();
-	// ´ë´ñ±Û ¸®½ºÆ®
-	private ArrayList<ReplyVO> rrlist = new ArrayList<ReplyVO>();
-	
-	public BoardVO getbVO() {
-		return bVO;
+	private ArrayList<BoardVO> blist = new ArrayList<BoardVO>();
+	private int boardCnt;
+	public ArrayList<BoardVO> getBlist() {
+		return blist;
 	}
-	public void setbVO(BoardVO bVO) {
-		this.bVO = bVO;
+	public void setBlist(ArrayList<BoardVO> blist) {
+		this.blist = blist;
 	}
-	public ArrayList<ReplyVO> getRlist() {
-		return rlist;
+	public int getBoardCnt() {
+		return boardCnt;
 	}
-	public void setRlist(ArrayList<ReplyVO> rlist) {
-		this.rlist = rlist;
-	}
-	public ArrayList<ReplyVO> getRrlist() {
-		return rrlist;
-	}
-	public void setRrlist(ArrayList<ReplyVO> rrlist) {
-		this.rrlist = rrlist;
+	public void setBoardCnt(int boardCnt) {
+		this.boardCnt = boardCnt;
 	}
 	@Override
 	public String toString() {
-		return "BoardSet [bVO=" + bVO + ", ´ñ±Û : " + rlist + ", ´ë´ñ±Û : " + rrlist + "]";
+		return "BoardSet [blist=" + blist + ", boardCnt=" + boardCnt + "]";
 	}
+	
+
+	
 
 }

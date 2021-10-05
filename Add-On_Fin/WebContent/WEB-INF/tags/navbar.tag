@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ attribute name="userName"%>
+<%@ attribute name="userNum"%>
 
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="brand">
@@ -31,7 +32,7 @@
 						data-toggle="dropdown"><span>${userName} 님</span> <i
 							class="icon-submenu lnr lnr-chevron-down"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="myPage.jsp"><i class="lnr lnr-user"></i> <span>My
+							<li><a href="myPage.do?selUserNum=${userNum}&myList=question"><i class="lnr lnr-user"></i> <span>My
 										Profile</span></a></li>
 							<li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
 						</ul></li>

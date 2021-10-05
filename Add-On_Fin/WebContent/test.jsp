@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='test' />
 		<!-- MAIN -->
@@ -70,29 +70,23 @@
 							<!-- 정렬 버튼 END -->
 							<br> <br>
 							<!-- 검색 및 글쓰기 버튼 -->
-							<div class="row">
-								<div class="col-md-2">
-									<form method="post" action="control.jsp" name="test">
-										<input type="hidden" name="action" value="검색">
-										<div class="input-group">
-											<span class="input-group-btn"><button
-													class="btn btn-default" type="submit">검색</button></span> <input
-												class="form-control" type="text" name="tTitle">
-										</div>
-									</form>
-								</div>
-								<div class="col-md-9"></div>
-								<div class="col-md-1">
+							<form method="post" action="test.do" name="test">
+								<div class="input-group">
+									<span class="input-group-btn">
+									<button class="btn btn-default" type="submit">검색</button></span>
+									<input class="form-control searchBox" type="text" name="tTitle">
 									<c:if test="${!empty user}">
-										<button type="button" onclick="location.href='formTest.jsp'"
-											class="btn btn-default btn-block">글쓰기</button>
+										<span class="input-group-btn">
+											<button type="button" onclick="location.href='formTest.jsp'"
+												class="btn btn-default box-right">글쓰기</button>
+										</span>
 									</c:if>
 								</div>
-							</div>
+							</form>
 							<!-- 검색 및 글쓰기 버튼 END -->
 							<br>
 							<!-- 게시물 리스트 -->
-							<table class="table table-striped">
+							<table class="table table-striped tList">
 								<thead>
 									<tr>
 										<th>번호</th>
@@ -101,6 +95,7 @@
 										<th>작성자</th>
 										<th>작성날짜</th>
 										<th>조회수</th>
+										<th>댓글수</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -109,9 +104,10 @@
 											<td>${v.tId}</td>
 											<td>${v.tLang}</td>
 											<td><a href="detailTest.do?tId=${v.tId}">${v.tTitle}</a></td>
-											<td>${v.tWriter}</td>
+											<td><a href="myPage.do?selUserNum=${v.userNum}&myList=test">${v.tWriter}</a></td>
 											<td>${v.tDate}</td>
 											<td>${v.tHit}</td>
+											<td>${v.reCnt}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

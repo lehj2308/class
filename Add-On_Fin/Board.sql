@@ -33,6 +33,7 @@ create table board(
    b_hit int default 0,
    b_lang varchar(20) not null,
    b_count int default 0,
+   re_cnt int default 0,
    constraint board_cons foreign key (user_num) references users(user_num) on delete cascade
 );
 select * from board;
@@ -41,7 +42,8 @@ INSERT INTO BOARD(B_ID, USER_NUM, B_CTGR, B_TITLE, B_CONTENT, B_WRITER, B_LANG) 
 INSERT INTO BOARD(B_ID, USER_NUM, B_CTGR, B_TITLE, B_CONTENT, B_WRITER, B_LANG) VALUES((SELECT NVL(MAX(B_ID), 0)+1 FROM BOARD),2,'question','°Ô½Ã±Û2','°Ô½Ã±Û ³»¿ë2','hong','C');
 INSERT INTO BOARD(B_ID, USER_NUM, B_CTGR, B_TITLE, B_CONTENT, B_WRITER, B_LANG) VALUES((SELECT NVL(MAX(B_ID), 0)+1 FROM BOARD),1,'question','q&A1','what is JSP?','kim','JSP');
 delete from board where b_id = 1;
-
+select * from board_reply
+delete from BOARD_REPLY where r_id=3 or r_id=4
 create table board_reply(
 
    r_id int primary key,
@@ -123,4 +125,35 @@ SELECT R_ID, B_ID, USER_NUM, CASE WHEN DELETE_AT='Y' THEN 'UNKNOWN' ELSE R_WRITE
   INSERT INTO BOARD_REPLY (R_ID, B_ID, USER_NUM, R_CONTENT, R_WRITER, PARENT_ID) VALUES((SELECT NVL(MAX(R_ID), 0)+1 FROM BOARD_REPLY),1,2,'´ñ±Û7','hong',0);
   INSERT INTO BOARD_REPLY (R_ID, B_ID, USER_NUM, R_CONTENT, R_WRITER, PARENT_ID) VALUES((SELECT NVL(MAX(R_ID), 0)+1 FROM BOARD_REPLY),1,2,'´ñ±Û8','hong',0);
   INSERT INTO BOARD_REPLY (R_ID, B_ID, USER_NUM, R_CONTENT, R_WRITER, PARENT_ID) VALUES((SELECT NVL(MAX(R_ID), 0)+1 FROM BOARD_REPLY),1,2,'´ñ±Û9','hong',0);
-		
+  
+  alter table board rename column b_count to re_cnt
+  SELECT COUNT(*) FROM BOARD_REPLY WHERE B_ID=14 AND PARENT_ID=0
+  SELECT COUNT(*) FROM BOARD_REPLY WHERE B_ID=14 AND PARENT_ID=0
+  select * from board
+  UPDATE BOARD SET RE_CNT = RE_CNT-1 WHERE B_ID=0
+  select * from board_reply
+ SELECT R_ID, B_ID, USER_NUM, 
+			CASE WHEN DELETE_AT='Y' THEN 'unknown' ELSE R_WRITER END AS R_WRITER, 
+			CASE WHEN DELETE_AT='Y' THEN '*»èÁ¦µÈ ´ñ±ÛÀÔ´Ï´Ù.' ELSE R_CONTENT END AS R_CONTENT , 
+			R_DATE, DELETE_AT, PARENT_ID FROM (
+			SELECT ROWNUM AS RNUM, BOARD_REPLY.* FROM (
+			SELECT * FROM BOARD_REPLY WHERE USER_NUM=1 AND DELETE_AT='N' ORDER BY R_DATE DESC
+			) BOARD_REPLY WHERE ROWNUM<=6
+			) WHERE RNUM > 3 ORDER BY R_DATE DESC
+			
+	select * from board		
+update board_reply set delete_at = 'N';
+SELECT * FROM (
+	                     SELECT ROWNUM AS RNUM, BOARD.* FROM (
+	                     SELECT * FROM BOARD WHERE USER_NUM=1 AND B_CTGR ='board' AND B_TITLE LIKE '%'||''||'%' ORDER BY B_DATE DESC
+	                     ) BOARD WHERE ROWNUM <= 4
+	                     ) WHERE RNUM > 0 ORDER BY '%' DESC;
+	                    
+select * from users
+delete from users where user_num=4
+
+	         SELECT * FROM (
+	                     SELECT ROWNUM AS RNUM, BOARD.* FROM (
+	                     SELECT * FROM BOARD WHERE USER_NUM=1 AND B_TITLE LIKE '%'||''||'%' AND B_CTGR ='board' ORDER BY RE_CNT DESC, B_DATE DESC
+	                     ) BOARD WHERE ROWNUM <= 4
+	                     ) WHERE RNUM > 0 ORDER BY RE_CNT DESC

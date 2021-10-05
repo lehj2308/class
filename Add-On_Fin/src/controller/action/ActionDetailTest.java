@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Encoder.TextStream;
 
 import controller.common.Action;
 import controller.common.ActionForward;
 import model.test.TestDAO;
 import model.test.TestReplyDAO;
+import model.test.TestReplySet;
 import model.test.TestReplyVO;
 import model.test.TestSet;
 import model.test.TestVO;
@@ -23,12 +26,12 @@ public class ActionDetailTest implements Action{
 		TestReplyDAO testReplyDAO = new TestReplyDAO();
 		TestVO test = new TestVO();
 		TestReplyVO reply = new TestReplyVO();
-		UsersVO user = new UsersVO();
+		UsersVO user =null;
 		
-		ArrayList<TestSet> testSets = null;
+		ArrayList<TestReplySet> testReplySets = null; // 대글및 대댓글 세트 리트
 		
 		int pageNum = 0; // 댓글 페이징 
-		int pageLen = 7;
+		int pageLen = 0; // 댓글 전체 개수
 		if(request.getParameter("pageNum") !=null) {
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
@@ -36,14 +39,25 @@ public class ActionDetailTest implements Action{
 		int tId = Integer.parseInt(request.getParameter("tId"));
 		test.settId(tId);
 		
-		test = testDAO.getDBData(test);
+		
+		HttpSession session= request.getSession();
+		
+		user = (UsersVO) session.getAttribute("user");
+		if ( session.getAttribute("user")==null) {
+			user = new UsersVO();
+			user.setId("");
+		}
+		
+		test = testDAO.getDBData(test,user); // 조회수 증가를 위한 user
 		
 		reply.settId(tId);
-		user.setUserNum(0);
+		UsersVO Uvo = new UsersVO();
+		Uvo.setUserNum(0);
 		
-		testSets = testReplyDAO.selectAll(user, pageNum, reply);
-		
-		
+		testReplySets = testReplyDAO.getDBList( pageNum, reply);
+		if (testReplySets.size() != 0) {
+		pageLen = testReplySets.get(0).getTestReCnt();
+		}
 		
 //		int hit = test.gettHit();  비지니스 메서드로 대체 
 //		test.settHit(++hit);
@@ -51,8 +65,9 @@ public class ActionDetailTest implements Action{
 //			System.out.println("조회수 증가!");
 //		}
 		request.setAttribute("test", test);
-		request.setAttribute("testSets", testSets);
+		request.setAttribute("testReplySets", testReplySets);
 		request.setAttribute("pageLen", pageLen);
+		request.setAttribute("pageNum", pageNum);
 		
 		
 		

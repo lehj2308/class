@@ -41,11 +41,11 @@ public class ActionLogin implements Action {
 			
 		}
 		userVO = userDAO.getDBData(userVO); //로그인 성공시 유저 데이터를 모두 가져옴
-		
+		System.out.println("로그인 성공 UserVO : "+userVO);
 		HttpSession session =request.getSession();
 		session.setAttribute("user", userVO);
 		forward = new ActionForward();
-		forward.setPath("board.do"); // 나중에 수정해야 함! 이전 페이지로 갈 수 있도록!
+		forward.setPath("index.jsp"); // 나중에 수정해야 함! 이전 페이지로 갈 수 있도록!
 		forward.setRedirect(false);
 				
 		

@@ -35,10 +35,10 @@ public class ActionDelete implements Action{
 		}
 		
 		if(boardDAO.delete(board)) {
-			out.println("<script>alert('삭제가 완료되었습니다!');location.href='index.jsp'</script>");
+			out.println("<script>alert('삭제가 완료되었습니다!');location.href='index.jsp'</script>"); // 어디로 갈지 정해야함!
 			
 		}else {
-			out.println("<script>alert('삭제가 실패했습니다!');location.href='index.jsp'</script>");
+			out.println("<script>alert('삭제가 실패했습니다!');location.href='index.jsp'</script>"); // 어지로 갈지 정해야 함!
 
 		}
 		

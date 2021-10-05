@@ -16,7 +16,7 @@ public class ActionUpdate implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		response.setContentType("text.html; charset=UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		ActionForward forward = null;
 		
 		BoardDAO boardDAO= new BoardDAO();

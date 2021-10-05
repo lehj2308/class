@@ -16,6 +16,7 @@ import java.util.Date;
  * */
 
 public class TestReplyVO { // Å×½ºÆ® ´ñ±Û
+
 	private int rId;
 	private int tId;
 	private int userNum;
@@ -91,8 +92,11 @@ public class TestReplyVO { // Å×½ºÆ® ´ñ±Û
 
 	@Override
 	public String toString() {
-		return "ReplyVO [rId=" + rId + ", tId=" + tId + ", userNum=" + userNum + ", rContent=" + rContent + ", rDate="
-				+ rDate + ", deleteAt=" + deleteAt + ", rWriter=" + rWriter + ", parentId=" + parentId + "]";
+		return "TestReplyVO [rId=" + rId + ", tId=" + tId + ", userNum=" + userNum + ", rContent=" + rContent
+				+ ", rDate=" + rDate + ", deleteAt=" + deleteAt + ", rWriter=" + rWriter + ", parentId=" + parentId
+				+ "]";
 	}
+
+	
 
 }

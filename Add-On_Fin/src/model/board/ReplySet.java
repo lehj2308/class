@@ -8,6 +8,7 @@ public class ReplySet {
 	private ReplyVO rvo;
 	// 대댓글 리스트
 	private ArrayList<ReplyVO> rrlist = new ArrayList<ReplyVO>();
+	private int replyCnt;
 	
 	public ReplyVO getRvo() {
 		return rvo;
@@ -21,11 +22,18 @@ public class ReplySet {
 	public void setRrlist(ArrayList<ReplyVO> rrlist) {
 		this.rrlist = rrlist;
 	}
+	public int getReplyCnt() {
+		return replyCnt;
+	}
+	public void setReplyCnt(int replyCnt) {
+		this.replyCnt = replyCnt;
+	}
 	
 	@Override
 	public String toString() {
-		return "ReplySet [rvo=" + rvo + ", rrlist=" + rrlist + "]";
+		return "ReplySet [rvo=" + rvo + ", rrlist=" + rrlist + ", repltCnt=" + replyCnt + "]";
 	}
+	
 	
 	
 }

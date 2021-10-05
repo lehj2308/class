@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='question' />
 		<!-- MAIN -->
@@ -71,24 +71,19 @@
 
 							<br> <br>
 							<!-- 검색 및 글쓰기 버튼 -->
-							<div class="row">
-								<div class="col-md-2">
-									<form method="post" action="question.do" name="board">
-										<div class="input-group">
-											<span class="input-group-btn"><button
-													class="btn btn-default" type="submit">검색</button></span> <input
-												class="form-control" type="text" name="bTitle">
-										</div>
-									</form>
-								</div>
-								<div class="col-md-9"></div>
-								<div class="col-md-1">
-									<c:if test="${!empty user}">
+							<form method="post" action="question.do" name="question">
+								<div class="input-group">
+									<span class="input-group-btn">
+									<button class="btn btn-primary" type="submit">검색</button></span>
+									<input class="form-control searchBox" type="text" name="bTitle">
+								<c:if test="${!empty user}">
+									<span class="input-group-btn">
 										<button type="button" onclick="location.href='form.jsp'"
-											class="btn btn-default btn-block">글쓰기</button>
-									</c:if>
+											class="btn btn-default box-right">글쓰기</button>
+									</span>
+								</c:if>
 								</div>
-							</div>
+							</form>
 							<!-- 검색 및 글쓰기 버튼 END -->
 						</div>
 					</div>
@@ -99,7 +94,7 @@
 								<div class="col-md-2">
 									<div class="panel-body text-center">
 										<h4>
-											<br> <span class="lnr lnr-home"></span>&nbsp;${v.bWriter}
+											<br> <span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${v.userNum}&myList=question">${v.bWriter}</a>
 										</h4>
 										<span class="panel-subtitle">${v.bDate}</span>
 									</div>
@@ -122,7 +117,7 @@
 										<h2>${v.bHit}</h2>
 										<hr>
 										<h3>댓글수</h3>
-										<h2>${v.bCnt}</h2>
+										<h2>${v.reCnt}</h2>
 									</div>
 								</div>
 							</div>
