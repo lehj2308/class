@@ -17,9 +17,9 @@ public class TBoardServiceImpl implements TBoardService{
 	@Override
 	public void insertTBoard(TBoardVO vo) {
 		/*if(vo.getId()==0) {
-			throw new ArithmeticException();
-			// 런타임 예외(실행시에 발생, 체크되는 예외)
-		}*/
+	         throw new IllegalArgumentException("id PK : 0 불가능!");
+	         // 런타임 예외(실행시에 발생,체크되는 예외)
+	      }*/
 		tBoardDAO.insertTBoard(vo);
 	}
 

@@ -18,16 +18,14 @@
 	<aop:config>
 		<aop:pointcut expression="execution(* model.tBoard.*Impl.get*(..))"  id="aPointcut"/>
 		<aop:pointcut expression="execution(* model.tBoard.*Impl.*(..))"  id="bPointcut"/>
+		<aop:pointcut expression="execution(* model.tMember.*Impl.get*(..))"  id="cPointcut"/>
 		
-		<aop:aspect ref="aAdvice">
-			<aop:after method="printLog" pointcut-ref="bPointcut" />
-		</aop:aspect>
-		<aop:aspect ref="arAdvice">
-			<aop:after-returning method="printLog" pointcut-ref="aPointcut" />
-		</aop:aspect>
-		<aop:aspect ref="atAdvice">
-			<aop:after-throwing method="printLog" pointcut-ref="bPointcut" />
-		</aop:aspect>
+		<!-- <aop:aspect ref="arAdvice">
+			<aop:after-returning method="printLog" pointcut-ref="cPointcut" returning="obj" />
+		</aop:aspect> -->
+		<!-- <aop:aspect ref="atAdvice">
+			<aop:after-throwing method="printLog" pointcut-ref="bPointcut" throwing="excep" />
+		</aop:aspect> -->
 		<aop:aspect ref="aroundAdvice">
 			<aop:around method="printLog" pointcut-ref="bPointcut" />
 		</aop:aspect>

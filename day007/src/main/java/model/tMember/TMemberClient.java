@@ -1,7 +1,5 @@
 package model.tMember;
 
-import java.util.List;
-
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
@@ -11,14 +9,20 @@ public class TMemberClient {
 
 		AbstractApplicationContext factory = new GenericXmlApplicationContext("applicationContext.xml");
 
-		TMemberService bs = (TMemberService) factory.getBean("tMemberService");
+		TMemberService ms=(TMemberService)factory.getBean("tMemberService");
+		
+		TMemberVO vo=new TMemberVO();
+		vo.setId("admin");
+		vo.setPassword("1234");
+		TMemberVO data=ms.getTMember(vo);
 
-		TMemberVO vo = new TMemberVO();
-
-		List<TMemberVO> datas = bs.getTMemberList(vo);
-
-		for (TMemberVO data : datas) {
-			System.out.println(data);
+		if(data!=null) {
+			// 로그인 성공
+			System.out.println("로그인 성공!");
+		}
+		else {
+			// 로그인 실패
+			System.out.println("로그인 실패!");
 		}
 
 		factory.close();
