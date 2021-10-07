@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lee.app.common.LogPlusAdvice;
-
 @Service("tBoardService")
 public class TBoardServiceImpl implements TBoardService{
 
@@ -18,6 +16,10 @@ public class TBoardServiceImpl implements TBoardService{
 	
 	@Override
 	public void insertTBoard(TBoardVO vo) {
+		/*if(vo.getId()==0) {
+			throw new ArithmeticException();
+			// 런타임 예외(실행시에 발생, 체크되는 예외)
+		}*/
 		tBoardDAO.insertTBoard(vo);
 	}
 

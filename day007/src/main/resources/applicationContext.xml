@@ -10,12 +10,26 @@
 	<context:component-scan base-package="model"/>
 	
 	<bean class="com.lee.app.common.LogAdvice" id="Log" />
+	<bean class="com.lee.app.common.AfterAdvice" id="aAdvice" />
+	<bean class="com.lee.app.common.AfterReturningAdvice" id="arAdvice" />
+	<bean class="com.lee.app.common.AfterThrowingAdvice" id="atAdvice" />
+	<bean class="com.lee.app.common.AroundAdvice" id="aroundAdvice" />
 	
 	<aop:config>
-		<aop:pointcut expression="execution(* model.tBoard.*Impl.*(..))"  id="aPointcut"/>
+		<aop:pointcut expression="execution(* model.tBoard.*Impl.get*(..))"  id="aPointcut"/>
+		<aop:pointcut expression="execution(* model.tBoard.*Impl.*(..))"  id="bPointcut"/>
 		
-		<aop:aspect ref="Log">
-			<aop:before method="printLog" pointcut-ref="aPointcut" />
+		<aop:aspect ref="aAdvice">
+			<aop:after method="printLog" pointcut-ref="bPointcut" />
+		</aop:aspect>
+		<aop:aspect ref="arAdvice">
+			<aop:after-returning method="printLog" pointcut-ref="aPointcut" />
+		</aop:aspect>
+		<aop:aspect ref="atAdvice">
+			<aop:after-throwing method="printLog" pointcut-ref="bPointcut" />
+		</aop:aspect>
+		<aop:aspect ref="aroundAdvice">
+			<aop:around method="printLog" pointcut-ref="bPointcut" />
 		</aop:aspect>
 	</aop:config>
 	
