@@ -11,8 +11,8 @@
 						<li><a href="index.jsp" class="active"><i
 								class="lnr lnr-home"></i> <span>메인 페이지</span></a></li>
 						<li><a href="question.do" class=""><i
-								class="lnr lnr-code"></i> <span>Q & A</span></a></li>
-						<li><a href="board.do" class=""><i class="lnr lnr-code"></i>
+								class="lnr lnr-question-circle"></i> <span>Q & A</span></a></li>
+						<li><a href="board.do" class=""><i class="lnr lnr-dice"></i>
 								<span>자유 게시판</span></a></li>
 						<li><a href="test.do" class=""><i class="lnr lnr-code"></i>
 								<span>코딩 테스트</span></a></li>
@@ -22,8 +22,8 @@
 						<li><a href="index.jsp" class=""><i
 								class="lnr lnr-home"></i> <span>메인 페이지</span></a></li>
 						<li><a href="question.do" class="active"><i
-								class="lnr lnr-code"></i> <span>Q & A</span></a></li>
-						<li><a href="board.do" class=""><i class="lnr lnr-code"></i>
+								class="lnr lnr-question-circle"></i> <span>Q & A</span></a></li>
+						<li><a href="board.do" class=""><i class="lnr lnr-dice"></i>
 								<span>자유 게시판</span></a></li>
 						<li><a href="test.do" class=""><i class="lnr lnr-code"></i>
 								<span>코딩 테스트</span></a></li>
@@ -33,8 +33,8 @@
 						<li><a href="index.jsp" class=""><i
 								class="lnr lnr-home"></i> <span>메인 페이지</span></a></li>
 						<li><a href="question.do" class=""><i
-								class="lnr lnr-code"></i> <span>Q & A</span></a></li>
-						<li><a href="board.do" class="active"><i class="lnr lnr-code"></i>
+								class="lnr lnr-question-circle"></i> <span>Q & A</span></a></li>
+						<li><a href="board.do" class="active"><i class="lnr lnr-dice"></i>
 								<span>자유 게시판</span></a></li>
 						<li><a href="test.do" class=""><i class="lnr lnr-code"></i>
 								<span>코딩 테스트</span></a></li>
@@ -44,8 +44,8 @@
 						<li><a href="index.jsp" class=""><i
 								class="lnr lnr-home"></i> <span>메인 페이지</span></a></li>
 						<li><a href="question.do" class=""><i
-								class="lnr lnr-code"></i> <span>Q & A</span></a></li>
-						<li><a href="board.do" class=""><i class="lnr lnr-code"></i>
+								class="lnr lnr-question-circle"></i> <span>Q & A</span></a></li>
+						<li><a href="board.do" class=""><i class="lnr lnr-dice"></i>
 								<span>자유 게시판</span></a></li>
 						<li><a href="test.do" class="active"><i class="lnr lnr-code"></i>
 								<span>코딩 테스트</span></a></li>
@@ -55,8 +55,8 @@
 						<li><a href="index.jsp" class=""><i
 								class="lnr lnr-home"></i> <span>메인 페이지</span></a></li>
 						<li><a href="question.do" class=""><i
-								class="lnr lnr-code"></i> <span>Q & A</span></a></li>
-						<li><a href="board.do" class=""><i class="lnr lnr-code"></i>
+								class="lnr lnr-question-circle"></i> <span>Q & A</span></a></li>
+						<li><a href="board.do" class=""><i class="lnr lnr-dice"></i>
 								<span>자유 게시판</span></a></li>
 						<li><a href="test.do" class=""><i class="lnr lnr-code"></i>
 								<span>코딩 테스트</span></a></li>

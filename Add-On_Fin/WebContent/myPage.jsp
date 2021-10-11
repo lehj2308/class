@@ -69,89 +69,55 @@
 										</ul>
 									</div>
 									<div class="text-center">
-										<a href="#" class="btn btn-primary">프로필 수정하기</a>
+										<c:if test="${selUser.userNum==user.userNum}">
+										<a href="join.jsp" class="btn btn-primary">프로필 수정하기</a>
+										</c:if>
 									</div>
 									<br>
 									<!-- 댓글 리스트 -->
 									<div class="custom-tabs-line tabs-line-bottom left-aligned">
-									<ul class="nav" role="tablist">
-										<li class="active"><a href="#tab-bottom-left1" role="tab" data-toggle="tab">Q & A, 자유게시판</a></li>
-										<li><a href="#tab-bottom-left2" role="tab" data-toggle="tab">코딩 테스트</a></li>
-										<li><a href="#tab-bottom-left3" role="tab" data-toggle="tab">코딩</a></li>
-									</ul>
+										<ul class="nav">
+											<li><a href="myPage.do?myListCtgr=test&selUserNum=${selUser.userNum}&replyCtgr=reply">자유게시판 and Q&A 댓글</a></li>
+											<li><a href="myPage.do?myListCtgr=test&selUserNum=${selUser.userNum}&replyCtgr=testReply"> 코딩 테스트 </a></li>
+										</ul>
 									</div>
-									<div class="tab-content">
-										<!-- Q & A, 자유게시판 댓글 리스트 -->
-										<div class="tab-pane fade in active" id="tab-bottom-left1">
-											<table class="table table-condensed">
-												<thead>
-													<tr>
-														<th>내용</th>
-														<th>작성날짜1</th>
-													</tr>
-												</thead>
-												<%-- 
-												<c:forEach var="v" items="${댓글 리스트}">
-													<tr>
-														<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.rTitle}</a></td>
-														<td>${v.rDate}</td>
-													</tr>
-												</c:forEach>
-												 --%>
-												</tbody>
-											</table>
-											<div class="text-center">
-												<a href="#" class="btn btn-default">더보기</a>
-											</div>
-										</div>
-										<!-- Q & A, 자유게시판 댓글 리스트 END -->
-										<!-- 코딩테스트 댓글 리스트 -->
-										<div class="tab-pane fade" id="tab-bottom-left2">
-											<table class="table table-condensed">
-												<thead>
-													<tr>
-														<th>내용</th>
-														<th>작성날짜2</th>
-													</tr>
-												</thead>
-												<%-- 
-												<c:forEach var="v" items="${댓글 리스트}">
-													<tr>
-														<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.rTitle}</a></td>
-														<td>${v.rDate}</td>
-													</tr>
-												</c:forEach>
-												 --%>
-												</tbody>
-											</table>
-											<div class="text-center">
-												<a href="#" class="btn btn-default">더보기</a>
-											</div>
-										</div>
-										<div class="tab-pane fade" id="tab-bottom-left3">
-											<table class="table table-condensed">
-												<thead>
-													<tr>
-														<th>내용</th>
-														<th>작성날짜3</th>
-													</tr>
-												</thead>
-												<%-- 
-												<c:forEach var="v" items="${댓글 리스트}">
-													<tr>
-														<td><a href="control.jsp?action='게시판글보기'&bId=${v.bId}">${v.rTitle}</a></td>
-														<td>${v.rDate}</td>
-													</tr>
-												</c:forEach>
-												 --%>
-												</tbody>
-											</table>
-											<div class="text-center">
-												<a href="#" class="btn btn-default">더보기</a>
-											</div>
-										</div>
-										<!-- 코딩테스트 댓글 리스트 END -->
+									<table class="table table-condensed">
+										<thead>
+											<tr>
+												<th>내용</th>
+												<th>작성날짜</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:choose>
+												<c:when test="${param.replyCtgr=='testReply'}">
+													<c:forEach var="testReply" items="${myTestReplies}">
+														<tr>
+															<td><a href="detailTest.do?tId=${testReply.tId}">${testReply.rContent}</a></td>
+															<td>${testReply.tDate}</td>
+														</tr>
+													</c:forEach>
+												</c:when>
+												<c:otherwise>
+													<c:forEach var="v" items="${myReplies}">
+														<tr>
+															<td><a href="detail.do?bId=${v.bId}">${v.rContent}</a></td>
+															<td>${v.bDate}</td>
+														</tr>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+										</tbody>
+									</table>
+									<!-- 페이징 버튼 -->
+									<div class="text-center">
+										<c:forEach var="i" begin="0" end="${(pageLen-1)/3}">
+											<button type="button"
+												onclick="location.href='myPage.do?selUserNum=${selUser.userNum}&myList=${param.myList}&myReplies=${param.myReplies}&pageNum=${i}'"
+												class="label label-primary">${i+1}</button>
+										</c:forEach>
 									</div>
+									<!-- 페이징 버튼 END -->
 									<!-- 댓글 리스트 END -->
 								</div>
 								<!-- 내 정보 END -->
@@ -162,9 +128,9 @@
 								<!-- 게시물 종류 버튼 -->
 								<div class="custom-tabs-line tabs-line-bottom left-aligned">
 									<ul class="nav">
-										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=question">Q & A</a></li>
-										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=board">게시글</a></li>
-										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=test">코딩문제</a></li>
+										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=question&myReplies=${param.myReplies}&pageNum=${param.pageNum}">Q & A</a></li>
+										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=board&myReplies=${param.myReplies}&pageNum=${param.pageNum}">게시글</a></li>
+										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=test&myReplies=${param.myReplies}&pageNum=${param.pageNum}">코딩문제</a></li>
 									</ul>
 								</div>
 								<!-- 게시물 종류 버튼 END -->
@@ -185,7 +151,7 @@
 														<tr>
 															<td>${v.tId}</td>
 															<td><a
-																href="detail.do?bId=${v.tId}">${v.tTitle}</a></td>
+																href="detailTest.do?tId=${v.tId}">${v.tTitle}</a></td>
 															<td>${v.tDate}</td>
 														</tr>
 													</c:forEach>
@@ -195,7 +161,7 @@
 														<tr>
 															<td>${v.bId}</td>
 															<td><a
-																href="detailTest.do?bId=${v.bId}">${v.bTitle}</a></td>
+																href="detail.do?bId=${v.bId}">${v.bTitle}</a></td>
 															<td>${v.bDate}</td>
 														</tr>
 													</c:forEach>
@@ -204,7 +170,7 @@
 										</tbody>
 									</table>
 									<div class="text-center">
-										<a href="#" class="btn btn-default">더보기</a>
+										<a href="${param.myList}.do?selUserNum=${selUser.userNum}" class="btn btn-default">더보기</a>
 									</div>
 								</div>
 								<!-- 게시물 리스트 END -->

@@ -58,6 +58,7 @@ public class ActionBoard implements Action{
 		ArrayList<BoardVO> announceList = bset.getBlist();
 		announceLen = bset.getBoardCnt();
 		
+		
 		if (request.getParameter("pageOrder") !=null) {
 			pageOrder = request.getParameter("pageOrder");
 		}
@@ -83,7 +84,7 @@ public class ActionBoard implements Action{
 		
 		forward = new ActionForward();
 		forward.setPath("board.jsp");
-		if (request.getParameter("myList") !=null) {
+		if (request.getParameter("myListCtgr") !=null) {
 			System.out.println("ActionBoard 클래스 mypage 가는 중 ");
 			forward.setPath("myPage.jsp");
 			request.setAttribute("myList", boardList);

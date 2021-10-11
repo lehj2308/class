@@ -96,6 +96,7 @@
 										<th>작성날짜</th>
 										<th>조회수</th>
 										<th>댓글수</th>
+										<th>평점</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -104,10 +105,11 @@
 											<td>${v.tId}</td>
 											<td>${v.tLang}</td>
 											<td><a href="detailTest.do?tId=${v.tId}">${v.tTitle}</a></td>
-											<td><a href="myPage.do?selUserNum=${v.userNum}&myList=test">${v.tWriter}</a></td>
+											<td><a href="myPage.do?selUserNum=${v.userNum}&myListCtgr=test">${v.tWriter}</a></td>
 											<td>${v.tDate}</td>
 											<td>${v.tHit}</td>
 											<td>${v.reCnt}</td>
+											<td>${v.tRating}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

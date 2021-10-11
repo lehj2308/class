@@ -24,17 +24,17 @@ public class ActionMyPage implements Action {
 		
 		ActionForward forward = new ActionForward();
 		
-		String myList = "question" ;//초기값 
+		String myListCtgr = "question" ;//초기값 
 		
-		if (request.getParameter("myList")!=null) {
+		if (request.getParameter("myListCtgr")!=null) {
 			
-			myList = request.getParameter("myList");
+			myListCtgr = request.getParameter("myListCtgr");
 		};
 		
 		String path="";
-		if (myList.equals("test")) {
+		if (myListCtgr.equals("test")) {
 			path += "test.do";
-		} else if (myList.equals("board")) {
+		} else if (myListCtgr.equals("board")) {
 			path +="board.do";
 			
 		}else {
@@ -45,7 +45,7 @@ public class ActionMyPage implements Action {
 		forward.setPath(path);
 		forward.setRedirect(false);
 		 // 마이페이지 댓글 부분! 
-		int pageNum=0;
+		int replyPageNum=0;
 		int userNum = Integer.parseInt(request.getParameter("selUserNum")) ;
 		HttpSession session= request.getSession();
 		UsersVO user =(UsersVO) session.getAttribute("user"); // 로그인한 계정
@@ -70,27 +70,40 @@ public class ActionMyPage implements Action {
 		}
 		// 본인의 페이지 접근 했을 때  댓글 리스트를 전달! ------------------------------------------------
 		
-		if (request.getParameter("pageNum") !=null) {
-			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		if (request.getParameter("replyPageNum") !=null) {
+			replyPageNum = Integer.parseInt(request.getParameter("replyPageNum"));
 		}
+
+		String replyCtgr ="reply";
+		int replyLen=0;
+		
+		if (request.getParameter("replyCtgr") !=null) {
+			replyCtgr = request.getParameter("replyCtgr");
+		}
+		
+		if (replyCtgr.equals("reply")) {
 		ReplyDAO replyDAO = new ReplyDAO();
-		MyReplySet myReplySet = replyDAO.myReply(user, pageNum);
+		MyReplySet myReplySet = replyDAO.myReply(user, replyPageNum);
 		ArrayList<ReplyVO> myReplies =  myReplySet.getRlist();
-	//	int replyLen = myReplySet.getReplyCnt();
+		replyLen = myReplySet.getReplyCnt();
 		
 		request.setAttribute("myReplies", myReplies);
-	//	request.setAttribute("replyLen", replyLen);
+		
 	//	System.out.println("ActionMyPage replyLen : "+replyLen);
-		request.setAttribute("selUser", user);
+		}
+		else if(replyCtgr.equals("testReply")) {
 		
 		TestReplyDAO testReplyDAO = new TestReplyDAO();
-		TestMySet testMySet = testReplyDAO.myReply(user, pageNum);
+		TestMySet testMySet = testReplyDAO.myReply(user, replyPageNum);
 		ArrayList<TestReplyVO> myTestReplies = testMySet.getRlist();
-		int replyLen = testMySet.getTestRecnt();
+		replyLen = testMySet.getTestRecnt();
 		request.setAttribute("myTestReplies", myTestReplies);
+		
+	//	request.setAttribute("myListCtgr", myListCtgr); // 마이메이지 글 카테고리
+		}
+		request.setAttribute("replyPageNum", replyPageNum);
 		request.setAttribute("replyLen", replyLen);
-		
-		
+		request.setAttribute("selUser", user);
 		
 		
 		

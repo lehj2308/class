@@ -45,6 +45,7 @@
 			<div class="main-content">
 				<div class="container-fluid">
 					<!-- 공지사항 -->
+					<c:if test="${empty param.selUserNum}">
 					<div class="panel">
 						<div class="panel-heading">
 							<h3 class="panel-title">공지 사항</h3>
@@ -73,7 +74,7 @@
 									</c:forEach>
 								</tbody>
 							</table>
-							<!-- 공지사항 리스트 -->
+							<!-- 공지사항 리스트 END -->
 							<!-- 페이징 버튼 -->
 							<div class="text-center">
 								<c:forEach var="i" begin="0" end="${announceLen/2}">
@@ -92,6 +93,7 @@
 						<!-- 페이징 버튼 END -->
 						</div>
 					</div>
+					</c:if>
 					<!-- 공지사항 END-->
 					<br>
 					<!-- 자유게시판 -->
@@ -155,7 +157,7 @@
 											<td>${v.bId}</td>
 											<td>${v.bLang}</td>
 											<td><a href="detail.do?bId=${v.bId}">${v.bTitle}</a></td>
-											<td><a href="myPage.do?selUserNum=${v.userNum}&myList=board">${v.bWriter}</a></td>
+											<td><a href="myPage.do?selUserNum=${v.userNum}&myListCtgr=board">${v.bWriter}</a></td>
 											<td>${v.bDate}</td>
 											<td>${v.bHit}</td>
 											<td>${v.reCnt}</td>

@@ -67,7 +67,7 @@ public class ActionQuestion implements Action {
 		
 		
 		forward.setPath("question.jsp");
-		if (request.getParameter("myList") !=null) {
+		if (request.getParameter("myListCtgr") !=null) {
 			System.out.println("ActionQuestion mypage.jsp °¡´Â Áß");
 			forward.setPath("myPage.jsp");
 			request.setAttribute("myList", questions);

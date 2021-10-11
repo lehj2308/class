@@ -67,7 +67,7 @@ public class ActionUpdateUser implements Action {
 		
 		String url="myPage.do?"
 				+ "selUserNum="+userNum
-				+ "&myList=board";
+				+ "&myListCtgr=board";
 		if (usersDAO.update(usersVO)) {
 			HttpSession session = request.getSession();
 			UsersVO user = (UsersVO) session.getAttribute("user");

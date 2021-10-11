@@ -19,12 +19,14 @@ import controller.action.ActionDetail;
 import controller.action.ActionDetailTest;
 import controller.action.ActionForm;
 import controller.action.ActionFormTest;
+import controller.action.ActionIdCheck;
 import controller.action.ActionInsertReply;
 import controller.action.ActionInsertTestReply;
 import controller.action.ActionJoin;
 import controller.action.ActionLogin;
 import controller.action.ActionMyPage;
 import controller.action.ActionQuestion;
+import controller.action.ActionRating;
 import controller.action.ActionTest;
 import controller.action.ActionUpdate;
 import controller.action.ActionUpdateReply;
@@ -140,6 +142,11 @@ public class FrontController extends HttpServlet {
 			forward = new ActionUpdateUser().execute(request, response);
 		} else if (action.equals("/deleteUser.do")) {
 			forward = new ActionDeleteUser().execute(request, response);
+		}else if (action.equals("/idCheck.do")) {
+			forward = new ActionIdCheck().execute(request, response);
+		}
+		else if (action.equals("/rating.do")) {
+			forward = new ActionRating().execute(request, response);
 		}
 		else {}
 

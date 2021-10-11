@@ -94,7 +94,7 @@
 								<div class="col-md-2">
 									<div class="panel-body text-center">
 										<h4>
-											<br> <span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${v.userNum}&myList=question">${v.bWriter}</a>
+											<br> <span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${v.userNum}&MyListCtgr=question">${v.bWriter}</a>
 										</h4>
 										<span class="panel-subtitle">${v.bDate}</span>
 									</div>

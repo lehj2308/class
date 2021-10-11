@@ -65,7 +65,7 @@
 								<input type="text" class="form-control" name="bCtgr"  value="${param.bCtgr}" readonly>
 								<br>
 								<span>내용</span>
-								<textarea name="bContent" rows="6" class="form-control"
+								<textarea name="bContent" rows="20" class="form-control"
 									style="resize: none;" required>${param.bContent}</textarea>
 								<br>
 								<button type="submit" class="btn btn-default">글 수정</button>
@@ -98,9 +98,15 @@
 								<label class="fancy-radio">
 								<input name="bCtgr" value="board" type="radio"> <span><i></i>자유게시판</span>
 								</label>
+								<!-- 관리자일 경우 공지사항선택 가능 (번호 1은 임시)-->
+								<c:if test="${user.usernum==1}">
+								<label class="fancy-radio">
+								<input name="bCtgr" value="announce" type="radio"> <span><i></i>공지사항</span>
+								</label>
+								</c:if>
 								<br>
 								<span>내용</span>
-								<textarea name="bContent" rows="6" class="form-control"
+								<textarea name="bContent" rows="20" class="form-control"
 									style="resize: none;" required></textarea>
 								<br>
 								<button type="submit" class="btn btn-default">글 작성</button>

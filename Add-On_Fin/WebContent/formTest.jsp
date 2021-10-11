@@ -62,7 +62,7 @@
 								<input type="text" class="form-control" name="tLang" value="${param.tLang}" required>
 								<br>
 								<span>내용</span>
-								<textarea name="tContent" rows="6" class="form-control"
+								<textarea name="tContent" rows="20" class="form-control"
 									style="resize: none;" required>${param.tContent}</textarea>
 								<br>
 								<span>예시</span>
@@ -97,7 +97,7 @@
 								<input type="text" class="form-control" name="tLang" required>
 								<br>
 								<span>내용</span>
-								<textarea name="tContent" rows="6" class="form-control"
+								<textarea name="tContent" rows="20" class="form-control"
 									style="resize: none;" required></textarea>
 								<br>
 								<span>예시</span>

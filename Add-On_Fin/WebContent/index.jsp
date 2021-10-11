@@ -58,7 +58,7 @@
 						<div class="col-md-6 introduce">
 							<div class="panel boardBox text-center">
 								<div class="panel-body box">
-									<h1>자유 게시판</h1>
+									<h1>Community</h1>
 									<br>
 									<p>회원들이 자유롭게 이용할 수 있는 공간입니다.</p>
 									<p>원하는 것이 있으면 언제들 올려보아요!</p>
@@ -70,7 +70,7 @@
 						<div class="col-md-6 introduce">
 							<div class="panel testBox text-center">
 								<div class="panel-body box">
-									<h1>코딩 테스트</h1>
+									<h1>Coding Exam</h1>
 									<br>
 									<p>회원들과 코딩 문제를 내보고 풀어보는 공간입니다.</p>
 									<p>코딩 연습이 필요할 때 이용해보세요!</p>
@@ -80,7 +80,7 @@
 						<div class="col-md-6 introduce">
 							<div class="panel myPageBox text-center">
 								<div class="panel-body box">
-									<h1>마이 페이지</h1>
+									<h1>My Page</h1>
 									<br>
 									<p>회원 정보, 활동 기록을 볼 수 있는 공간입니다.</p>
 									<p>회원이 무슨 활동을 하였는지 확인할 수 있어요!</p>

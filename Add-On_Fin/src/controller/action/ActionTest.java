@@ -65,7 +65,7 @@ public class ActionTest implements Action{
 		request.setAttribute("selUserNum", userNum);
 		
 		forward.setPath("test.jsp");
-		if(request.getParameter("myList")!=null) {
+		if(request.getParameter("myListCtgr")!=null) {
 			forward.setPath("myPage.jsp");
 			request.setAttribute("myList", tests);
 		}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="model.test.TestVO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!doctype html>
 <html lang="ko">
@@ -30,6 +31,9 @@
 	href="assets/img/apple-icon.jpg">
 <link rel="icon" type="image/png" sizes="96x96"
 	href="assets/img/favicon.jpg">
+<!-- Star -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/fontawesome-stars.css">
 </head>
 
 <body>
@@ -49,7 +53,7 @@
 					<div class="panel panel-headline">
 						<div class="panel-heading">
 							<h4 class="text-left">
-								<span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${test.userNum}&myList=test">${test.tWriter}</a>
+								<span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${test.userNum}&myListCtgr=test">${test.tWriter}</a>
 							</h4>
 							<span class="panel-subtitle text-right">${test.tDate}</span>
 						</div>
@@ -59,8 +63,11 @@
 						</div>
 						<div class="panel-body">
 							<form method="post" action="formTest.jsp" name="detailTest">
-								<textarea name="tContent" rows="6" class="form-control"
-									style="resize: none;" readonly>${test.tContent}</textarea>
+								<!-- 내용 -->
+								<c:set var="block" value="<span class='label label-info'>빈칸</span>" />
+								<c:set var="tContent" value="${fn:replace(test.tContent,'_',block)}" />
+								<pre>${tContent}
+								</pre>
 								<br>
 								<h4>출력 예시</h4>
 								<textarea name="tEx" rows="6" class="form-control"
@@ -79,11 +86,30 @@
 										<textarea name="tAnswer" rows="6" class="form-control"
 											style="resize: none;" readonly>${test.tAnswer}</textarea>
 									</div>
+
 								</div>
+								
+								<button class="btn btn-primary box-right" id="answerCheckBox" type="button" onclick="answerCheck()">정답 작성</button>
+								
+								<div class="input-group text-right" id="rating">
+										<span class="input-group-btn text-right"> <select class="example" name="tTotal">
+											  <option value="1">1</option>
+											  <option value="2" selected>2</option>
+											  <option value="3">3</option>
+											  <option value="4">4</option>
+											  <option value="5">5</option>
+											</select>
+										</span>
+										<span class="input-group-btn">
+											<button class="btn btn-primary" type="button" onclick="ratingUp()">별점 주기</button>
+										</span>
+									</div>
+								
 								<input type="hidden" name="tTitle" value="${test.tTitle}">
 								<input type="hidden" name="tWriter" value="${test.tWriter}">
 								<input type="hidden" name="tLang" value="${test.tLang}">
 								<input type="hidden" name="tId" value="${test.tId}">
+								<input type="hidden" name="tContent" value="${test.tContent}">
 								<c:if test="${test.userNum==user.userNum}">
 									<button type="submit" class="btn btn-default">글 수정</button>
 								</c:if>
@@ -101,9 +127,9 @@
 								<c:if test="${!empty user}">
 									<form method="post" action="insertTestReply.do" name="reply">
 										<input type="hidden" name="userNum" value="${user.userNum}">
-										<input type="hidden" name="tId" value="${test.tId}">
-										<input type="hidden" name="rWriter" value="${user.id}">
-										<input type="hidden" name="parentId" value="0">
+										<input type="hidden" name="tId" value="${test.tId}"> <input
+											type="hidden" name="rWriter" value="${user.id}"> <input
+											type="hidden" name="parentId" value="0">
 										<div class="input-group">
 											<input class="form-control" type="text" name="rContent"
 												required> <span class="input-group-btn"><button
@@ -221,6 +247,7 @@
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/scripts/klorofil-common.js"></script>
+	<script src="assets/scripts/jquery.barrating.min.js"></script> 
 	
 	<script type="text/javascript">
 	function replyDel() {
@@ -241,6 +268,25 @@
 			return;
 		}
 	}
+	function answerCheck() {
+		var tAnswer= '${test.tAnswer}';
+		result = prompt("정답을 입력하세요","");
+		if (result == tAnswer) {
+			alert("정답입니다!");
+			document.getElementById("rating").style.display = "block";
+			document.getElementById("answerCheckBox").style.display = "none";
+		} else {
+			alert("오답입니다. 다시 풀어보세요.");
+		}
+		
+	}
+	function ratingUp() {
+			document.detailTest.action = "rating.do";
+			document.detailTest.submit();
+	}
+	
+	
+	
 	</script>
 </body>
 

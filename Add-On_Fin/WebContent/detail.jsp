@@ -31,6 +31,9 @@
 <link rel="icon" type="image/png" sizes="96x96"
 	href="assets/img/favicon.jpg">
 </head>
+<!-- Star -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/fontawesome-stars.css">
 
 <body>
 	<!-- WRAPPER -->
@@ -59,7 +62,7 @@
 					<div class="panel panel-headline">
 						<div class="panel-heading">
 							<h4 class="text-left">
-								<span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${board.userNum}&myList=${board.bCtgr}">${board.bWriter}</a>
+								<span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${board.userNum}&myListCtgr=${board.bCtgr}">${board.bWriter}</a>
 							</h4>
 							<span class="panel-subtitle text-right">${board.bDate}</span>
 						</div>
@@ -69,14 +72,14 @@
 						</div>
 						<div class="panel-body">
 							<form method="post" action="form.jsp" name="detail">
-								<textarea name="bContent" rows="6" class="form-control"
-									style="resize: none;" readonly>${board.bContent}</textarea>
+								<pre>${board.bContent}</pre>
 								<br> <input type="hidden" name="bTitle"
 									value="${board.bTitle}"> <input type="hidden"
 									name="bWriter" value="${board.bWriter}"> <input
 									type="hidden" name="bCtgr" value="${board.bCtgr}"> <input
 									type="hidden" name="bLang" value="${board.bLang}"> <input
-									type="hidden" name="bId" value="${board.bId}">
+									type="hidden" name="bId" value="${board.bId}"> <input
+									type="hidden" name="bContent" value="${board.bContent}">
 
 								<c:if test="${board.userNum==user.userNum}">
 									<button type="submit" class="btn btn-default">글 수정</button>
@@ -99,9 +102,10 @@
 									<input type="hidden" name="rWriter" value="${user.id}">
 									<input type="hidden" name="parentId" value="0">
 									<div class="input-group">
-										<input class="form-control" type="text" name="rContent"
-											required> <span class="input-group-btn"><button
-												class="btn btn-primary" type="submit">댓글 작성</button></span>
+										<input class="form-control" type="text" name="rContent" required> 
+										<span class="input-group-btn">
+											<button class="btn btn-primary" type="submit">댓글 작성</button>
+										</span>
 									</div>
 								</form>
 							</c:if>
@@ -119,6 +123,7 @@
 													<form method="post" action="updateReply.do" name="replyUp">
 														<input type="text" class="form-reply" name="rContent"
 															value="${reply.rContent}" required readonly>
+														
 														<div class="right">
 															<!-- 댓글 수정 및 삭제 -->
 															<c:if test="${reply.userNum == user.userNum}">
@@ -214,6 +219,7 @@
 	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/scripts/klorofil-common.js"></script>
+	<script src="assets/scripts/jquery.barrating.min.js"></script> 
 
 	<script type="text/javascript">
 		function replyDel() {

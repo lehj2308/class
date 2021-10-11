@@ -1,18 +1,5 @@
 package model.users;
 
-/*
- * user_num int primary key,
-user_name varchar(15) not null,
-user_id varchar(50) not null,
-user_pw varchar(50) not null,
-user_hp varchar(25) not null,
-user_gender varchar(5) not null,
-user_email varchar(225) not null,
-user_addr varchar(225) not null,
-user_birth varchar(30) not null,
-icon_id varchar(30) not null
- * */
-
 public class UsersVO {
 
 	private int userNum;

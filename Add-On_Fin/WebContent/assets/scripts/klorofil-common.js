@@ -242,3 +242,39 @@ $('.box').mouseleave(function(e){
 	$(this).animate({opacity:"0.5"}, 100);
 });
 
+//중복체크
+
+function idCheck() {
+	var id = $('#id').val();
+	console.log(id);
+	$.ajax({
+		type : 'GET',
+		url : "idCheck.do",
+		data : id,
+		success : function(result) {
+			console.log(result);
+			if (result == 'false') {
+				alert("ID형식이 잘못 되었습니다. 다시 입력하세요.");
+
+			} else if (result == 'fail') {
+				alert("ID가 이미 존재합니다. 다시 입력하세요.");
+
+			} else {
+				alert("사용 가능한 ID입니다.");
+				
+			}
+		},
+		error : function(xhr) {
+			console.log(xhr.status + " : " + xhr.errorText);
+			alert("에러발생!");
+		}
+
+	})
+}
+
+$(function() {
+    $('.example').barrating({
+      theme: 'fontawesome-stars'
+    });
+  
+ });
