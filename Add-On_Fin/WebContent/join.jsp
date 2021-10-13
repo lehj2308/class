@@ -62,7 +62,7 @@
 									<span>아이디</span> <div class="input-group">
 											<input class="form-control" id="id" name="id" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,16}$" maxlength="16"
 											title="영어,숫자 혼합  6-16자리" placeholder="영어,숫자 혼합  6-16자리" type="text" required>
-											<span class="input-group-btn"><button class="btn btn-primary" id="idCheck" type="button" onclick="idCheck();">중복확인</button></span>
+											<span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="idCheck();">중복확인</button></span>
 										</div>
 								</div>
 								<div class="form-group">
@@ -96,8 +96,11 @@
 								</div>
 								<br>
 								<div class="form-group">
-									<input class="btn btn-primary btn-block" onclick="return joinform_check();" type="submit"
+									<input class="btn btn-primary btn-block" id="joinButton" onclick="return joinform_check();" type="submit"
 										value="회원가입">
+									<div class="alert alert-warning alert-dismissible" >
+										<i class="fa fa-warning"></i> 아이디 중복확인을 완료해주세요.
+									</div>
 								</div>
 							</form>
 						</c:if>
@@ -196,14 +199,15 @@
 		// 비밀번호 확인
 		function joinform_check() {
 
-			var pw = document.getElementById("pw");
-			var rpw = document.getElementById("rpw");
-
-			if (rpw.value !== pw.value) {
+			var pw = $('input[name=pw]').val();
+			var rpw = $('input[name=rpw]').val();
+			
+			if (rpw != pw) {
 				alert("비밀번호가 일치하지 않습니다..");
-				rpw.focus();
+				$('input[name=rpw]').focus();
 				return false;
 			}
+			return true;
 		}
 		//   ================================================================================
 			

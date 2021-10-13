@@ -9,7 +9,7 @@
 <body>
 
 <input class="form-control" id="id" name="id" type="text" required>
-<button id="idCheck" type="button" onclick="idCheck();">중복확인</button>
+<button  type="button" onclick="idCheck();">중복확인</button>
 </body>
 <script src="assets/vendor/jquery/jquery.min.js"></script>
 	<script type="text/javascript">

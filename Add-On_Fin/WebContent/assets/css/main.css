@@ -2647,3 +2647,29 @@ table.tList th:nth-child(8){
 #rating{
 	display: none;
 }
+
+#file{
+	display: none;
+}
+
+.profilImg{
+	loat: center;
+	width:90px;
+	height:90px;
+}
+.iconImg{
+	loat: center;
+	width:24px;
+	height:24px;
+}
+
+table.replyBox td:nth-child(1){
+	padding-top: 25px;
+	padding-buttom: 25px;
+	width:100px;
+}
+table.replyBox td:nth-child(3){
+	padding-top: 25px;
+	padding-buttom: 25px;
+	width:100px;
+}

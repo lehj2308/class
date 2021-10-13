@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" iconId="${user.iconId}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='' />
 		<!-- MAIN -->
@@ -52,7 +52,9 @@
 								<div class="profile-header">
 									<div class="overlay"></div>
 									<div class="profile-main">
-										<h1 class="img-circle lnr lnr-home"></h1>
+										<a href="imgform.jsp?selUsernum=${selUser.userNum}">
+											<img src="images/${selUser.iconId}" class="img-circle profilImg" alt="유저사진">
+										</a>
 										<h3 class="name">${selUser.name}</h3>
 									</div>
 								</div>
@@ -75,48 +77,50 @@
 									</div>
 									<br>
 									<!-- 댓글 리스트 -->
-									<div class="custom-tabs-line tabs-line-bottom left-aligned">
-										<ul class="nav">
-											<li><a href="myPage.do?myListCtgr=test&selUserNum=${selUser.userNum}&replyCtgr=reply">자유게시판 and Q&A 댓글</a></li>
-											<li><a href="myPage.do?myListCtgr=test&selUserNum=${selUser.userNum}&replyCtgr=testReply"> 코딩 테스트 </a></li>
-										</ul>
-									</div>
-									<table class="table table-condensed">
-										<thead>
-											<tr>
-												<th>내용</th>
-												<th>작성날짜</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:choose>
-												<c:when test="${param.replyCtgr=='testReply'}">
-													<c:forEach var="testReply" items="${myTestReplies}">
-														<tr>
-															<td><a href="detailTest.do?tId=${testReply.tId}">${testReply.rContent}</a></td>
-															<td>${testReply.tDate}</td>
-														</tr>
-													</c:forEach>
-												</c:when>
-												<c:otherwise>
-													<c:forEach var="v" items="${myReplies}">
-														<tr>
-															<td><a href="detail.do?bId=${v.bId}">${v.rContent}</a></td>
-															<td>${v.bDate}</td>
-														</tr>
-													</c:forEach>
-												</c:otherwise>
-											</c:choose>
-										</tbody>
-									</table>
-									<!-- 페이징 버튼 -->
-									<div class="text-center">
-										<c:forEach var="i" begin="0" end="${(pageLen-1)/3}">
-											<button type="button"
-												onclick="location.href='myPage.do?selUserNum=${selUser.userNum}&myList=${param.myList}&myReplies=${param.myReplies}&pageNum=${i}'"
-												class="label label-primary">${i+1}</button>
-										</c:forEach>
-									</div>
+									<c:if test="${selUser.userNum==user.userNum}">
+										<div class="custom-tabs-line tabs-line-bottom left-aligned">
+											<ul class="nav">
+												<li><a href="myPage.do?myListCtgr=${param.myListCtgr}&selUserNum=${selUser.userNum}&replyCtgr=reply">자유게시판 and Q&A 댓글</a></li>
+												<li><a href="myPage.do?myListCtgr=${param.myListCtgr}&selUserNum=${selUser.userNum}&replyCtgr=testReply"> 코딩 테스트 </a></li>
+											</ul>
+										</div>
+										<table class="table table-condensed">
+											<thead>
+												<tr>
+													<th>내용</th>
+													<th>작성날짜</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:choose>
+													<c:when test="${param.replyCtgr=='testReply'}">
+														<c:forEach var="testReply" items="${myTestReplies}">
+															<tr>
+																<td><a href="detailTest.do?tId=${testReply.tId}">${testReply.rContent}</a></td>
+																<td>${testReply.rDate}</td>
+															</tr>
+														</c:forEach>
+													</c:when>
+													<c:otherwise>
+														<c:forEach var="myReplies" items="${myReplies}">
+															<tr>
+																<td><a href="detail.do?bId=${myReplies.bId}">${myReplies.rContent}</a></td>
+																<td>${myReplies.rDate}</td>
+															</tr>
+														</c:forEach>
+													</c:otherwise>
+												</c:choose>
+											</tbody>
+										</table>
+										<!-- 페이징 버튼 -->
+										<div class="text-center">
+											<c:forEach var="i" begin="0" end="${(replyLen-1)/3}">
+												<button type="button"
+													onclick="location.href='myPage.do?selUserNum=${selUser.userNum}&myListCtgr=${param.myListCtgr}&replyCtgr=${param.replyCtgr}&replyPageNum=${i}'"
+													class="label label-primary">${i+1}</button>
+											</c:forEach>
+										</div>
+									</c:if>
 									<!-- 페이징 버튼 END -->
 									<!-- 댓글 리스트 END -->
 								</div>
@@ -128,9 +132,9 @@
 								<!-- 게시물 종류 버튼 -->
 								<div class="custom-tabs-line tabs-line-bottom left-aligned">
 									<ul class="nav">
-										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=question&myReplies=${param.myReplies}&pageNum=${param.pageNum}">Q & A</a></li>
-										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=board&myReplies=${param.myReplies}&pageNum=${param.pageNum}">게시글</a></li>
-										<li><a href="myPage.do?selUserNum=${selUser.userNum}&myList=test&myReplies=${param.myReplies}&pageNum=${param.pageNum}">코딩문제</a></li>
+										<li><a href="myPage.do?myListCtgr=question&selUserNum=${selUser.userNum}&replyCtgr=${param.replyCtgr}&replyPageNum=${param.replyPageNum}">Q & A</a></li>
+										<li><a href="myPage.do?myListCtgr=board&selUserNum=${selUser.userNum}&replyCtgr=${param.replyCtgr}&replyPageNum=${param.replyPageNum}">게시글</a></li>
+										<li><a href="myPage.do?myListCtgr=test&selUserNum=${selUser.userNum}&replyCtgr=${param.replyCtgr}&replyPageNum=${param.replyPageNum}">코딩문제</a></li>
 									</ul>
 								</div>
 								<!-- 게시물 종류 버튼 END -->
@@ -146,7 +150,7 @@
 										</thead>
 										<tbody>
 											<c:choose>
-												<c:when test="${param.myList eq 'test'}">
+												<c:when test="${param.myListCtgr eq 'test'}">
 													<c:forEach var="v" items="${myList}">
 														<tr>
 															<td>${v.tId}</td>
@@ -170,7 +174,7 @@
 										</tbody>
 									</table>
 									<div class="text-center">
-										<a href="${param.myList}.do?selUserNum=${selUser.userNum}" class="btn btn-default">더보기</a>
+										<a href="${param.myListCtgr}.do?selUserNum=${selUser.userNum}" class="btn btn-default">더보기</a>
 									</div>
 								</div>
 								<!-- 게시물 리스트 END -->

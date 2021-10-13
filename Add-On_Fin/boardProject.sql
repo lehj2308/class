@@ -182,7 +182,7 @@ INSERT INTO testreply (rid, tid, usernum, rcontent, rwriter, parentid) VALUES ((
 
 
 UPDATE BOARDREPLY SET RCONTENT='hellp tw' WHERE RID=1
-
+update users set iconid=
 
 ALTER TABLE Test ADD(rating number); 
 

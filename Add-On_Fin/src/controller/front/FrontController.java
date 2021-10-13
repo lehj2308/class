@@ -20,6 +20,8 @@ import controller.action.ActionDetailTest;
 import controller.action.ActionForm;
 import controller.action.ActionFormTest;
 import controller.action.ActionIdCheck;
+import controller.action.ActionImgDelete;
+import controller.action.ActionImgUpload;
 import controller.action.ActionInsertReply;
 import controller.action.ActionInsertTestReply;
 import controller.action.ActionJoin;
@@ -147,6 +149,13 @@ public class FrontController extends HttpServlet {
 		}
 		else if (action.equals("/rating.do")) {
 			forward = new ActionRating().execute(request, response);
+		}
+		else if (action.equals("/imgUpload.do")) {
+			forward = new ActionImgUpload().execute(request, response);
+		}
+		else if (action.equals("/imgDelete.do")) {
+			// System.out.println(request.getParameter("userNum"));
+			forward = new ActionImgDelete().execute(request, response);
 		}
 		else {}
 

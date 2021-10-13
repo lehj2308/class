@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" iconId="${user.iconId}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='board' />
 		<!-- MAIN -->
@@ -157,7 +157,7 @@
 											<td>${v.bId}</td>
 											<td>${v.bLang}</td>
 											<td><a href="detail.do?bId=${v.bId}">${v.bTitle}</a></td>
-											<td><a href="myPage.do?selUserNum=${v.userNum}&myListCtgr=board">${v.bWriter}</a></td>
+											<td><a href="myPage.do?selUserNum=${v.userNum}&myListCtgr=board&replyCtgr=reply">${v.bWriter}</a></td>
 											<td>${v.bDate}</td>
 											<td>${v.bHit}</td>
 											<td>${v.reCnt}</td>

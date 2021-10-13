@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" iconId="${user.iconId}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='test'/>
 		<!-- MAIN -->
@@ -51,7 +51,7 @@
 						<input type="hidden" name="tId" value="${param.tId}">
 							<div class="panel-heading">
 								<h4 class="text-left">
-								<span class="lnr lnr-home"></span>&nbsp;${param.tWriter}
+								<span class="lnr lnr-user"></span>&nbsp;${param.tWriter}
 							</h4>
 							</div>
 							<div class="panel-body">
@@ -86,7 +86,7 @@
 						<input type="hidden" name="tWriter" value="${user.id}">
 							<div class="panel-heading">
 								<h4 class="text-left">
-								<span class="lnr lnr-home"></span>&nbsp;${user.id}
+								<span class="lnr lnr-user"></span>&nbsp;${user.id}
 							</h4>
 							</div>
 							<div class="panel-body">

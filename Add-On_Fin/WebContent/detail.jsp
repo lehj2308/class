@@ -39,7 +39,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" iconId="${user.iconId}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='${board.bCtgr}' />
 		<!-- MAIN -->
@@ -62,7 +62,7 @@
 					<div class="panel panel-headline">
 						<div class="panel-heading">
 							<h4 class="text-left">
-								<span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${board.userNum}&myListCtgr=${board.bCtgr}">${board.bWriter}</a>
+								<span class="lnr lnr-user"></span>&nbsp;<a href="myPage.do?selUserNum=${board.userNum}&myListCtgr=${board.bCtgr}">${board.bWriter}</a>
 							</h4>
 							<span class="panel-subtitle text-right">${board.bDate}</span>
 						</div>
@@ -112,7 +112,7 @@
 							<!-- 댓글작성 END -->
 							<br>
 							<!-- 댓글 리스트 -->
-							<table class="table table-condensed">
+							<table class="table table-condensed replyBox">
 								<tbody>
 									<c:forEach var="replySet" items="${replySets}">
 										<c:set var="reply" value="${replySet.rvo}" />
@@ -195,6 +195,12 @@
 								</tbody>
 							</table>
 							<!-- 댓글 리스트 END -->
+						</div>
+						<div class="text-center">
+								<c:forEach var="i" begin="0" end="${(pageLen-1)/3}">
+									<button type="button" onclick="location.href='detail.do?bId=${board.bId}&pageNum=${i}'"
+									class="label label-primary" >${i+1}</button>
+								</c:forEach>
 						</div>
 					</div>
 					<!-- 댓글 END -->

@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" iconId="${user.iconId}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='test' />
 		<!-- MAIN -->
@@ -51,20 +51,25 @@
 						<div class="panel-body">
 							<!-- 정렬 버튼 -->
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<button type="button"
 										onclick="location.href='test.do?pageOrder=date&tTitle=${tTitle}'"
 										class="btn btn-primary btn-block">최신순</button>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<button type="button"
 										onclick="location.href='test.do?pageOrder=hit&tTitle=${tTitle}'"
 										class="btn btn-primary btn-block">조회순</button>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<button type="button"
 										onclick="location.href='test.do?pageOrder=reply&tTitle=${tTitle}'"
 										class="btn btn-primary btn-block">댓글순</button>
+								</div>
+								<div class="col-md-3">
+									<button type="button"
+										onclick="location.href='test.do?pageOrder=rating&tTitle=${tTitle}'"
+										class="btn btn-primary btn-block">별점순</button>
 								</div>
 							</div>
 							<!-- 정렬 버튼 END -->

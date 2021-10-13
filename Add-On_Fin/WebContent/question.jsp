@@ -36,7 +36,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- 상단 바 -->
-		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" />
+		<mytag:navbar userName="${user.name}" userNum="${user.userNum}" iconId="${user.iconId}" />
 		<!-- 왼쪽 사이드 바 -->
 		<mytag:sidebar ctgr='question' />
 		<!-- MAIN -->
@@ -94,7 +94,7 @@
 								<div class="col-md-2">
 									<div class="panel-body text-center">
 										<h4>
-											<br> <span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${v.userNum}&MyListCtgr=question">${v.bWriter}</a>
+											<br> <span class="lnr lnr-home"></span>&nbsp;<a href="myPage.do?selUserNum=${v.userNum}&myListCtgr=question">${v.bWriter}</a>
 										</h4>
 										<span class="panel-subtitle">${v.bDate}</span>
 									</div>

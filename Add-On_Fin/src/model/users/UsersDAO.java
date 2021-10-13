@@ -9,6 +9,11 @@ import model.common.JNDI;
 
 public class UsersDAO {
 
+	
+	
+	final static String defaultImg = "delfault.png";
+	
+	
 	// getDBList 
 	public ArrayList<UsersVO> getDBList() {
 		Connection conn = JNDI.getConnection();
@@ -22,7 +27,7 @@ public class UsersDAO {
 			
 			pstmt = conn.prepareStatement(sql_SELECT_ALL);
 			ResultSet rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
 				UsersVO data = new UsersVO();
 				
@@ -36,6 +41,7 @@ public class UsersDAO {
 				data.setPhone(rs.getNString("phone"));
 				data.setPw(rs.getString("pw"));
 				data.setUserNum(rs.getInt("usernum"));
+				
 				datas.add(data);
 			}
 			
@@ -50,8 +56,8 @@ public class UsersDAO {
 		return datas;
 
 	}
-	/////////////////////////////////////////////////////////////////////////
-
+	
+	//=====================================================================================
 	// getDBData
 	  public UsersVO getDBData(UsersVO vo) {
 	      Connection conn = JNDI.getConnection();
@@ -67,7 +73,6 @@ public class UsersDAO {
 	            pstmt.setInt(1, vo.getUserNum());
 	            //System.out.println("USER_NUM getDBData() 통과");
 	            
-
 	         } else {  // == ID가 넘어올 경우 
 	            sql_SELECT_ONE = "SELECT * FROM users WHERE id=?";
 	            pstmt = conn.prepareStatement(sql_SELECT_ONE);
@@ -105,8 +110,7 @@ public class UsersDAO {
 
 	   }
 
-	/////////////////////////////////////////////////////////////////////////
-
+	//=====================================================================================
 	// insert
 	public boolean insert(UsersVO vo) {
 		Connection conn = JNDI.getConnection();
@@ -139,9 +143,8 @@ public class UsersDAO {
 			JNDI.disconnect(pstmt, conn);
 		}
 		return res;
-
 	}
-	/////////////////////////////////////////////////////////////////////////
+	//=====================================================================================
 	// update
 	public boolean update(UsersVO vo) {
 		Connection conn = JNDI.getConnection();
@@ -174,9 +177,8 @@ public class UsersDAO {
 			JNDI.disconnect(pstmt, conn);
 		}
 		return res;
-
 	}
-	/////////////////////////////////////////////////////////////////////////
+	//=====================================================================================
 	// delete
 	public boolean delete(UsersVO vo) {
 		Connection conn = JNDI.getConnection();
@@ -201,7 +203,7 @@ public class UsersDAO {
 		return res;
 
 	}
-	/////////////////////////////////////////////////////////////////////////
+	//=====================================================================================
 	// login
 	public boolean login(UsersVO vo) {
 		Connection conn = JNDI.getConnection();
@@ -228,7 +230,60 @@ public class UsersDAO {
 			JNDI.disconnect(pstmt, conn);
 		}
 		return res;
-
 	}
+	
+	//=====================================================================================
+	// 유저 프로필 사진 삭제
+	public boolean deleteImg(UsersVO vo) {
+		Connection conn = JNDI.getConnection();
+		PreparedStatement pstmt = null;
+		
+		boolean res = false;
+		
+		String sql_DELETE = "UPDATE USERS SET iconid=? WHERE usernum=?";
+		
+		try {
+			System.out.println(sql_DELETE);
+			pstmt = conn.prepareStatement(sql_DELETE);
+			pstmt.setString(1, defaultImg);
+			pstmt.setInt(2, vo.getUserNum());
+			pstmt.executeUpdate();
+			res = true;
+			
+		} catch (SQLException e) {
+			System.out.println("UsersDAO-delete 오류로깅");
+			e.printStackTrace();
+		} finally {
+			JNDI.disconnect(pstmt, conn);
+		}
+		return res;
+	}
+	//=====================================================================================
+		// insert
+		public boolean uploadImg(UsersVO vo) {
+			Connection conn = JNDI.getConnection();
+			PreparedStatement pstmt = null;
 
+			boolean res = false;
+
+			String sql_UPLOAD = "UPDATE users SET iconid=? WHERE usernum=?";
+			try {
+				pstmt = conn.prepareStatement(sql_UPLOAD);
+				
+				pstmt.setString(1, vo.getIconId());
+				pstmt.setInt(2, vo.getUserNum());
+				
+				pstmt.executeUpdate();
+				res = true;
+				
+			} catch (SQLException e) {
+				System.out.println("UsersDAO-insert 오류로깅");
+				e.printStackTrace();
+			} finally {
+				JNDI.disconnect(pstmt, conn);
+			}
+			return res;
+		}
+	
+	
 }
