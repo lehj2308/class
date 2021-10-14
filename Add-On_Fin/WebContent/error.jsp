@@ -4,7 +4,7 @@
 <html lang="ko" class="fullscreen-bg">
 
 <head>
-<title>프로필 사진</title>
+<title>ERROR-Page</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
@@ -37,8 +37,11 @@
 			<div class="vertical-align-middle">
 				<div class="lockscreen clearfix">
 					<div class="content">
-						<div class="logo text-center"><img src="assets/img/logo.png" alt="Klorofil Logo"></div>
-						
+						<div class="logo text-center">
+						<h1>ERROR-Page</h1>
+						<hr>
+						<%=exception%>
+						</div>
 					</div>
 				</div>
 			</div>

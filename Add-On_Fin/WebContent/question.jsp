@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!doctype html>
@@ -112,12 +112,13 @@
 									</div>
 								</div>
 								<div class="col-md-2">
-									<div class="panel-body text-center">
-										<h3>조회수</h3>
-										<h2>${v.bHit}</h2>
-										<hr>
-										<h3>댓글수</h3>
-										<h2>${v.reCnt}</h2>
+									<div class="panel-body text-center div-left">
+										<h4>조회수</h4>
+										<h3>${v.bHit}</h3>
+									</div>
+									<div class="panel-body text-center div-left">
+										<h4>댓글수</h4>
+										<h3>${v.reCnt}</h3>
 									</div>
 								</div>
 							</div>

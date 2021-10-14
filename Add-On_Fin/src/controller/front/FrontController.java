@@ -17,15 +17,18 @@ import controller.action.ActionDeleteTestReply;
 import controller.action.ActionDeleteUser;
 import controller.action.ActionDetail;
 import controller.action.ActionDetailTest;
+import controller.action.ActionFindPw;
 import controller.action.ActionForm;
 import controller.action.ActionFormTest;
 import controller.action.ActionIdCheck;
 import controller.action.ActionImgDelete;
 import controller.action.ActionImgUpload;
+import controller.action.ActionInquery;
 import controller.action.ActionInsertReply;
 import controller.action.ActionInsertTestReply;
 import controller.action.ActionJoin;
 import controller.action.ActionLogin;
+import controller.action.ActionLogout;
 import controller.action.ActionMyPage;
 import controller.action.ActionQuestion;
 import controller.action.ActionRating;
@@ -35,12 +38,16 @@ import controller.action.ActionUpdateReply;
 import controller.action.ActionUpdateTest;
 import controller.action.ActionUpdateTestReply;
 import controller.action.ActionUpdateUser;
+import controller.action.CheckEmail;
+import controller.action.FindReply;
+import controller.action.FindTestReply;
+import controller.action.SendCheckEmail;
 import controller.common.ActionForward;
 
 /**
  * Servlet implementation class FrontController
  */
-@WebServlet(urlPatterns= {"*.do"})
+@WebServlet(urlPatterns = { "*.do" })
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -53,23 +60,27 @@ public class FrontController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doAction(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doAction(request, response);
 	}
 
-
-	private void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void doAction(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String action;
 		action = request.getRequestURI();
@@ -77,59 +88,45 @@ public class FrontController extends HttpServlet {
 		ActionForward forward = null;
 		action = action.substring(contextPathLength);
 
-		//System.out.println("action :"+ action);
+		// System.out.println("action :"+ action);
 
-		if(action.equals("/question.do")) {
+		if (action.equals("/question.do")) {
 			forward = new ActionQuestion().execute(request, response);
-
-
 		} else if (action.equals("/board.do")) {
-			//System.out.println("board.do 실행");
-			forward = new ActionBoard().execute(request,response);
-
-		}else if(action.equals("/question.do")) {
+			// System.out.println("board.do 실행");
+			forward = new ActionBoard().execute(request, response);
+		} else if (action.equals("/question.do")) {
 			forward = new ActionQuestion().execute(request, response);
-		}
-		else if (action.equals("/detail.do")) {
-
+		} else if (action.equals("/detail.do")) {
 			forward = new ActionDetail().execute(request, response);
-		}
-		else if (action.equals("/detailTest.do")) {
+		} else if (action.equals("/detailTest.do")) {
 			forward = new ActionDetailTest().execute(request, response);
-		}
-		else if (action.equals("/test.do")) {
-			
+		} else if (action.equals("/test.do")) {
 			forward = new ActionTest().execute(request, response);
-			
-		}
-		else if (action.equals("/login.do")) {
+		} else if (action.equals("/login.do")) {
 			System.out.println("login.do 실행중!");
 			forward = new ActionLogin().execute(request, response);
-		}
-		else if (action.equals("/form.do")) {
+		} else if (action.equals("/form.do")) {
 			forward = new ActionForm().execute(request, response);
-			
-		}else if(action.equals("/formTest.do")) {
+		} else if (action.equals("/formTest.do")) {
 			forward = new ActionFormTest().execute(request, response);
-		}else if(action.equals("/update.do")) {
+		} else if (action.equals("/update.do")) {
 			forward = new ActionUpdate().execute(request, response);
-			
-		} else if(action.equals("/updateTest.do")) {
+		} else if (action.equals("/updateTest.do")) {
 			forward = new ActionUpdateTest().execute(request, response);
 		} else if (action.equals("/deleteTest.do")) {
 			forward = new ActionDeleteTest().execute(request, response);
-		} else if(action.equals("/delete.do")) {
+		} else if (action.equals("/delete.do")) {
 			forward = new ActionDelete().execute(request, response);
-		} else if(action.equals("/insertReply.do")) {
+		} else if (action.equals("/insertReply.do")) {
 			System.out.println("insertReply.do");
 			forward = new ActionInsertReply().execute(request, response);
 		} else if (action.equals("/updateReply.do")) {
 			System.out.println("/updateReply.do 실행 중 ");
 			forward = new ActionUpdateReply().execute(request, response);
-		} else if(action.equals("/deleteReply.do")) {
+		} else if (action.equals("/deleteReply.do")) {
 			forward = new ActionDeleteReply().execute(request, response);
-		} else if (action.equals("/myPage.do"))
-		{
+		} else if (action.equals("/myPage.do")) {
 			forward = new ActionMyPage().execute(request, response);
 			System.out.println("mypage.do if 문 ");
 		} else if (action.equals("/insertTestReply.do")) {
@@ -144,32 +141,39 @@ public class FrontController extends HttpServlet {
 			forward = new ActionUpdateUser().execute(request, response);
 		} else if (action.equals("/deleteUser.do")) {
 			forward = new ActionDeleteUser().execute(request, response);
-		}else if (action.equals("/idCheck.do")) {
+		} else if (action.equals("/idCheck.do")) {
 			forward = new ActionIdCheck().execute(request, response);
-		}
-		else if (action.equals("/rating.do")) {
+		} else if (action.equals("/rating.do")) {
 			forward = new ActionRating().execute(request, response);
-		}
-		else if (action.equals("/imgUpload.do")) {
+		} else if (action.equals("/imgUpload.do")) {
 			forward = new ActionImgUpload().execute(request, response);
-		}
-		else if (action.equals("/imgDelete.do")) {
+		} else if (action.equals("/imgDelete.do")) {
 			// System.out.println(request.getParameter("userNum"));
 			forward = new ActionImgDelete().execute(request, response);
+		} else if (action.equals("/inquery.do")) {
+			forward = new ActionInquery().execute(request, response);
+		} else if (action.equals("/findPw.do")) {
+			forward = new ActionFindPw().execute(request, response);
+		} else if (action.equals("/sendCheckEmail.do")) {
+			forward = new SendCheckEmail().execute(request, response);
+		} else if (action.equals("/check.do")) {
+			forward = new CheckEmail().execute(request, response);
+		} else if (action.equals("/findReply.do")) {
+			forward = new FindReply().execute(request, response);
+		} else if (action.equals("/findTestReply.do")) {
+			forward = new FindTestReply().execute(request, response);
+		} else if (action.equals("/logout.do")) {
+			forward = new ActionLogout().execute(request, response);
+		} else {
+			
 		}
-		else {}
-
-
 
 		if (forward == null) {
-			return ;
+			return;
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
 		dispatcher.forward(request, response);
-
-
-
 
 	}
 

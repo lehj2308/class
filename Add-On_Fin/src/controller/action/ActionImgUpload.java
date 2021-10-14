@@ -56,7 +56,7 @@ public class ActionImgUpload implements Action {
 		UsersVO uvo = userDAO.getDBData(userVO);
 		System.out.println(uvo);
 		// reupload 矫 颇老昏力
-		if (uvo.getIconId() != null) {
+		if (uvo.getIconId() != null && uvo.getIconId().equals("default.png")) {
 			//颇老 昏力
 			filePath += "/"+uvo.getIconId();
 			File file = new File(filePath);	//颇老 积己

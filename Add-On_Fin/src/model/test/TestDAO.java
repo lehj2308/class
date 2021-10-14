@@ -72,6 +72,11 @@ public class TestDAO {
 					sql = "SELECT * FROM (SELECT ROWNUM AS RNUM, test.* FROM (SELECT * FROM test "
 							+ "WHERE ttitle LIKE '%" + content + "%' ORDER BY thit DESC, tdate DESC) "
 							+ "test WHERE ROWNUM <= ?) WHERE RNUM > ? ORDER BY thit DESC";
+				} else if (pageOrder.equals("rating")) { // trating
+					System.out.println("별점순");
+					sql = "SELECT * FROM (SELECT ROWNUM AS RNUM, test.* FROM (SELECT * FROM test "
+							+ "WHERE ttitle LIKE '%" + content + "%' ORDER BY thit DESC, tdate DESC) "
+							+ "test WHERE ROWNUM <= ?) WHERE RNUM > ? ORDER BY trating DESC";
 				} else {
 					System.out.println("최신순");
 					sql = "SELECT * FROM (SELECT ROWNUM AS RNUM, test.* FROM ("

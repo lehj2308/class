@@ -11,7 +11,7 @@ public class UsersDAO {
 
 	
 	
-	final static String defaultImg = "delfault.png";
+	final static String defaultImg = "default.png";
 	
 	
 	// getDBList 

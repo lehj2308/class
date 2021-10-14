@@ -35,6 +35,8 @@ public class ActionDeleteUser implements Action {
 			e.printStackTrace();
 		}
 		if (userDAO.delete(usersVO)) {
+			HttpSession session = request.getSession();
+			session.invalidate();
 			out.println("<script>alert('삭제가 완료되었습니다');location.href='index.jsp';</script>");
 		}else {
 			out.println("<script>alert('삭제가 실패했습니다!);location.href='index.jsp';</script>");

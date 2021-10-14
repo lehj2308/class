@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="model.test.TestVO"%>
+	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
@@ -145,14 +145,15 @@
 								<!-- 댓글 리스트 -->
 								<table class="table table-condensed replyBox">
 									<tbody>
-										<c:forEach var="replySet" items="${replySets}">
-											<c:set var="reply" value="${replySet.rvo}" />
+										<c:forEach var="replySet" items="${testReplySets}">
+											<c:set var="reply" value="${replySet.reply}" />
 											<tr>
 												<td>${reply.rWriter}</td>
 												<td class="panel-action">
 													<div class="panel-heading">
-														<form method="post" action="control.jsp" name="replyUp">
+														<form method="post" action="updateTestReply.do" name="replyUp">
 															<input type="text" class="form-reply" name="rContent"
+																<c:if test="${param.findId eq reply.rId}">id ="findReply"</c:if>
 																value="${reply.rContent}" required readonly>
 															<div class="right">
 																<!-- 댓글 수정 및 삭제 -->
@@ -170,7 +171,7 @@
 															</div>
 														</form>
 													</div>
-													<div class="panel-body panel-action-body">
+													<div class="panel-body panel-action-body" 	<c:if test="${param.parentId eq reply.rId}">id="findRreply"</c:if> >
 														<!-- 대댓글 작성 -->
 														<c:if test="${!empty user}">
 															<form method="post" action="insertTestReply.do" name="rreply">
@@ -195,9 +196,12 @@
 																	<tr>
 																		<td>${rreply.rWriter}</td>
 																		<td><div class="panel-heading">
-																			<form method="post" action="updateReply.do" name="rreplyUp">
-																				<input type="text" class="form-reply" name="rContent" value="${rreply.rContent}" required readonly>
-																				<div class="right">
+																			<form method="post" action="updateTestReply.do" name="rreplyUp">
+																					<input type="text" class="form-reply"
+																						name="rContent" value="${rreply.rContent}"
+																						<c:if test="${param.findId eq rreply.rId}">id ="findReply"</c:if>
+																						required readonly>
+																					<div class="right">
 																					<!-- 대댓글 수정 및 삭제 -->
 																					<c:if test="${rreply.rWriter == user.id}">
 																					<input type="hidden" name="pageNum" value="${pageNum}">
@@ -294,6 +298,17 @@
 			document.detailTest.submit();
 	}
 	
+	window.onload = function(){
+		
+		var findRreply = document.getElementById("findRreply");
+		findRreply.style.display ='block'
+		
+		if(document.getElementById("findReply")){
+		var findReply = document.getElementById("findReply");
+		findReply.focus();
+		findReply.scrollIntoView();
+		}
+	}
 	
 	
 	</script>

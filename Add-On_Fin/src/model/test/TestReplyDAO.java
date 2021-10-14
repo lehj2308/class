@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.board.ReplyVO;
 import model.common.JNDI;
 import model.users.UsersVO;
 
@@ -382,7 +383,7 @@ public class TestReplyDAO {
 					pstmt.executeUpdate();
 					System.out.println("대댓글 있는 댓글 삭제 완료 로깅");
 				}
-
+				rs.close();
 			} else { // 삭제 대상이 "대댓글"이라면,
 				pstmt = conn.prepareStatement(sql_DELETE_RR);
 				pstmt.setInt(1, vo.getrId());
@@ -403,7 +404,7 @@ public class TestReplyDAO {
 				// System.out.println("롤백확인");
 				conn.rollback();
 			}
-
+			
 		} catch (SQLException e) {
 			System.out.println("TestReplyDAO-delete 오류 로깅");
 			e.printStackTrace();
@@ -441,6 +442,40 @@ public class TestReplyDAO {
 		return res;
 	}
 
-	/////////////////////////////////////////////////////////////////////////	
+	/////////////////////////////////////////////////////////////////////////
+	// 댓글찾기 기능 ////////////////////////////////////////////////////////////////////
+	public int replyOrder(TestReplyVO vo)  {
+		Connection conn = JNDI.getConnection();
+		PreparedStatement pstmt = null;
+		int order =0;
+		
+		String sql_order = "select rnum from (select rownum as rnum, rid from (select rid from testREPLY where parentid=0 and tid=? order by rdate desc) ) where rid=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql_order);
+			pstmt.setInt(1, vo.gettId());
+			pstmt.setInt(2, vo.getrId());
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				order = rs.getInt(1);
+			}
+			
+			
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			
+		}finally{
+			JNDI.disconnect(pstmt, conn);
+		}
+		
+		
+		return order;
+		
+	}
+	
 
 }

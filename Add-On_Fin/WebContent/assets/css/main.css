@@ -2673,3 +2673,9 @@ table.replyBox td:nth-child(3){
 	padding-buttom: 25px;
 	width:100px;
 }
+@media screen and (max-width: 992px) {
+	.div-left {
+		float: left;
+		width: 50%;
+	}
+}

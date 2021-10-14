@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!doctype html>
@@ -122,8 +122,8 @@
 												<div class="panel-heading">
 													<form method="post" action="updateReply.do" name="replyUp">
 														<input type="text" class="form-reply" name="rContent"
+															<c:if test="${param.findId eq reply.rId}">id ="findReply"</c:if>
 															value="${reply.rContent}" required readonly>
-														
 														<div class="right">
 															<!-- 댓글 수정 및 삭제 -->
 															<c:if test="${reply.userNum == user.userNum}">
@@ -140,7 +140,7 @@
 														</div>
 													</form>
 												</div>
-												<div class="panel-body panel-action-body">
+												<div class="panel-body panel-action-body" <c:if test="${param.parentId eq reply.rId}">id="findRreply"</c:if>>
 													<!-- 대댓글 작성 -->
 													<c:if test="${!empty user}">
 														<form method="post" action="insertReply.do" name="rreply">
@@ -166,7 +166,7 @@
 																	<td>${rreply.rWriter}</td>
 																	<td><div class="panel-heading">
 																			<form method="post" action="updateReply.do" name="rreplyUp">
-																				<input type="text" class="form-reply" name="rContent" value="${rreply.rContent}" required readonly>
+																				<input type="text" class="form-reply" name="rContent" value="${rreply.rContent}"<c:if test="${param.findId eq rreply.rId}">id ="findReply"</c:if> required readonly>
 																				<div class="right">
 																					<!-- 대댓글 수정 및 삭제 -->
 																					<c:if test="${rreply.userNum == user.userNum}">
@@ -244,6 +244,18 @@
 				document.rreplyUp.submit();
 			} else {
 				return;
+			}
+		}
+		// 댓글 찾기 --------------------------------------------
+		window.onload = function(){
+			
+			var findRreply = document.getElementById("findRreply");
+			findRreply.style.display ='block'
+			
+			if(document.getElementById("findReply")){
+			var findReply = document.getElementById("findReply");
+			findReply.focus();
+			findReply.scrollIntoView();
 			}
 		}
 	</script>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!doctype html>
@@ -52,9 +52,14 @@
 								<div class="profile-header">
 									<div class="overlay"></div>
 									<div class="profile-main">
-										<a href="imgform.jsp?selUsernum=${selUser.userNum}">
+										<c:if test="${selUser.userNum==user.userNum}">
+											<a href="imgform.jsp?selUsernum=${selUser.userNum}">
+												<img src="images/${selUser.iconId}" class="img-circle profilImg" alt="유저사진">
+											</a>
+										</c:if>
+										<c:if test="${selUser.userNum!=user.userNum}">
 											<img src="images/${selUser.iconId}" class="img-circle profilImg" alt="유저사진">
-										</a>
+										</c:if>
 										<h3 class="name">${selUser.name}</h3>
 									</div>
 								</div>
@@ -94,18 +99,18 @@
 											<tbody>
 												<c:choose>
 													<c:when test="${param.replyCtgr=='testReply'}">
-														<c:forEach var="testReply" items="${myTestReplies}">
+														<c:forEach var="v" items="${myTestReplies}">
 															<tr>
-																<td><a href="detailTest.do?tId=${testReply.tId}">${testReply.rContent}</a></td>
-																<td>${testReply.rDate}</td>
+																<td><a href="findTestReply.do?tId=${v.tId}&findId=${v.rId}&parentId=${v.parentId}">${v.rContent}</a></td>
+																<td>${v.rDate}</td>
 															</tr>
 														</c:forEach>
 													</c:when>
 													<c:otherwise>
-														<c:forEach var="myReplies" items="${myReplies}">
+														<c:forEach var="v" items="${myReplies}">
 															<tr>
-																<td><a href="detail.do?bId=${myReplies.bId}">${myReplies.rContent}</a></td>
-																<td>${myReplies.rDate}</td>
+																<td><a href="findReply.do?bId=${v.bId}&findId=${v.rId}&parentId=${v.parentId}">${v.rContent}</a></td>
+																<td>${v.rDate}</td>
 															</tr>
 														</c:forEach>
 													</c:otherwise>

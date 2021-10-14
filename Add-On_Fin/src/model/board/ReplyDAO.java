@@ -444,5 +444,42 @@ public class ReplyDAO {
 		return res;
 	}
 
+	/* ´ñ±Û Ã£±â */
+	
+	
+	public int replyOrder(ReplyVO vo)  {
+		Connection conn = JNDI.getConnection();
+		PreparedStatement pstmt = null;
+		int order =0;
+		
+		String sql_order = "select rnum from (select rownum as rnum, rid from (select rid from BOARDREPLY where parentid=0 and bid=? order by rdate desc) ) where rid=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql_order);
+			pstmt.setInt(1, vo.getbId());
+			pstmt.setInt(2, vo.getrId());
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				order = rs.getInt(1);
+			}
+			
+			
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			
+		}finally{
+			JNDI.disconnect(pstmt, conn);
+		}
+		
+		
+		return order;
+		
+	}
+	
+	
 
 }
