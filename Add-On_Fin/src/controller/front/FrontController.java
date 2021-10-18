@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,11 +48,11 @@ import controller.common.ActionForward;
 /**
  * Servlet implementation class FrontController
  */
-@WebServlet(urlPatterns = { "*.do" })
+@WebServlet(urlPatterns = {"*.do"})
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
+	/**	
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public FrontController() {
@@ -89,7 +90,7 @@ public class FrontController extends HttpServlet {
 		action = action.substring(contextPathLength);
 
 		// System.out.println("action :"+ action);
-
+		System.out.println(getInitParameter("managerId"));
 		if (action.equals("/question.do")) {
 			forward = new ActionQuestion().execute(request, response);
 		} else if (action.equals("/board.do")) {
@@ -165,7 +166,9 @@ public class FrontController extends HttpServlet {
 		} else if (action.equals("/logout.do")) {
 			forward = new ActionLogout().execute(request, response);
 		} else {
-			
+			forward=new ActionForward();
+			forward.setRedirect(false);
+			forward.setPath("error.jsp");
 		}
 
 		if (forward == null) {

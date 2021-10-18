@@ -118,13 +118,18 @@
 											</tbody>
 										</table>
 										<!-- 페이징 버튼 -->
-										<div class="text-center">
+										
+										<!--  <div class="text-center">
 											<c:forEach var="i" begin="0" end="${(replyLen-1)/3}">
 												<button type="button"
 													onclick="location.href='myPage.do?selUserNum=${selUser.userNum}&myListCtgr=${param.myListCtgr}&replyCtgr=${param.replyCtgr}&replyPageNum=${i}'"
 													class="label label-primary">${i+1}</button>
 											</c:forEach>
-										</div>
+										</div>-->
+									<mytag:paging pageLen="${replyLen}"
+								pageNum="${replyPageNum}" paraName="replyPageNum"
+								path="myPage.do?selUserNum=${selUser.userNum}&myListCtgr=${param.myListCtgr}&replyCtgr=${param.replyCtgr}" />
+									
 									</c:if>
 									<!-- 페이징 버튼 END -->
 									<!-- 댓글 리스트 END -->
@@ -179,7 +184,7 @@
 										</tbody>
 									</table>
 									<div class="text-center">
-										<a href="${param.myListCtgr}.do?selUserNum=${selUser.userNum}" class="btn btn-default">더보기</a>
+										<a href="${param.myListCtgr}.do?selUserNum=${selUser.userNum}&selUserName=${selUser.name}" class="btn btn-default">더보기</a>
 									</div>
 								</div>
 								<!-- 게시물 리스트 END -->
@@ -196,8 +201,7 @@
 		<footer>
 			<div class="container-fluid">
 				<p class="copyright">
-					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
-						I Need</a>. All Rights Reserved.
+					&copy; 2021 <a href="index.jsp" target="_blank">Add-On</a>. All Rights Reserved.
 				</p>
 			</div>
 		</footer>

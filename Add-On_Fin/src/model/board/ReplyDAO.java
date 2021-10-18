@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.common.JNDI;
+import model.common.JDBC;
 import model.users.UsersVO;
 
 public class ReplyDAO {
@@ -51,14 +51,14 @@ public class ReplyDAO {
 	//========================================================================================
 	// selectAll 댓글 객체 + 대댓글 List가 들어있는 datas 반환
 
-	static int pageSize = 3; // 페이지 10개씩 출력 출력갯수 바꾸실때 여기 바꾸시면 됩니다.
+	static int pageSize = 10; // 페이지 10개씩 출력 출력갯수 바꾸실때 여기 바꾸시면 됩니다.
 
 	// userNum 값 없을 때 0넣어주세요
 	@SuppressWarnings("resource")
 	public ArrayList<ReplySet> getDBList(ReplyVO vo, int pageNum) {
 	
 
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		ArrayList<ReplySet> datas = new ArrayList<ReplySet>();
 		ReplyVO rvo = null;
@@ -157,7 +157,7 @@ public class ReplyDAO {
 			System.out.println("ReplyDAO getDBList에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 
 		/*for(ReplySet v : datas) {
@@ -170,7 +170,7 @@ public class ReplyDAO {
 	public MyReplySet myReply(UsersVO uvo, int pageNum) {
 		System.out.println("myReply() 입장");
 		System.out.println("userNum : "+ uvo.getUserNum());
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		ArrayList<ReplyVO> rlist = new ArrayList<ReplyVO>();
 		MyReplySet datas = new MyReplySet();
@@ -232,14 +232,14 @@ public class ReplyDAO {
 			System.out.println("replyDAO myReply에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}	
 		return datas;
 	}
 	//========================================================================================
 	@SuppressWarnings("resource")
 	public ReplySet getDBData(ReplyVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		ReplySet data = new ReplySet();
 		ReplyVO rvo = null;
@@ -295,22 +295,29 @@ public class ReplyDAO {
 			System.out.println("ReplySet getDBDate에서 출력");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return data;
 	}
 	//========================================================================================	
 	@SuppressWarnings("resource")
-	public boolean insert(ReplyVO vo) {
-		Connection conn = JNDI.getConnection();
+	public int insert(ReplyVO vo) {
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
-		boolean res = false;
+		int res = 0;
 		// 트렌젝션 확인
 		boolean check = false;
 		try {
 			// (SELECT NVL(MAX(R_ID), 0)+1 FROM BOARD_REPLY),?,?,?,?,?)
 			// ? 입력값 : (B_ID, USER_NUM, R_CONTENT, R_WRITER, PARENT_ID)
 			conn.setAutoCommit(false);
+			String getRidSql = "SELECT NVL(MAX(rid), 0)+1 FROM boardreply";
+			pstmt = conn.prepareStatement(getRidSql);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = rs.getInt(1);
+			}
+					
 
 			pstmt = conn.prepareStatement(sql_INSERT);
 			pstmt.setInt(1, vo.getbId());			// 보드 ID
@@ -329,7 +336,7 @@ public class ReplyDAO {
 
 			if (check) {
 				conn.commit();
-				res= true;
+				
 			}
 			else {
 				conn.rollback();
@@ -339,19 +346,20 @@ public class ReplyDAO {
 			System.out.println("replyDAO insert에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
 	//========================================================================================
 	@SuppressWarnings("resource")
 	public boolean delete(ReplyVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean res = false;
 		String sql;
 		int cnt=0; // 대댓글 개수 확인
-
+		
 		// 커밋확인용
 		boolean check = false;
 
@@ -365,7 +373,7 @@ public class ReplyDAO {
 				// sql = "SELECT * FROM BOARD_REPLY WHERE PARENT_ID=?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, vo.getrId());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if(rs.next()) {
 					cnt=rs.getInt(1);
 				}
@@ -394,6 +402,23 @@ public class ReplyDAO {
 				pstmt.setInt(1, vo.getrId());
 				pstmt.executeUpdate();
 				System.out.println("대댓글 일때 삭제 통과");
+				
+				if(vo.getDeleteAt().equals("Y")) {
+					sql ="SELECT COUNT(*) FROM boardreply WHERE parentid=?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, vo.getParentId());
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						cnt=rs.getInt(1);
+					}
+					if (cnt == 0) {
+						sql = "DELETE FROM boardreply WHERE rid=?";
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setInt(1, vo.getParentId());
+						pstmt.executeUpdate();
+						System.out.println("대댓글 없을때 댓글삭제 통과");
+					}
+				}
 			}
 
 			// 댓글 수 1 제거
@@ -419,13 +444,13 @@ public class ReplyDAO {
 			System.out.println("ReplyDAO delete에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
 	//========================================================================================	
 	public boolean update(ReplyVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		boolean res = false;
 		System.out.println("ReplyDAO update() vo.deleteat : "+vo.getDeleteAt());
@@ -439,7 +464,7 @@ public class ReplyDAO {
 			System.out.println("ReplyDAO update에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -448,7 +473,7 @@ public class ReplyDAO {
 	
 	
 	public int replyOrder(ReplyVO vo)  {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		int order =0;
 		
@@ -472,7 +497,7 @@ public class ReplyDAO {
 			e.printStackTrace();
 			
 		}finally{
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		
 		

@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.common.JNDI;
+import model.common.JDBC;
 
 public class UsersDAO {
 
@@ -16,7 +16,7 @@ public class UsersDAO {
 	
 	// getDBList 
 	public ArrayList<UsersVO> getDBList() {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		ArrayList<UsersVO> datas = new ArrayList<UsersVO>();
 		PreparedStatement pstmt = null;
 
@@ -51,7 +51,7 @@ public class UsersDAO {
 			System.out.println("UsersDAO-getDBList 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return datas;
 
@@ -60,7 +60,7 @@ public class UsersDAO {
 	//=====================================================================================
 	// getDBData
 	  public UsersVO getDBData(UsersVO vo) {
-	      Connection conn = JNDI.getConnection();
+	      Connection conn = JDBC.getConnection();
 	      UsersVO data = null;
 	      PreparedStatement pstmt = null;
 	      String sql_SELECT_ONE;
@@ -104,7 +104,7 @@ public class UsersDAO {
 	         System.out.println("UsersDAO-getDBData 오류로깅");
 	         e.printStackTrace();
 	      } finally {
-	         JNDI.disconnect(pstmt, conn);
+	         JDBC.disconnect(pstmt, conn);
 	      }
 	      return data;
 
@@ -113,7 +113,7 @@ public class UsersDAO {
 	//=====================================================================================
 	// insert
 	public boolean insert(UsersVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 
 		boolean res = false;
@@ -140,14 +140,14 @@ public class UsersDAO {
 			System.out.println("UsersDAO-insert 오류로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
 	//=====================================================================================
 	// update
 	public boolean update(UsersVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 
 		boolean res = false;
@@ -174,14 +174,14 @@ public class UsersDAO {
 			System.out.println("UsersDAO-update 오류로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
 	//=====================================================================================
 	// delete
 	public boolean delete(UsersVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 
 		boolean res = false;
@@ -198,7 +198,7 @@ public class UsersDAO {
 			System.out.println("UsersDAO-delete 오류로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 
@@ -206,7 +206,7 @@ public class UsersDAO {
 	//=====================================================================================
 	// login
 	public boolean login(UsersVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		UsersVO data = null;
 		PreparedStatement pstmt = null;
 		
@@ -227,7 +227,7 @@ public class UsersDAO {
 			System.out.println("UserDAO-login 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -235,7 +235,7 @@ public class UsersDAO {
 	//=====================================================================================
 	// 유저 프로필 사진 삭제
 	public boolean deleteImg(UsersVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		
 		boolean res = false;
@@ -254,14 +254,14 @@ public class UsersDAO {
 			System.out.println("UsersDAO-delete 오류로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
 	//=====================================================================================
 		// insert
 		public boolean uploadImg(UsersVO vo) {
-			Connection conn = JNDI.getConnection();
+			Connection conn = JDBC.getConnection();
 			PreparedStatement pstmt = null;
 
 			boolean res = false;
@@ -280,9 +280,37 @@ public class UsersDAO {
 				System.out.println("UsersDAO-insert 오류로깅");
 				e.printStackTrace();
 			} finally {
-				JNDI.disconnect(pstmt, conn);
+				JDBC.disconnect(pstmt, conn);
 			}
 			return res;
+		}
+//------------------------------------------------------------------------
+		// 이메일 찾아주는 메서드 
+		public ArrayList<String> getEmails(){
+			Connection conn = JDBC.getConnection();
+			PreparedStatement pstmt = null;
+			ArrayList<String> emails = new ArrayList<String>();
+			try {
+				String sql = "select email from users";
+				pstmt = conn.prepareStatement(sql);
+				
+				ResultSet rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					emails.add(rs.getString(1));
+					System.out.println("UsersDAO getEmails rs.getString : "+ rs.getString(1));
+				}
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}finally {
+				JDBC.disconnect(pstmt, conn);
+			}
+			
+			
+			return emails;
+			
+			
 		}
 	
 	

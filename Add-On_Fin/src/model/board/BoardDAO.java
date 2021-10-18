@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.common.JNDI;
+import model.common.JDBC;
+import model.test.TestVO;
 import model.users.UsersVO;
 
 public class BoardDAO {
@@ -54,13 +55,13 @@ public class BoardDAO {
 	//=====================================================================================
 	// selectAll BoardVO가 들어있는 datas 반환
 
-	static int pageSize = 3; // 페이지 10개씩 출력 출력갯수 바꾸실때 여기 바꾸시면 됩니다.
+	static int pageSize = 10; // 페이지 10개씩 출력 출력갯수 바꾸실때 여기 바꾸시면 됩니다.
 
 	// userNum 값 없을 때 0넣어주세요
 
 	@SuppressWarnings("resource")
 	public BoardSet getDBList(UsersVO uvo, BoardVO vo, String pageOrder, int pageNum) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		BoardSet datas = new BoardSet();
 		// 게시글을 담은 리스트 + 전체 게시물 cnt;
@@ -218,13 +219,13 @@ public class BoardDAO {
 
 	//=====================================================================================
 	public BoardVO getDBData(UsersVO uvo, BoardVO bvo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		BoardVO data = new BoardVO();
-		boolean check = false;
+
 		try {
 
-			conn.setAutoCommit(false);
+		
 
 			pstmt = conn.prepareStatement(sql_SELECT_ONE);
 			pstmt.setInt(1, bvo.getbId());
@@ -249,27 +250,7 @@ public class BoardDAO {
 			rs.close();
 
 			// 내가 쓴 글이면 조회수 증가 안함
-			if(uvo.getUserNum() == data.getUserNum()) {
-				System.out.println("uvo.getUserNum() : "+data.getUserNum() );
-				System.out.println("bvo.getUserNum() : "+data.getUserNum() );
-				System.out.println("BoardDAO.getdbDATe 조회수 증가 x");
-				check = true;
-			}
-			else {
-				System.out.println("BoardDAO.getdbDATe 조회수 증가 o");
-				String sql= "UPDATE board SET bhit=bhit+1 WHERE bid=?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, bvo.getbId());
-				pstmt.executeUpdate();
-				check = true;
-			}
-
-			if (check) {
-				conn.commit();
-			}
-			else {
-				conn.rollback();
-			}
+	
 
 		} catch (SQLException e) {
 			System.out.println("BoardDAO getDBData에서 발생");
@@ -280,7 +261,7 @@ public class BoardDAO {
 	}
 	//=====================================================================================
 	public boolean insert(BoardVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		boolean res = false;
 		try {
@@ -300,13 +281,13 @@ public class BoardDAO {
 			System.out.println("BoardDAO insert에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
 	//=====================================================================================
 	public boolean update(BoardVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt=null;
 		boolean res = false;
 		try {
@@ -325,13 +306,13 @@ public class BoardDAO {
 			System.out.println("BoardDAO update에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
 	//=====================================================================================
 	public boolean delete(BoardVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		boolean res = false;
 		try {
@@ -343,7 +324,7 @@ public class BoardDAO {
 			System.out.println("BoardDAO delete에서 발생");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -370,5 +351,27 @@ public class BoardDAO {
 		}
 		return cnt;
 	}*/
+	
+	public void addHit(BoardVO vo) {
+		Connection conn = JDBC.getConnection();
+		
+		PreparedStatement pstmt = null;
+
+		try {
+			String sql = "update board set bhit = bhit+1 where bid=?";
+			pstmt = conn.prepareStatement(sql);
+			System.out.println("디비 조회수 증가 성공!!");
+			pstmt.setInt(1, vo.getbId());
+			pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			System.out.println("TestDAO-delete 오류 로깅");
+			e.printStackTrace();
+		} finally {
+			JDBC.disconnect(pstmt, conn);
+		}
+		
+		
+	}
 }
 

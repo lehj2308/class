@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@ taglib tagdir="/WEB-INF/tags" prefix="mytag"%>
 <!doctype html>
 <html lang="ko">
@@ -30,6 +32,9 @@
 	href="assets/img/apple-icon.jpg">
 <link rel="icon" type="image/png" sizes="96x96"
 	href="assets/img/favicon.jpg">
+
+	
+	
 </head>
 <!-- Star -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
@@ -59,7 +64,7 @@
 					</c:if>
 					<!-- 게시판 종류 END-->
 					<!-- 게시물 -->
-					<div class="panel panel-headline">
+					<div class="panel panel-headline"  >
 						<div class="panel-heading">
 							<h4 class="text-left">
 								<span class="lnr lnr-user"></span>&nbsp;<a href="myPage.do?selUserNum=${board.userNum}&myListCtgr=${board.bCtgr}">${board.bWriter}</a>
@@ -81,7 +86,7 @@
 									type="hidden" name="bId" value="${board.bId}"> <input
 									type="hidden" name="bContent" value="${board.bContent}">
 
-								<c:if test="${board.userNum==user.userNum}">
+								<c:if test="${board.userNum==user.userNum || !empty manager}">
 									<button type="submit" class="btn btn-default">글 수정</button>
 								</c:if>
 							</form>
@@ -91,7 +96,7 @@
 					<!-- 댓글 -->
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">댓글</h3>
+							<h3 class="panel-title">댓글 ${param.insertedRid} 확인</h3>
 						</div>
 						<div class="panel-body">
 							<!-- 댓글작성 -->
@@ -119,23 +124,24 @@
 										<tr>
 											<td>${reply.rWriter}</td>
 											<td class="panel-action">
-												<div class="panel-heading">
-													<form method="post" action="updateReply.do" name="replyUp">
+												<div class="panel-heading"  <c:if test="${reply.deleteAt == 'Y'}">id="deletedReply"</c:if> >
+													<form method="post" action="updateReply.do" name="replyUp" >
 														<input type="text" class="form-reply" name="rContent"
-															<c:if test="${param.findId eq reply.rId}">id ="findReply"</c:if>
+															<c:if test="${param.findId eq reply.rId}">id ="findReply"</c:if>  <c:if test="${reply.deleteAt == 'Y'}">id="deletedReplyContent"</c:if>
+															<c:if test="${param.insertedRid eq reply.rId}">id ="insertedRid"</c:if>
 															value="${reply.rContent}" required readonly>
-														<div class="right">
+														<div class="right"> 
 															<!-- 댓글 수정 및 삭제 -->
-															<c:if test="${reply.userNum == user.userNum}">
+															<c:if test="${(reply.userNum == user.userNum || !empty manager) && reply.deleteAt == 'N'}">
 																<input type="hidden" name="rId" value="${reply.rId}">
 																<input type="hidden" name="bId" value="${board.bId}">
 																<input type="hidden" name="pageNum" value="${pageNum}">
-																<button type="button" class="btn-update">수정하기</button>
-																<input type="submit" class="btn updateBtn" value="수정완료">
-																<button type="button" onclick="replyDel()">삭제하기</button>
+																<button type="button" class="btn-update"><span class="lnr lnr-pencil"></span></button>
+																<button type="submit" class="btn updateBtn"><span class="fa fa-pencil"></span></button>
+																<button type="button" onclick="location.href='deleteReply.do?bId=${board.bId}&rId=${reply.rId}&pageNum=${pageNum}&parentId=${reply.parentId}&deleteAt=${reply.deleteAt}'"><span class="lnr lnr-cross-circle"></span></button>
 															</c:if>
 															<!-- 댓글 수정 및 삭제 END -->
-															<button type="button" class="btn-toggle-collapse">더보기
+															<button type="button" class="btn-toggle-collapse">댓글<span class="badge">${fn:length(replySet.rrlist)}</span>
 															</button>
 														</div>
 													</form>
@@ -166,16 +172,18 @@
 																	<td>${rreply.rWriter}</td>
 																	<td><div class="panel-heading">
 																			<form method="post" action="updateReply.do" name="rreplyUp">
-																				<input type="text" class="form-reply" name="rContent" value="${rreply.rContent}"<c:if test="${param.findId eq rreply.rId}">id ="findReply"</c:if> required readonly>
+																				<input type="text" class="form-reply" name="rContent" value="${rreply.rContent}"<c:if test="${param.findId eq rreply.rId}">id ="findReply"</c:if> 
+																				<c:if test="${param.insertedRid eq rreply.rId}">id ="insertedRid"</c:if>
+																				required readonly>
 																				<div class="right">
 																					<!-- 대댓글 수정 및 삭제 -->
-																					<c:if test="${rreply.userNum == user.userNum}">
+																					<c:if test="${rreply.userNum == user.userNum|| !empty manager}">
 																						<input type="hidden" name="pageNum" value="${pageNum}">
 																						<input type="hidden" name="rId" value="${rreply.rId}">
 																						<input type="hidden" name="bId" value="${board.bId}">
-																						<button type="button" class="btn-update">수정하기</button>
-																						<input type="submit" class="btn updateBtn" value="수정완료">
-																						<button type="button" onclick="rreplyDel()">삭제하기</button>
+																						<button type="button" class="btn-update"><span class="lnr lnr-pencil"></span></button>
+																						<button type="submit" class="btn updateBtn"><span class="fa fa-pencil"></span></button>
+																						<button type="button" onclick="location.href='deleteReply.do?bId=${board.bId}&rId=${rreply.rId}&pageNum=${pageNum}&parentId=${rreply.parentId}&deleteAt=${reply.deleteAt}'"><span class="lnr lnr-cross-circle"></span></button>
 																					</c:if>
 																					<!-- 대댓글 수정 및 삭제 END -->
 																				</div>
@@ -196,12 +204,12 @@
 							</table>
 							<!-- 댓글 리스트 END -->
 						</div>
-						<div class="text-center">
-								<c:forEach var="i" begin="0" end="${(pageLen-1)/3}">
-									<button type="button" onclick="location.href='detail.do?bId=${board.bId}&pageNum=${i}'"
-									class="label label-primary" >${i+1}</button>
-								</c:forEach>
-						</div>
+					<!-- 페이징 버튼 -->
+							<mytag:paging pageLen="${pageLen}"
+								pageNum="${pageNum}" paraName="pageNum"
+								path="detail.do?bId=${board.bId}" />
+
+							<!-- 페이징 버튼 END -->
 					</div>
 					<!-- 댓글 END -->
 				</div>
@@ -213,8 +221,7 @@
 		<footer>
 			<div class="container-fluid">
 				<p class="copyright">
-					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
-						I Need</a>. All Rights Reserved.
+					&copy; 2021 <a href="index.jsp" target="_blank">Add-On</a>. All Rights Reserved.
 				</p>
 			</div>
 		</footer>
@@ -249,14 +256,20 @@
 		// 댓글 찾기 --------------------------------------------
 		window.onload = function(){
 			
-			var findRreply = document.getElementById("findRreply");
-			findRreply.style.display ='block'
-			
+			if(document.getElementById("findRreply")){
+				var findRreply = document.getElementById("findRreply")
+				findRreply.style.display ='block'
+			}
 			if(document.getElementById("findReply")){
 			var findReply = document.getElementById("findReply");
 			findReply.focus();
-			findReply.scrollIntoView();
+			findReply.scrollIntoView({block:"center"});
 			}
+			if(document.getElementById("insertedRid")){
+				var insertedReply = document.getElementById("insertedRid");
+				console.log("확인123");
+				insertedReply.scrollIntoView({block:"center"});
+				}
 		}
 	</script>
 </body>

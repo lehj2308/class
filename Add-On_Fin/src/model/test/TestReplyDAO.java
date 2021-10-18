@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.board.ReplyVO;
-import model.common.JNDI;
+import model.common.JDBC;
 import model.users.UsersVO;
 
 public class TestReplyDAO {
 
-	static int pageSize = 3; // 페이징 관련 변수
+	static int pageSize = 10; // 페이징 관련 변수
 
 	static String sql_INSERT = "INSERT INTO testreply (rid, tid, usernum, rcontent, rwriter, parentid) "
 			+ "VALUES ((SELECT NVL(MAX(rid),0)+1 FROM testreply),?,?,?,?,?)";
@@ -27,7 +27,7 @@ public class TestReplyDAO {
 	// getDBList 댓+대댓 = 1:N
 	@SuppressWarnings("resource")
 	public ArrayList<TestReplySet> getDBList(int pageNum, TestReplyVO vo) { // pageNum : 페이징관련 변수
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		String sql;
 		int cnt = 0;
@@ -124,7 +124,7 @@ public class TestReplyDAO {
 			System.out.println("ReplyDAO-selectDBList 오류");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		System.out.println("datas 확인: " + datas);
 		return datas;
@@ -135,7 +135,7 @@ public class TestReplyDAO {
 	// getDBList 댓+대댓 = 1:N
 	@SuppressWarnings("resource")
 	public TestMySet myReply(UsersVO uvo, int pageNum) { // pageNum : 페이징관련 변수
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		String sql;
 		int cnt = 0;
@@ -200,7 +200,7 @@ public class TestReplyDAO {
 			System.out.println("ReplyDAO-selectDBList 오류");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		System.out.println("datas 확인: " + datas);
 		return datas;
@@ -212,7 +212,7 @@ public class TestReplyDAO {
 	// getDBData
 	@SuppressWarnings("resource")
 	public TestReplySet getDBData(TestReplyVO vo) { // testSet으로 리턴
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		TestReplySet data = null;
 
@@ -281,7 +281,7 @@ public class TestReplyDAO {
 			System.out.println("TestReplyDAO-getDBData 오류로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return data;
 	}
@@ -290,16 +290,23 @@ public class TestReplyDAO {
 
 	// insert --> 댓글 수(RE_CNT) update 트랜잭션!!!!!!★
 	@SuppressWarnings("resource")
-	public boolean insert(TestReplyVO vo) {
-		Connection conn = JNDI.getConnection();
-		boolean res = false;
+	public int insert(TestReplyVO vo) {
+		Connection conn = JDBC.getConnection();
+		int res =0;
 		PreparedStatement pstmt = null;
 
 		boolean check = false; // 트랜잭션 커밋, 롤백 여부 판단 변수
 
 		try {
 			conn.setAutoCommit(false);
-
+			String getTidSql = "SELECT NVL(MAX(rid), 0)+1 FROM testreply";
+			pstmt = conn.prepareStatement(getTidSql);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = rs.getInt(1);
+			}
+			
+			
 			pstmt = conn.prepareStatement(sql_INSERT);
 
 			pstmt.setInt(1, vo.gettId());
@@ -316,7 +323,7 @@ public class TestReplyDAO {
 
 			if (check) {
 				conn.commit();
-				res = true;
+				
 			} else {
 				conn.rollback();
 			}
@@ -325,7 +332,7 @@ public class TestReplyDAO {
 			System.out.println("TestReplyDAO-insert 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -335,9 +342,10 @@ public class TestReplyDAO {
 	// delete 
 	@SuppressWarnings("resource")
 	public boolean delete(TestReplyVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		boolean res = false;
 		PreparedStatement pstmt = null;
+		ResultSet rs= null;
 
 		boolean check = false; // 트랜잭션 커밋, 롤백 여부 판단 변수
 
@@ -347,7 +355,7 @@ public class TestReplyDAO {
 		String sql_DELETE_R2 = "UPDATE testreply SET deleteat='Y' WHERE rid =? AND parentid=0";
 		
 		// ** 대댓글 삭제인 경우 --> 진짜 삭제
-		String sql_DELETE_RR = "DELETE FROM testreply WHERE rid =? AND parentid=?";
+		String sql_DELETE_RR = "DELETE FROM testreply WHERE rid =?";
 		
 		// 댓글달린 특정 TEST게시물의 댓글 수 (RE_CNT) --
 		String sql_RECNT_DN = "UPDATE TEST SET recnt= recnt-1 WHERE tid=?";
@@ -365,7 +373,7 @@ public class TestReplyDAO {
 
 				pstmt = conn.prepareStatement(sql_COUNT);
 				pstmt.setInt(1, vo.getrId());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 
 				if (rs.next()) {
 					cnt = rs.getInt(1);
@@ -383,11 +391,26 @@ public class TestReplyDAO {
 					pstmt.executeUpdate();
 					System.out.println("대댓글 있는 댓글 삭제 완료 로깅");
 				}
-				rs.close();
+				
 			} else { // 삭제 대상이 "대댓글"이라면,
 				pstmt = conn.prepareStatement(sql_DELETE_RR);
 				pstmt.setInt(1, vo.getrId());
 				pstmt.executeUpdate();
+				
+				if(vo.getDeleteAt().equals("Y")) {
+					pstmt = conn.prepareStatement(sql_COUNT);
+					pstmt.setInt(1, vo.getParentId());
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						cnt=rs.getInt(1);
+					}
+					if (cnt == 0) {
+						pstmt = conn.prepareStatement(sql_DELETE_R1);
+						pstmt.setInt(1, vo.getParentId());
+						pstmt.executeUpdate();
+						System.out.println("대댓글 없을때 댓글삭제 통과");
+					}
+				}
 			}
 			
 			pstmt = conn.prepareStatement(sql_RECNT_DN); // 해당 게시물 댓글수 -1하기 => 댓글, 대댓 삭제 시 게시글 댓글 수 --
@@ -409,7 +432,7 @@ public class TestReplyDAO {
 			System.out.println("TestReplyDAO-delete 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 
@@ -419,7 +442,7 @@ public class TestReplyDAO {
 
 	// update
 	public boolean update(TestReplyVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		boolean res = false;
 		PreparedStatement pstmt = null;
 		
@@ -437,7 +460,7 @@ public class TestReplyDAO {
 			System.out.println("TestReplyDAO-update 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -445,7 +468,7 @@ public class TestReplyDAO {
 	/////////////////////////////////////////////////////////////////////////
 	// 댓글찾기 기능 ////////////////////////////////////////////////////////////////////
 	public int replyOrder(TestReplyVO vo)  {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		int order =0;
 		
@@ -469,7 +492,7 @@ public class TestReplyDAO {
 			e.printStackTrace();
 			
 		}finally{
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		
 		

@@ -2679,3 +2679,14 @@ table.replyBox td:nth-child(3){
 		width: 50%;
 	}
 }
+
+#nowPage {
+	background-color: white;
+	color: #337ab7;
+}
+
+
+#deletedReply, #deletedReplyContent{
+  border-color: #eaeaea;
+  background-color: #f5f5f5;
+}

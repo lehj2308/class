@@ -10,7 +10,7 @@ import model.board.ReplyVO;
 
 public class FindReply implements Action {
 
-	static final int paging = 3;
+	static final int paging = 10;
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -47,6 +47,7 @@ public class FindReply implements Action {
 		System.out.println("FindReply pageNum : "+pageNum);
 		
 		request.setAttribute("pageNum", pageNum);
+		
 		
 		ActionForward forward = new ActionForward();
 		

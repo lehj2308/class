@@ -46,24 +46,25 @@
 				<div class="container-fluid">
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">Q & A</h3>
+							<h3 class="panel-title"><c:if test="${param.selUserNum >0}">${param.selUserName}님의 </c:if>
+							Q & A</h3>
 						</div>
 						<div class="panel-body">
 							<!-- 정렬 버튼 -->
 							<div class="row">
 								<div class="col-md-4">
 									<button type="button"
-										onclick="location.href='question.do?pageOrder=date&bTitle=${bTitle}'"
+										onclick="location.href='question.do?pageOrder=date&selUserNum=${selUserNum}&bTitle=${bTitle}&selUserName=${param.selUserName}'"
 										class="btn btn-primary btn-block">최신순</button>
 								</div>
 								<div class="col-md-4">
 									<button type="button"
-										onclick="location.href='question.do?pageOrder=hit&bTitle=${bTitle}'"
+										onclick="location.href='question.do?pageOrder=hit&selUserNum=${selUserNum}&bTitle=${bTitle}&selUserName=${param.selUserName}'"
 										class="btn btn-primary btn-block">조회순</button>
 								</div>
 								<div class="col-md-4">
 									<button type="button"
-										onclick="location.href='question.do?pageOrder=reply&bTitle=${bTitle}'"
+										onclick="location.href='question.do?pageOrder=reply&selUserNum=${selUserNum}&bTitle=${bTitle}&selUserName=${param.selUserName}'"
 										class="btn btn-primary btn-block">댓글순</button>
 								</div>
 							</div>
@@ -72,16 +73,12 @@
 							<br> <br>
 							<!-- 검색 및 글쓰기 버튼 -->
 							<form method="post" action="question.do" name="question">
+							<input type="hidden" name="selUserNum" value="${selUserNum}">
+							<input type="hidden" name="selUserName" value="${param.selUserName}">
 								<div class="input-group">
 									<span class="input-group-btn">
 									<button class="btn btn-primary" type="submit">검색</button></span>
-									<input class="form-control searchBox" type="text" name="bTitle">
-								<c:if test="${!empty user}">
-									<span class="input-group-btn">
-										<button type="button" onclick="location.href='form.jsp'"
-											class="btn btn-default box-right">글쓰기</button>
-									</span>
-								</c:if>
+									<input class="form-control searchBox" type="text" name="bTitle" value="${param.bTitle}">
 								</div>
 							</form>
 							<!-- 검색 및 글쓰기 버튼 END -->
@@ -102,7 +99,7 @@
 								<div class="col-md-8">
 									<div class="panel-heading">
 										<h3 class="panel-title">
-											<a href="detail.do?bId=${v.bId}">${v.bTitle}</a>
+											<a href="detail.do?bId=${v.bId}&addHit=true">${v.bTitle}</a>
 										</h3>
 										<p class="panel-subtitle">${v.bLang}</p>
 									</div>
@@ -124,15 +121,20 @@
 							</div>
 						</div>
 					</c:forEach>
+					<div class="text-right">
+						<c:if test="${!empty user}">
+							<button type="button" onclick="location.href='form.jsp'"
+								class="btn btn-default">글쓰기</button>
+						</c:if>
+					</div>
 					<!-- 게시물 리스트 END -->
 					<!-- 페이징 버튼 -->
-					<div class="text-center">
-						<c:forEach var="i" begin="0" end="${(pageLen-1)/3}">
-							<button type="button"
-								onclick="location.href='question.do?pageNum=${i}&bTitle=${bTitle}'"
-								class="label label-primary">${i+1}</button>
-						</c:forEach>
-					</div>
+					<!-- 페이징 버튼 -->
+							<mytag:paging pageLen="${pageLen}"
+								pageNum="${pageNum}" paraName="pageNum"
+								path="question.do?bTitle=${bTitle}&pageOrder=${pageOrder}&selUserNum=${selUserNum}&selUserName=${param.selUserName}" />
+
+							<!-- 페이징 버튼 END -->
 					<!-- 페이징 버튼 END -->
 				</div>
 			</div>
@@ -143,8 +145,7 @@
 		<footer>
 			<div class="container-fluid">
 				<p class="copyright">
-					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
-						I Need</a>. All Rights Reserved.
+					&copy; 2021 <a href="index.jsp" target="_blank">Add-On</a>. All Rights Reserved.
 				</p>
 			</div>
 		</footer>

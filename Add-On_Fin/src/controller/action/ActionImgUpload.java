@@ -56,11 +56,11 @@ public class ActionImgUpload implements Action {
 		UsersVO uvo = userDAO.getDBData(userVO);
 		System.out.println(uvo);
 		// reupload 시 파일삭제
-		if (uvo.getIconId() != null && uvo.getIconId().equals("default.png")) {
+		if (uvo.getIconId() != null && !userVO.getIconId().equals("default.png")) {
 			//파일 삭제
 			filePath += "/"+uvo.getIconId();
 			File file = new File(filePath);	//파일 생성
-			if(file.exists()) {				//파일이 있을시 삭제 
+			if(file.exists() ) {				//파일이 있을시 삭제 
 				file.delete();
 			}
 		}
@@ -68,8 +68,7 @@ public class ActionImgUpload implements Action {
 		if (userDAO.uploadImg(userVO)) {
 			System.out.println("업로드 성공");
 			HttpSession session = request.getSession();
-			UsersVO user = userDAO.getDBData(userVO);
-			session.setAttribute("user", user);
+			session.setAttribute("user", uvo);
 			forward.setRedirect(false);
 		}
 		else {

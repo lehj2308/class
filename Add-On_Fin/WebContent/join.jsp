@@ -153,7 +153,7 @@
 								<input type="hidden" name="userNum" value="${user.userNum}">
 								<div class="form-group">
 									<span>이름</span> <input class="form-control" type="text"
-										name="name" maxlength="10" value="${user.name}" required>
+										name="name" maxlength="10" value="${user.name}" required readonly>
 
 								</div>
 								<div class="form-group">

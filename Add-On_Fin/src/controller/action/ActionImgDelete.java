@@ -35,7 +35,7 @@ public class ActionImgDelete {
 			//파일 삭제
 			filePath += "/"+userVO.getIconId();
 			File file = new File(filePath);	//파일 생성
-			if(file.exists()) {				//파일이 있을시 삭제 
+			if(file.exists() && !userVO.getIconId().equals("default.png")) {				//파일이 있을시 삭제 
 				file.delete();
 			}
 			HttpSession session = request.getSession();

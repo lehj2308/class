@@ -69,7 +69,13 @@ CREATE TABLE test(
    recnt int DEFAULT 0,
    CONSTRAINT user_num_cons FOREIGN KEY (usernum) REFERENCES users(usernum) ON DELETE CASCADE
 );
-
+-- 누적별점 컬럼 추가 
+ALTER TABLE Test ADD (ttotal INT DEFAULT 0);
+-- 별점제출 컬럼 추가 
+ALTER TABLE Test ADD (tsubmit INT DEFAULT 0);
+-- 평점 컬럼 추가
+ALTER TABLE Test ADD (trating number DEFAULT 0);
+-----------------------------------------------------
 /* 테스트 댓글 ============================================*/
 CREATE TABLE testreply(
 	rid INT PRIMARY KEY, -- 댓글 번호
@@ -87,6 +93,7 @@ CREATE TABLE testreply(
 /* 유저 샘플 =====================================================================================================================*/
 INSERT INTO USERS VALUES (1, '김길동', 'kim', '1234', '01012341234', 'M', 'xxssgg120@naver.com', '경기도 군포시', '19960205', '1');
 INSERT INTO USERS VALUES (2, '홍길동', 'hong', '1234', '01012345678', 'F', 'asdf1234@naver.com', '경기도 안양시', '19991021', '2');
+INSERT INTO USERS VALUES (99, '관리자', 'manager', 'managerpw', '01012341234', 'M', 'xxssgg120@naver.com', '경기도 군포시', '19960205', '1');
 
 
 /* 보드 샘플 =====================================================================================================================*/
@@ -181,28 +188,6 @@ INSERT INTO testreply (rid, tid, usernum, rcontent, rwriter, parentid) VALUES ((
 INSERT INTO testreply (rid, tid, usernum, rcontent, rwriter, parentid) VALUES ((SELECT NVL(MAX(rid),0)+1 FROM testreply),2,1,'댓글18','kim',0);
 
 
-UPDATE BOARDREPLY SET RCONTENT='hellp tw' WHERE RID=1
-update users set iconid=
-
-ALTER TABLE Test ADD(rating number); 
-
-SELECT * FROM test;
-
-ALTER TABLE Test MODIFY (rating DEFAULT 0.0);
-
-update test set total=5 where tid=1;
-update test set submit=3 where tid=1;
- 
------------------------------------------------------
--- 누적별점 컬럼 추가 
-ALTER TABLE Test ADD (ttotal INT DEFAULT 0);
--- 별점제출 컬럼 추가 
-ALTER TABLE Test ADD (tsubmit INT DEFAULT 0);
--- 평점 컬럼 추가
-ALTER TABLE Test ADD (trating number DEFAULT 0);
------------------------------------------------------
-
-
 
 update test set trating= round(total/submit,2) where tid=1;
 
@@ -211,5 +196,60 @@ ALTER TABLE Test RENAME COLUMN total TO ttotal;
 ALTER TABLE Test RENAME COLUMN submit TO tsubmit;
 
 ALTER TABLE Test DROP COLUMN trating;
+
+INSERT INTO USERS VALUES (2, '김영진', 'yj', '1234', '01012341234', 'M', 'xxssgg120@naver.com', '경기도 군포시', '19960205', 'default.png');
+INSERT INTO USERS VALUES (3, '박정은', 'je', '7294', '01000000000', 'F', 'pje3294@naver.com', '경기도 안양시', '19960927', 'default.png');
+INSERT INTO USERS VALUES (4, '유태희', 'you', '2564', '01038672564', 'M', 'taehee129@naver.com', '경기도 안성시', '19970129', 'default.png');
+INSERT INTO USERS VALUES (5, '이현준', 'lee', '9876', '01022222222', 'M', 'dlvgusvwns@naver.com', '서울특별시 서대문구', '19971229', 'default.png');
+
+
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'자유게시판','이게 왜 되지??','아니 안돌아가야되는데 진짜 왜 돌아가는지 1도 모르겠다... ㅠㅠ','yj','기타');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'자유게시판','이게 왜 안되지??','돌아가야되는데 이게 왜 안돌아가는지 1도 모르겠다','yj','기타');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'자유게시판','코딩공부 있잖아....','님들은 공부 어떤식으로 하고있어???','kim','기타');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'자유게시판','이직하고 싶다 진짜...','괜찮은데 없나??','kim','기타');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'board','가을맞나요?','가을 없어진거 같은데,,,어디갔죠?','je','기타');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'board','JAVA스터디 구함','코린이신 분들 중에 스터디하실 분 구해요!','je','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'board','스프링 많이 어렵나요?','요즘 백엔드하면 스프링 많이 사용한다는데 많이 어렵나요?','je','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'board','요즘 취업 하려면 스프링은 필수 인 듯','좋은 데 취업하려면 필요한 스프링은 무조건 해야 하는 것 같아요 ','you','Spring');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'board','면접 잘하는 팁 공유','기본 개념을 탑 재하는 게 정말 중요해보여요 . 무엇보다도 ','you','취업');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'board','요즘 인강 퀄리트 정말 좋은 것 같아요','예전에 비해서 훨씬 양질의 강의가 많이 올라오는 듯','you','기타');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'board','홍제역 하이드미 플리즈 후기','여기 도넛 가격 좀 있는데 진짜 맛나여! 먹고나서 또 포장도 해버려서 지갑 탈탈...','lee','자유');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'board','점심메뉴 추천받아요!','오늘도 무엇을먹고 버텨야될까요 추천좀 ㅎㅎ','lee','자유');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'board','오늘도...지옥철','으아아아 나도 앉아서 가고싶다아아아','lee','자유');
+
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'question','접근 제어자 질문','접근제어자 private는 왜 사용하나요?','yj','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'question','MVC가 뭐에요?','최근에 mvc패턴이라고 배웠는데 오히려 더 귀찮은 작업이 많아지는 거 같은데 장점이 뭐에요?','yj','DB');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'question','트랜잭션??','트랜잭션 배웠는데 어떻게 써야할지 막막하네요 ㅠㅠ 이거 왜 쓰는거에요??','yj','DB');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'question','객체지향언어 특징??','객체지향언어의 특징이 있다던데 뭐에요??','yj','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),2,'question','server 질문있는데요','웹서버랑 WAS차이점이 뭐에요?? 비슷한거 같은데 헛갈리네요 ㅠㅠ','yj','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'question','DBMS가 뭔가요?','DB는 데이터인걸 알겠는데 DBMS는 뭐인가요??','je','DB');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'question','DB관리? ','DB관리의 핵심을 면접에서 물어보면 어떻게 답해야되죠?','je','DB');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'question','sql문 DDL,DML,DCL??','DDL,DML,DCL <- 이 3개의 차이가 뭔가요??!','je','DB');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'question','빌드? 컴파일?','빌드 컴파일!!! 차이 좀 알려주세요! 급해요!!!','je','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),3,'question','자바 입문하는 코린이 질문이요,,','JVM, JRE, JDK에 대해 궁금합니다. 각각 무엇을 말하는 거죠?','je','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'question','자료구조 잘하시는 분!!','스택과 큐 많이 들어 봤는 데, 개념 설명 좀 해주세요!','you','자료구조');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'question','인터페이스 질문드립니다~','인터페이스로 메서드 강제하는 건 알 겠는데 왜 써야 하는 건가요?','you','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'question','url과 uri의 차이','uri 와 rul 개념이 비슷한 것 같은데 차이점 좀 알려주세요!','you','네트워크');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'question','get과 post의 차이','get과 post 의 차이점 좀 알려주세요!','you','네트워크');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),4,'question','request와 response의 차이','request와 response 개념이 헤깔리네요 ... 비슷한거 아닌가요?','you','네트워크');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'question','예외처리 왜해요??','그 try catch문 쓰잖아요 그거 왜하는거에요??','lee','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'question','인터프리터언어 VS 컴파일언어','두개 언어 정확한 차이점이 뭐에요??','lee','코딩');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'question','JNDI,DBCP,JDBC ?','3개 전부 db관련되있는건 알겠는데 정확히 뭐가 뭐에요??','lee','DB');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'question','지역변수와 전역변수 두개 차이점?','둘다 변수라는데 어떤식으로 차이점이 있는거에요??','lee','JAVA');
+INSERT INTO board(bid, usernum, bctgr, btitle, bcontent, bwriter, blang) VALUES((SELECT NVL(MAX(bid), 0)+1 FROM board),5,'question','클래스란?','클래스라는게 항상 사용하는건 알겠는데 정의가 뭐라고 해야되요??','lee','JAVA');
+
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),1,2,'아싸 1등','yj',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),1,2,'너도?? 나도 ㅋㅋㅋ','yj',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),1,2,'기도가 부족해서 그래ㅋㅋ','yj',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),1,3,'댓글남겨요~','je',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),4,3,'안녕하세요','je',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),7,3,'댓글댓글','je',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),2,4,'좋은 글 감사합니다.','you',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),5,4,'안녕하세요','you',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),8,4,'앞으로도 글 많이 써주세요~','you',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),2,5,'하여','lee',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),3,5,'머리폭팔','lee',0);
+INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),8,5,'ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ','lee',0);
+
 
 

@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.common.JNDI;
+import model.common.JDBC;
 import model.users.UsersVO;
 
 public class TestDAO {
 
-	static int pageSize = 3; // 페이징 관련 변수
+	static int pageSize = 10; // 페이징 관련 변수
 
 	static String sql_INSERT = "INSERT INTO test (tid, usernum, ttitle, tcontent, tanswer, tex, twriter, tlang) "
 			+ "VALUES ((SELECT NVL(MAX(tid),0)+1 FROM test),?,?,?,?,?,?,?)";
@@ -25,7 +25,7 @@ public class TestDAO {
 	// getDBList --> 검색기능까지 + 정렬(최신, 댓글, 조회순)
 	@SuppressWarnings("resource")
 	public TestSet getDBList(String content, int pageNum, UsersVO uvo, String pageOrder) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		String sql;
@@ -45,7 +45,14 @@ public class TestDAO {
 					sql = "SELECT * FROM (SELECT ROWNUM AS RNUM, test.* FROM (SELECT * FROM test "
 							+ "WHERE usernum=? AND ttitle LIKE '%" + content + "%' ORDER BY thit DESC, tdate DESC) "
 							+ "test WHERE ROWNUM <= ?) WHERE RNUM > ? ORDER BY thit DESC";
-				} else {
+					
+				} else if (pageOrder.equals("rating")){
+					System.out.println("별점순");
+					sql = "SELECT * FROM (SELECT ROWNUM AS RNUM, test.* FROM (SELECT * FROM test "
+							+ "WHERE usernum=? and ttitle LIKE '%" + content + "%' ORDER BY trating DESC, tdate DESC) "
+							+ "test WHERE ROWNUM <= ?) WHERE RNUM > ? ORDER BY trating DESC";
+				}
+				else {
 
 					sql = "SELECT * FROM (SELECT ROWNUM AS RNUM, test.* FROM ("
 							+ "SELECT * FROM test WHERE usernum=? AND ttitle LIKE '%" + content
@@ -75,7 +82,7 @@ public class TestDAO {
 				} else if (pageOrder.equals("rating")) { // trating
 					System.out.println("별점순");
 					sql = "SELECT * FROM (SELECT ROWNUM AS RNUM, test.* FROM (SELECT * FROM test "
-							+ "WHERE ttitle LIKE '%" + content + "%' ORDER BY thit DESC, tdate DESC) "
+							+ "WHERE ttitle LIKE '%" + content + "%' ORDER BY trating DESC, tdate DESC) "
 							+ "test WHERE ROWNUM <= ?) WHERE RNUM > ? ORDER BY trating DESC";
 				} else {
 					System.out.println("최신순");
@@ -135,7 +142,7 @@ public class TestDAO {
 			System.out.println("TestDAO-getDBList 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		System.out.println("datas : " + datas);
 
@@ -147,12 +154,12 @@ public class TestDAO {
 	// getDBData --> 조회수 ++ (트랜잭션)
 	@SuppressWarnings("resource")
 	public TestVO getDBData(TestVO tvo, UsersVO uvo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		TestVO data = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 
-		boolean check = false; // 트랜잭션 커밋, 롤백 여부 판단 변수
+
 		try {
 
 			// System.out.println("내가 쓴 글 클릭 -> 조회수증가xxx");
@@ -177,38 +184,21 @@ public class TestDAO {
 				data.settSubmit(rs.getInt("tsubmit"));
 				data.settRating(rs.getDouble("trating"));
 			}
-			if (!(data.getUserNum() == uvo.getUserNum())) {
-				// 내글이 아니면 -> 조회수 증가ooo ==> 트랜잭션을 이용
-				conn.setAutoCommit(false); // 트랜잭션
-
-				System.out.println("남의 글  클릭 -> 조회수증가ooo");
-
-				pstmt = conn.prepareStatement(sql_HIT_UP);
-				pstmt.setInt(1, tvo.gettId());
-				pstmt.executeUpdate();
-				check = true;
-
-				if (check) {
-					conn.commit();
-				} else {
-					conn.rollback();
-				}
-			}
-
+		
 			rs.close();
 
 		} catch (SQLException e) {
 			System.out.println("TestDAO-getDBData 오류로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return data;
 	}
 	/////////////////////////////////////////////////////////////////////////
 
 	public boolean insert(TestVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		boolean res = false;
 		PreparedStatement pstmt = null;
 
@@ -230,7 +220,7 @@ public class TestDAO {
 			System.out.println("TestDAO-insert 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -238,7 +228,7 @@ public class TestDAO {
 
 	// update
 	public boolean update(TestVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		boolean res = false;
 		PreparedStatement pstmt = null;
 
@@ -257,7 +247,7 @@ public class TestDAO {
 			System.out.println("TestDAO-update 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -265,7 +255,7 @@ public class TestDAO {
 
 	// delete
 	public boolean delete(TestVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		boolean res = false;
 		PreparedStatement pstmt = null;
 
@@ -278,7 +268,7 @@ public class TestDAO {
 			System.out.println("TestDAO-delete 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
@@ -288,7 +278,7 @@ public class TestDAO {
 	// 별점 관련 메서드 추가! 
 	@SuppressWarnings("resource")
 	public boolean rating(TestVO vo) {
-		Connection conn = JNDI.getConnection();
+		Connection conn = JDBC.getConnection();
 		boolean res = false;
 		PreparedStatement pstmt = null;
 
@@ -319,9 +309,30 @@ public class TestDAO {
 			System.out.println("TestDAO-rating 오류 로깅");
 			e.printStackTrace();
 		} finally {
-			JNDI.disconnect(pstmt, conn);
+			JDBC.disconnect(pstmt, conn);
 		}
 		return res;
 	}
+	
+	public void addHit(TestVO vo) {
+		Connection conn = JDBC.getConnection();
+		
+		PreparedStatement pstmt = null;
 
+		try {
+			String sql = "update test set thit = thit+1 where tid=?";
+			pstmt = conn.prepareStatement(sql);
+			System.out.println("디비 조회수 증가 성공!!");
+			pstmt.setInt(1, vo.gettId());
+			pstmt.executeUpdate();
+		;
+		} catch (SQLException e) {
+			System.out.println("TestDAO-delete 오류 로깅");
+			e.printStackTrace();
+		} finally {
+			JDBC.disconnect(pstmt, conn);
+		}
+		
+		
+	}
 }

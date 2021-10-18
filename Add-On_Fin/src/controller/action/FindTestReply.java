@@ -10,7 +10,7 @@ import model.test.TestReplyVO;
 
 public class FindTestReply implements Action {
 
-	static final int paging = 3;  // 페이징 단위
+	static final int paging = 10;  // 페이징 단위
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) {
 		

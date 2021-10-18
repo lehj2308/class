@@ -37,9 +37,9 @@ public class ActionDeleteUser implements Action {
 		if (userDAO.delete(usersVO)) {
 			HttpSession session = request.getSession();
 			session.invalidate();
-			out.println("<script>alert('삭제가 완료되었습니다');location.href='index.jsp';</script>");
+			out.println("<script>alert('탈퇴가 완료되었습니다! 이용해주셔서 감사합니다');location.href='index.jsp';</script>");
 		}else {
-			out.println("<script>alert('삭제가 실패했습니다!);location.href='index.jsp';</script>");
+			out.println("<script>alert('삭제가 실패했습니다!');location.href='index.jsp';</script>");
 
 		}
 		

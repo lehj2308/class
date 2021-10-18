@@ -15,10 +15,12 @@ import javax.mail.internet.MimeMessage;
 
 
 public class SendEmail {
+
+	
 	public boolean sendInquery(String inqueryText) {
 		 String host     = "smtp.naver.com";
-		  final String user   = "taehee129";
-		  final String password  = "xogml2564";
+		  final String user   = "dlvgusvwns";
+		  final String password  = "spdlqj6326~";
 		  boolean result = false;
 		  String to     = "taehee129@naver.com";
 
@@ -42,7 +44,7 @@ public class SendEmail {
 		  // Compose the message
 		  try {
 		   MimeMessage message = new MimeMessage(session);
-		   message.setFrom(new InternetAddress("taehee129@naver.com","Add-on"));
+		   message.setFrom(new InternetAddress("dlvgusvwns@naver.com","Add-on"));
 		   message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 		   // Subject
@@ -68,8 +70,8 @@ public class SendEmail {
 	}
 	public boolean sendEmail(String email,String text) {
 		 String host     = "smtp.naver.com";
-		  final String user   = "taehee129";
-		  final String password  = "xogml2564";
+		  final String user   = "dlvgusvwns";
+		  final String password  = "spdlqj6326~";
 		  boolean result = false;
 		  String to     = email;
 
@@ -93,7 +95,7 @@ public class SendEmail {
 		  // Compose the message
 		  try {
 		   MimeMessage message = new MimeMessage(session);
-		   message.setFrom(new InternetAddress("taehee129@naver.com","Add-on"));
+		   message.setFrom(new InternetAddress("dlvgusvwns@naver.com","Add-on"));
 		   message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 		   // Subject
@@ -121,8 +123,8 @@ public class SendEmail {
 	
 	public boolean sendTempPw(String email, String tempPw) {
 		 String host     = "smtp.naver.com";
-		  final String user   = "taehee129";
-		  final String password  = "xogml2564";
+		  final String user   = "dlvgusvwns";
+		  final String password  = "spdlqj6326~";
 		  boolean result = false;
 		  String to     = email;
 
@@ -146,7 +148,7 @@ public class SendEmail {
 		  // Compose the message
 		  try {
 		   MimeMessage message = new MimeMessage(session);
-		   message.setFrom(new InternetAddress("taehee129@naver.com","Add-on")); //msg.setFrom(new InternetAddress(mymail, "HAH 包府磊"));
+		   message.setFrom(new InternetAddress("dlvgusvwns@naver.com","Add-on")); //msg.setFrom(new InternetAddress(mymail, "HAH 包府磊"));
 		   message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 		   // Subject
@@ -173,8 +175,8 @@ public class SendEmail {
 	}
 	public void sendEmails(ArrayList<String> emails,String bTitle, String bContent) {
 		String host     = "smtp.naver.com";
-		final String user   = "taehee129";
-		final String password  = "xogml2564";
+		  final String user   = "dlvgusvwns";
+		  final String password  = "spdlqj6326~";
 
 	
 
@@ -198,7 +200,7 @@ public class SendEmail {
 		// Compose the message
 		try {
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("taehee129@naver.com","Add-on"));
+			message.setFrom(new InternetAddress("dlvgusvwns@naver.com","Add-on"));
 			
 			int arraySize = emails.size();
 			

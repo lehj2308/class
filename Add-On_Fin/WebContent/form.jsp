@@ -98,8 +98,8 @@
 								<label class="fancy-radio">
 								<input name="bCtgr" value="board" type="radio"> <span><i></i>자유게시판</span>
 								</label>
-								<!-- 관리자일 경우 공지사항선택 가능 (번호 1은 임시)-->
-								<c:if test="${user.usernum==1}">
+								<!-- 관리자일 경우 공지사항선택 가능 -->
+								<c:if test="${!empty manager}">
 								<label class="fancy-radio">
 								<input name="bCtgr" value="announce" type="radio"> <span><i></i>공지사항</span>
 								</label>
@@ -124,8 +124,7 @@
 		<footer>
 			<div class="container-fluid">
 				<p class="copyright">
-					&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme
-						I Need</a>. All Rights Reserved.
+					&copy; 2021 <a href="index.jsp" target="_blank">Add-On</a>. All Rights Reserved.
 				</p>
 			</div>
 		</footer>

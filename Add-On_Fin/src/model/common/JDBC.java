@@ -1,26 +1,26 @@
 package model.common;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-
-public class JNDI {
+public class JDBC {
 	public static Connection getConnection() {
-		Connection conn;
+		Connection conn = null;
+
+		String DName = "oracle.jdbc.driver.OracleDriver";
+
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String user = "kim";
+		String password = "1234";
+
 		try {
-			Context initContext = new InitialContext();
-			Context envContext = (Context) initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource) envContext.lookup("jdbc/orcl");
-			conn = ds.getConnection();
+			Class.forName(DName); // 1
+			conn = DriverManager.getConnection(url, user, password); // 2
+
 		} catch (Exception e) {
-			System.out.println("getConnection에서 발생");
-			System.out.println(e);
 			e.printStackTrace();
-			return null;
 		}
 		return conn;
 	}
