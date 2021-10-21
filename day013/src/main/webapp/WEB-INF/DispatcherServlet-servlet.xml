@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/login.do">login</prop>
+				<prop key="/logout.do">logout</prop>
+				<prop key="/main.do">main</prop>
+				<prop key="/insertTBoard.do">insertTBoard</prop>
+				<prop key="/updateTBoard.do">updateTBoard</prop>
+				<prop key="/deleteTBoard.do">deleteTBoard</prop>
+				<prop key="/getTBoard.do">getTBoard</prop>
+				<prop key="/signup.do">signup</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="login" class="controller.action.LoginController" />
+	<bean id="logout" class="controller.action.LogoutController" />
+	<bean id="main" class="controller.action.MainController" />
+	<bean id="insertTBoard" class="controller.action.InsertTBoardController" />
+	<bean id="updateTBoard" class="controller.action.UpdateTBoardController" />
+	<bean id="deleteTBoard" class="controller.action.DeleteTBoardController" />
+	<bean id="getTBoard" class="controller.action.GetTBoardController" />
+	<bean id="signup" class="controller.action.SignupController" />
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/WEB-INF/tBoard/" />
+      <property name="suffix" value=".jsp" />
+   </bean>
+
+</beans>
