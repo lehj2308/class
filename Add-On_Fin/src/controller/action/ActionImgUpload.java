@@ -56,17 +56,18 @@ public class ActionImgUpload implements Action {
 		UsersVO uvo = userDAO.getDBData(userVO);
 		System.out.println(uvo);
 		// reupload 시 파일삭제
-		if (uvo.getIconId() != null && !userVO.getIconId().equals("default.png")) {
+		if (uvo.getIconId() != null) {
 			//파일 삭제
 			filePath += "/"+uvo.getIconId();
 			File file = new File(filePath);	//파일 생성
-			if(file.exists() ) {				//파일이 있을시 삭제 
+			if(file.exists() && !uvo.getIconId().equals("default.png")) {				//파일이 있을시 삭제 
 				file.delete();
 			}
 		}
 		
 		if (userDAO.uploadImg(userVO)) {
 			System.out.println("업로드 성공");
+			uvo.setIconId(userVO.getIconId());
 			HttpSession session = request.getSession();
 			session.setAttribute("user", uvo);
 			forward.setRedirect(false);

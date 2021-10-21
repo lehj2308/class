@@ -91,9 +91,9 @@ CREATE TABLE testreply(
 );
 
 /* 유저 샘플 =====================================================================================================================*/
-INSERT INTO USERS VALUES (1, '김길동', 'kim', '1234', '01012341234', 'M', 'xxssgg120@naver.com', '경기도 군포시', '19960205', '1');
-INSERT INTO USERS VALUES (2, '홍길동', 'hong', '1234', '01012345678', 'F', 'asdf1234@naver.com', '경기도 안양시', '19991021', '2');
-INSERT INTO USERS VALUES (99, '관리자', 'manager', 'managerpw', '01012341234', 'M', 'xxssgg120@naver.com', '경기도 군포시', '19960205', '1');
+INSERT INTO USERS VALUES (1, '김길동', 'kim', '1234', '01012341234', 'M', 'xxssgg120@naver.com', '경기도 군포시', '19960205', 'default.png');
+INSERT INTO USERS VALUES (2, '홍길동', 'hong', '1234', '01012345678', 'F', 'asdf1234@naver.com', '경기도 안양시', '19991021', 'default.png');
+INSERT INTO USERS VALUES (99, '관리자', 'manager', 'managerpw', '01012341234', 'M', 'xxssgg120@naver.com', '경기도 군포시', '19960205', 'default.png');
 
 
 /* 보드 샘플 =====================================================================================================================*/
@@ -251,5 +251,11 @@ INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((
 INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),3,5,'머리폭팔','lee',0);
 INSERT INTO boardreply (rid, bid, usernum, rcontent, rwriter, parentid) VALUES((SELECT NVL(MAX(rid), 0)+1 FROM boardreply),8,5,'ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ','lee',0);
 
-
+update board set recnt = 4 where bid=1;
+update board set recnt = 2 where bid=2;
+update board set recnt = 1 where bid=3;
+update board set recnt = 1 where bid=4;
+update board set recnt = 1 where bid=5;
+update board set recnt = 1 where bid=7;
+update board set recnt = 2 where bid=8;
 

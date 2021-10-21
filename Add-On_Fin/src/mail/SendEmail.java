@@ -20,9 +20,9 @@ public class SendEmail {
 	public boolean sendInquery(String inqueryText) {
 		 String host     = "smtp.naver.com";
 		  final String user   = "dlvgusvwns";
-		  final String password  = "spdlqj6326~";
+		  final String password  = "mini8312**";
 		  boolean result = false;
-		  String to     = "taehee129@naver.com";
+		  String to     = "dlvgusvwns@naver.com";
 
 		  
 		  // Get the session object
@@ -71,7 +71,7 @@ public class SendEmail {
 	public boolean sendEmail(String email,String text) {
 		 String host     = "smtp.naver.com";
 		  final String user   = "dlvgusvwns";
-		  final String password  = "spdlqj6326~";
+		  final String password  = "mini8312**";
 		  boolean result = false;
 		  String to     = email;
 
@@ -124,7 +124,7 @@ public class SendEmail {
 	public boolean sendTempPw(String email, String tempPw) {
 		 String host     = "smtp.naver.com";
 		  final String user   = "dlvgusvwns";
-		  final String password  = "spdlqj6326~";
+		  final String password  = "mini8312**";
 		  boolean result = false;
 		  String to     = email;
 
@@ -176,7 +176,7 @@ public class SendEmail {
 	public void sendEmails(ArrayList<String> emails,String bTitle, String bContent) {
 		String host     = "smtp.naver.com";
 		  final String user   = "dlvgusvwns";
-		  final String password  = "spdlqj6326~";
+		  final String password  = "mini8312**";
 
 	
 
