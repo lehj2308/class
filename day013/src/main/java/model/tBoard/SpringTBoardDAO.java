@@ -1,12 +1,11 @@
-package model.tBoard;
+/*package model.tBoard;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -21,31 +20,29 @@ public class SpringTBoardDAO extends JdbcDaoSupport {
 	private final String getTBoardListSQL = "select * from tBoard where title LIKE '%'||?||'%' order by id desc";
 
 	@Autowired
-	public void setSuperDataSource(DataSource dataSource) {
-		super.setDataSource(dataSource);
-	}
+	private JdbcTemplate jdbcTemplate;
 
 	public void insertTBoard(TBoardVO vo) {
 		System.out.println("jdbcTemplate으로 insert");
-		getJdbcTemplate().update(insertSQL, vo.getTitle(), vo.getWriter(), vo.getContent());
+		jdbcTemplate.update(insertSQL, vo.getTitle(), vo.getWriter(), vo.getContent());
 	}
 	public void updateTBoard(TBoardVO vo) {
 		System.out.println("jdbcTemplate으로 update");
-		getJdbcTemplate().update(updateSQL, vo.getTitle(), vo.getContent(), vo.getId());
+		jdbcTemplate.update(updateSQL, vo.getTitle(), vo.getContent(), vo.getId());
 	}
 	public void deleteTBoard(TBoardVO vo) {
 		System.out.println("jdbcTemplate으로 delete");
-		getJdbcTemplate().update(deleteSQL, vo.getId());
+		jdbcTemplate.update(deleteSQL, vo.getId());
 	}
 	public List<TBoardVO> getTBoardList(TBoardVO vo) {
 		System.out.println("jdbcTemplate으로 getTBoardList");
 		Object[] args = { vo.getTitle() };
-		return getJdbcTemplate().query(getTBoardListSQL, args, new TBoardRowMapper());
+		return jdbcTemplate.query(getTBoardListSQL, args, new TBoardRowMapper());
 	}
 	public TBoardVO getTBoard(TBoardVO vo) {
 	      System.out.println("jdbcTemplate으로 getBoard");
 	      Object[] args= { vo.getId() };
-	      return getJdbcTemplate().queryForObject(getTBoardSQL,args,new TBoardRowMapper());
+	      return jdbcTemplate.queryForObject(getTBoardSQL,args,new TBoardRowMapper());
 	   }
 }
 
@@ -62,4 +59,4 @@ class TBoardRowMapper implements RowMapper<TBoardVO> {
 		return data;
 	}
 
-}
+}*/

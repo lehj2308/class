@@ -12,6 +12,21 @@
 <h3><a href="logout.do">로그아웃</a></h3>
 <hr>
 <h1>글 목록</h1>
+
+<form action="search.do" method="post">
+	<table>
+		<tr>
+			<th><select name="condition">
+					<c:forEach var="op" items="${sm}">
+						<option value="${op.value}">${op.key}</option>
+					</c:forEach>
+				</select>
+			</th>
+			<td><input type="text" name="keyword"></td>
+			<td><input type="submit" value="검색하기"></td>
+		</tr>
+	</table>
+</form>
 <table border="1">
 	<tr>
 		<td>글 번호</td>

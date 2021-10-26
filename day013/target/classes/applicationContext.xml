@@ -11,9 +11,10 @@
 
 	<context:component-scan base-package="model"/>
 	<context:component-scan base-package="controller"/>
-	<context:component-scan base-package="com.lee.app"/>
 	
-	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+	<!-- <context:component-scan base-package="com.lee.app"/> -->
+	
+	<!-- <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
 		<property ref="dataSource" name="dataSource"/>
 	</bean>
 	
@@ -39,7 +40,7 @@
 	<aop:config>
 		<aop:pointcut expression="execution(* model..*Impl.*(..))" id="tPointcut"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="tPointcut"/>
-	</aop:config>
+	</aop:config> -->
 	<!-- <aop:config>
 		<aop:pointcut expression="execution(* model.tBoard.*Impl.get*(..))"  id="aPointcut"/>
 		<aop:pointcut expression="execution(* model.tBoard.*Impl.*(..))"  id="bPointcut"/>
