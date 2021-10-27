@@ -2,6 +2,8 @@ package model.tBoard;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TBoardVO {
 
 	private int id;
@@ -9,6 +11,8 @@ public class TBoardVO {
 	private String writer;
 	private String content;
 	private Date wdate;
+	private MultipartFile fileUpload;
+	
 	public int getId() {
 		return id;
 	}
@@ -38,6 +42,12 @@ public class TBoardVO {
 	}
 	public void setWdate(Date wdate) {
 		this.wdate = wdate;
+	}
+	public MultipartFile getFileUpload() {
+		return fileUpload;
+	}
+	public void setFileUpload(MultipartFile fileUpload) {
+		this.fileUpload = fileUpload;
 	}
 	@Override
 	public String toString() {

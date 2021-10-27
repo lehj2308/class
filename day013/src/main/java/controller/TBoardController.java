@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import model.tBoard.TBoardServiceImpl;
 import model.tBoard.TBoardVO;
@@ -44,7 +47,14 @@ public class TBoardController {
 	}
 
 	@RequestMapping("/insertTBoard.do")
-	public String insertTBoard(TBoardVO vo) {
+	public String insertTBoard(TBoardVO vo) throws IllegalStateException, IOException {
+		MultipartFile fileUpload=vo.getFileUpload();
+		if(!fileUpload.isEmpty()) {
+			String fileName=fileUpload.getOriginalFilename();
+			System.out.println("파일이름: "+fileName);
+			fileUpload.transferTo(new File("F:\\KIM_0622\\"+fileName));
+		}
+		vo.setFileUpload(fileUpload);
 		tBoardService.insertTBoard(vo);
 		return "redirect:main.do";
 	}

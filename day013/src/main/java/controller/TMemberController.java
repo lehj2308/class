@@ -29,7 +29,11 @@ public class TMemberController {
 	}
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(HttpServletRequest request, TMemberVO vo) {
+	public String login(HttpServletRequest request, TMemberVO vo) throws Exception {
+		
+		if(vo.getId().equals("") || vo.getId()==null) {
+			throw new Exception("·Î±×ÀÎ ºóÄ­");
+		}
 		if (tMemberService.getTMember(vo) == null) {
 			return "redirect:login.jsp";
 		}
