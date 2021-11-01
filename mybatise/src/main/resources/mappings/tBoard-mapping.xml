@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao">
+
+	<!-- SQL문 실행결과와 자바객체(VO)를 연결해주는 매퍼(Mapper) -->
+	<resultMap type="tBoard" id="tBoardResult">
+		<result property="title" column="TITLE"/>
+	</resultMap>
+	
+   <insert id="insertTBoard">
+      INSERT INTO TBOARD (ID,TITLE,WRITER,CONTENT) VALUES((SELECT NVL(MAX(ID),0)+1 FROM TBOARD),#{title},#{writer},#{content})
+   </insert>
+   
+   <update id="updateTBoard">
+      UPDATE TBOARD SET TITLE=#{TITLE},CONTENT=#{content},WRITER=#{writer} WHERE ID=#{id}
+   </update>
+   
+   <delete id="deleteTBoard">
+      DELETE TBOARD WHERE ID=#{id}
+   </delete>
+   
+   <select id="getTBoard" resultType="tBoard" resultMap="tBoardResult">
+      SELECT * FROM TBOARD WHERE ID=#{id}
+   </select>
+   
+   <select id="getTBoardList" resultType="tBoard">
+      SELECT * FROM TBOARD ORDER BY ID DESC
+   </select>
+   
+</mapper>
