@@ -14,7 +14,7 @@
 	
 	<!-- <context:component-scan base-package="com.lee.app"/> -->
 	
-	<!-- <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
 		<property ref="dataSource" name="dataSource"/>
 	</bean>
 	
@@ -25,6 +25,18 @@
 		<property name="password" value="1234" />
 	</bean>
 	
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="configLocation" value="classpath:sql-map-config.xml" />
+   </bean>
+
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+	
+	
+	
+	<!-- 
 	<aop:aspectj-autoproxy/>
 	
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -41,6 +53,9 @@
 		<aop:pointcut expression="execution(* model..*Impl.*(..))" id="tPointcut"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="tPointcut"/>
 	</aop:config> -->
+	
+	
+	
 	<!-- <aop:config>
 		<aop:pointcut expression="execution(* model.tBoard.*Impl.get*(..))"  id="aPointcut"/>
 		<aop:pointcut expression="execution(* model.tBoard.*Impl.*(..))"  id="bPointcut"/>

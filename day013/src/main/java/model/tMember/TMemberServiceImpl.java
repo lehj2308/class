@@ -14,7 +14,6 @@ public class TMemberServiceImpl implements TMemberService {
 	@Override
 	public void insertTMember(TMemberVO vo) {
 		tMemberDAO.insertTMember(vo);
-
 	}
 
 	@Override
@@ -34,7 +33,6 @@ public class TMemberServiceImpl implements TMemberService {
 		}catch (Exception e) {
 			return null;
 		}
-		
 	}
 
 	@Override

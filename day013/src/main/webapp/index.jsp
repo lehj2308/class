@@ -8,7 +8,8 @@
 </head>
 <body>
 
-<a href="login.do">로그인하러 가기</a>
+<a href="login.do?Lang=en">go Login</a>
+<a href="login.do?Lang=ko">로그인하러가기</a>
 
 </body>
 </html>
