@@ -15,6 +15,19 @@
 	</properties>
 	<dependencies>
 
+		<!-- JPA구현체(하이버네이트.hibernate)중에 한개를 선택 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.6.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
+		
 		<!-- Mybatis와 Spring 연동을 위한 설정 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>

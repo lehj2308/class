@@ -1,16 +1,30 @@
 package model.tBoard;
 
+import java.beans.Transient;
 import java.sql.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.web.multipart.MultipartFile;
 
+@Entity
+@Table(name="TBOARD")
 public class TBoardVO {
 
+	@Id
+	@GeneratedValue
 	private int id;
 	private String title;
 	private String writer;
 	private String content;
-	private Date wdate;
+	@Temporal(TemporalType.DATE)
+	private Date wdate=new Date();
+	@Transient
 	private MultipartFile fileUpload;
 	
 	public int getId() {
